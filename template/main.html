@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <link rel="stylesheet" href="../static/colors.css">
+    <link rel="stylesheet" href="../static/authorization.css">
+</head>
+<body>
+<div>
+<input type="button" id="register-btn" class ="button" value="Регистрация">
+<input type="button" id="logIn-btn" class ="button" value="Войти">
+</div>
+  <h1>Authorization</h1>
+  <div id="authorization">
+      <div class="authorization-row">
+          <div id="process">Вход</div>
+          <input type="button" id="close-authorization" value="x">
+      </div>
+      <input type="text" id="login" placeholder="Логин">
+      <input type="text" id="password" placeholder="Пароль">
+      <div id="error-output"></div>
+      <input type="button" id="send-data" class="button" value="Войти">
+  </div>
+<script src="../static/authorization.js"></script>
+</body>
+</html>

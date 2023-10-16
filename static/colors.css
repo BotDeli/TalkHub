@@ -1,0 +1,43 @@
+:root{
+    --background-color: #705966;
+    --text-color: #565655;
+
+    --main-color: #8d6f6e;
+
+    --selected-color: #644454;
+    --selected-color-b: #d5d5d5;
+    --selected-color-c: #a2595e;
+
+    --default-color: #ababaf;
+    --yellow-color: #ffffa0;
+    --selected-yellow-color: #fff7a0;
+
+    --item-color: #EFF2F7FF;
+
+    --error-color: #da1d1d;
+
+    --connection-online: green;
+}
+
+
+
+/*:root{*/
+/*    --background-color: #C4D3D3;*/
+/*    --text-color: #565655;*/
+
+/*    --main-color: #6D9EA3;*/
+
+/*    --selected-color: #A2C1C3;*/
+/*    --selected-color-b: #d5d5d5;*/
+/*    --selected-color-c: #84bfc5;*/
+
+/*    --default-color: #ababaf;*/
+/*    --yellow-color: #ffffa0;*/
+/*    --selected-yellow-color: #fff7a0;*/
+
+/*    --item-color: #EFF2F7FF;*/
+
+/*    --error-color: #da1d1d;*/
+
+/*    --connection-online: green;*/
+/*}*/

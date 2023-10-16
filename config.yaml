@@ -1,0 +1,11 @@
+http:
+  host: "localhost"
+  port: "8080"
+grpc:
+  address: ":50053"
+postgres:
+  user: ""
+  password: ""
+  address: "localhost:5432"
+  dbname: "TalkHub"
+  sslmode: "disable"
