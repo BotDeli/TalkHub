@@ -2,27 +2,55 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>TalkHub SignIn</title>
+  <link rel="icon" type="image/svg" href="../images/favicon.svg">
 
-    <link rel="stylesheet" href="../static/colors.css">
-    <link rel="stylesheet" href="../static/authorization.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;1,300&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../static/colors.css">
+  <link rel="stylesheet" href="../static/all.css">
+  <link rel="stylesheet" href="../static/inputCell.css">
+  <link rel="stylesheet" href="../static/main.css">
 </head>
 <body>
-<div>
-<input type="button" id="register-btn" class ="button" value="Регистрация">
-<input type="button" id="logIn-btn" class ="button" value="Войти">
-</div>
-  <h1>Authorization</h1>
-  <div id="authorization">
-      <div class="authorization-row">
-          <div id="process">Вход</div>
-          <input type="button" id="close-authorization" value="x">
+  <header class="top-panel">
+    <div class="logo-container">
+      <img class="logo-image" src="../images/favicon.svg" alt="">
+      <label class="logo-name">TalkHub</label>
+    </div>
+  </header>
+  <main class="main-panel">
+    <div id="information-panel"></div>
+    <div class="authorization-panel">
+      <div id="authorization-form">
+        <label class="heading-text">Sign In</label>
+        <div class="authorization-data">
+
+          <label class="input-cell" for="email-input">
+            <input id="email-input" type="text">
+            <span id="email-text" class="authorization-data-popup-text">Email</span>
+          </label>
+
+          <label class="input-cell" for="password-input">
+            <input id="password-input" type="password">
+            <span id="password-text" class="authorization-data-popup-text">Password</span>
+            <label class="eye" for="password-input">
+              <span class="pupil"></span>
+            </label>
+          </label>
+
+          <input id="btn-go-account" type="button" value="Go to TalkHub account">
+
+        </div>
+        <label id="authorization-error"></label>
+        <a class="hyperlink-sign-up" href="/registration">Sign Up</a>
       </div>
-      <input type="text" id="login" placeholder="Логин">
-      <input type="text" id="password" placeholder="Пароль">
-      <div id="error-output"></div>
-      <input type="button" id="send-data" class="button" value="Войти">
-  </div>
-<script src="../static/authorization.js"></script>
+    </div>
+  </main>
+  <script src="../static/hideSwitcher.js"></script>
+  <script src="../static/inputCell.js"></script>
+  <script src="../static/main.js"></script>
 </body>
 </html>

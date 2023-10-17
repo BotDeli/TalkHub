@@ -17,4 +17,5 @@ func StartGinServer(cfg *config.HttpConfig, display authorization.Display) error
 func loadAllFiles(router *gin.Engine) {
 	router.LoadHTMLGlob("template/*")
 	router.Static("/static/", "./static")
+	router.Static("/images/", "./images")
 }

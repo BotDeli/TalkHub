@@ -1,0 +1,132 @@
+.main-panel {
+    min-width: 100%;
+    max-width: 100%;
+    display: flex;
+}
+
+#information-panel {
+    min-width: 20%;
+    height: 100px;
+}
+
+.registration-panel {
+    min-width: 400px;
+    width: 100%;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    margin: 10px;
+}
+
+#registration-form {
+    min-height: 600px;
+}
+
+.heading-text {
+    font-size: 25px;
+    justify-self: start;
+    margin-bottom: 10px;
+}
+
+.registration-data {
+    height: 80%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.registration-data input{
+    padding: 4px 0 4px 10px;
+    font-size: 22px;
+}
+
+.registration-data-popup-text {
+    position: absolute;
+    height: 20px;
+    font-size: 22px;
+    align-self: start;
+    margin-left: 22px;
+}
+
+@keyframes flyAway {
+    0% {
+        font-size: 22px;
+    }
+    100% {
+        font-size: 14px;
+        transform: translate(-10px, -25px);
+    }
+}
+
+@keyframes flyAwayReversed {
+    0% {
+        font-size: 14px;
+        transform: translate(-10px, -25px);
+    }
+    100% {
+        font-size: 22px;
+    }
+}
+
+.input-cell input {
+    width: 90%;
+    height: 20px;
+    background-color: var(--empty-color);
+    border: none;
+    margin: 16px 0 16px 0;
+    padding: 4px 0 4px 10px;
+    font-size: 22px;
+    outline: none;
+}
+
+
+.registration-data input[type="button"] {
+    background-color: var(--main-color-2);
+    border: 1px solid black;
+    font-size: 16px;
+    min-width: 250px;
+    width: 70%;
+    height: 35px;
+    margin: 5px;
+}
+
+.footer-registration-panel {
+    padding-left: 10px;
+    margin: 5px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.footer-registration-panel * {
+    display: block;
+    margin: 2px;
+}
+
+#accept-policy {
+    width: 25px;
+    height:25px;
+    transform: translate(1px, 2px);
+}
+
+.footer-text {
+    text-align: start;
+    font-size: 16px;
+}
+
+#registration-error {
+    display: none;
+    font-size: 14px;
+    color: #d70000;
+}
+
+.hyperlink-sign-in {
+    margin-top: 5px;
+    margin-bottom: 3px;
+    font-size: 16px;
+    font-weight: bold;
+    color: black;
+    text-decoration: none;
+}

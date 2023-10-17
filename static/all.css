@@ -1,0 +1,31 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Merriweather', serif;
+}
+
+body {
+    background-color: var(--main-color-2);
+}
+
+.top-panel {
+    min-width: 100%;
+    max-width: 100%;
+    min-height: 40px;
+    max-height: 40px;
+    margin-bottom: 5px;
+}
+
+.logo-container {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.logo-image {
+    height: 30px;
+}
+
+.logo-name {
+    font-size: 24px;
+    font-weight: bold;
+}

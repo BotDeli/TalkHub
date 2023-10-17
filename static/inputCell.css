@@ -1,0 +1,60 @@
+.input-cell {
+    position: relative;
+    width: 80%;
+    background-color: var(--cell-input-color);
+    height: 50px;
+    margin-top: 2px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 15px;
+    cursor: text;
+    flex-direction: column;
+    align-self: center;
+    border-bottom: 4px solid black;
+    padding-right: 10%;
+}
+
+.eye {
+    position: absolute;
+    min-width: 15px;
+    max-width: 15px;
+    min-height: 10px;
+    max-height: 10px;
+    background-color: var(--empty-color);
+    border-radius: 50%;
+    border: 2px solid black;
+    align-self: end;
+    transform: translate(20px);
+    cursor: grab;
+}
+
+.pupil {
+    position: absolute;
+    min-width: 4px;
+    max-width: 4px;
+    min-height: 4px;
+    max-height: 4px;
+    background-color: var(--empty-color);
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 2px solid black;
+}
+
+#authorization-form, #registration-form {
+    width: 40dvw;
+    background-color: var(--main-color-1);
+    outline: 1px solid var(--selected-color-1);
+    border-radius: 40px;
+    text-align: center;
+    padding: 5px;
+    margin: 5px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+}

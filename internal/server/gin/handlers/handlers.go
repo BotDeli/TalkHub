@@ -7,9 +7,10 @@ import (
 
 func SetHandlers(router *gin.Engine, display authorization.Display, host string) {
 	router.GET("/", handlerShowMainPage(display))
+	router.GET("/registration", handlerShowRegistrationPage(display))
 
-	router.POST("signIn", handlerSignIn(display, host))
-	router.POST("signUp", handlerSignUp(display, host))
+	router.POST("goToAccount", handlerSignIn(display, host))
+	router.POST("createAccount", handlerSignUp(display, host))
 
 	router.DELETE("/exitAccount", handlerExitAccount(host))
 }

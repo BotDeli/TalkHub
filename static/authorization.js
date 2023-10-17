@@ -1,25 +1,3 @@
-class HideSwitcher {
-    constructor(object, defaultDisplay) {
-        this.object = object;
-        this.display = defaultDisplay;
-        this.active = false;
-    }
-
-    show() {
-        if (!this.active) {
-            this.object.style.display = this.display;
-            this.active = true;
-        }
-    }
-
-    hide() {
-        if (this.active) {
-            this.object.style.display = "none";
-            this.active = false;
-        }
-    }
-}
-
 class openController {
     constructor() {
         this.opened = 0;
