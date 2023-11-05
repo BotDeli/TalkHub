@@ -1,25 +1,15 @@
-.main-panel {
-    min-width: 100%;
-    max-width: 100%;
-    display: flex;
-}
-
-#information-panel {
-    min-width: 20%;
-    height: 100px;
-}
-
 .registration-panel {
     min-width: 400px;
-    width: 100%;
     display: flex;
     justify-content: right;
     align-items: center;
     margin: 10px;
+    align-self: start;
 }
 
 #registration-form {
     min-height: 600px;
+    min-width: 300px;
 }
 
 .heading-text {
@@ -81,15 +71,11 @@
     outline: none;
 }
 
-
 .registration-data input[type="button"] {
-    background-color: var(--main-color-2);
-    border: 1px solid black;
-    font-size: 16px;
     min-width: 250px;
     width: 70%;
     height: 35px;
-    margin: 5px;
+    font-size: 16px;
 }
 
 .footer-registration-panel {

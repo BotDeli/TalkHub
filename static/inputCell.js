@@ -14,12 +14,4 @@ for (let i = 0; i < eyes.length; i++) {
 }
 
 
-const btnCreateAccount = document.getElementById('btn-go-account');
-
-btnCreateAccount.addEventListener('mouseenter', () => {
-    btnCreateAccount.style.borderRadius = '40px';
-});
-
-btnCreateAccount.addEventListener('mouseleave', () => {
-    btnCreateAccount.style.borderRadius = '0';
-});
+const btnGoAccount = document.getElementById('btn-go-account');

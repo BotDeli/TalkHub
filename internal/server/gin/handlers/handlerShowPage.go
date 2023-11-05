@@ -1,34 +1,41 @@
 package handlers
 
 import (
-	"TalkHub/internal/api/authorization"
+	"TalkHub/internal/api/accountControl"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
 
-func handlerShowMainPage(display authorization.Display) gin.HandlerFunc {
+func handlerShowMainPage(displayA accountControl.Display) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		if !showAuthorizedPage(ctx, display) {
-			ctx.HTML(http.StatusOK, "main.html", nil)
-		}
+		redirectAuthorizedUsers(ctx, "main.html", nil)
 	}
 }
 
-func showAuthorizedPage(ctx *gin.Context, display authorization.Display) (authorized bool) {
-	key, err := ctx.Cookie("session")
-	if err == nil {
-		if /*login*/ _, strErr := display.IsAuthenticated(key); strErr == "" {
-			ctx.HTML(http.StatusOK, "mainAuthorized.html", nil)
-			return true
-		}
+func redirectAuthorizedUsers(ctx *gin.Context, nameHtml string, obj any) {
+	if value, _ := ctx.Get("id"); value == "" {
+		ctx.HTML(http.StatusOK, nameHtml, obj)
+	} else {
+		ctx.Redirect(http.StatusPermanentRedirect, "/hub")
 	}
-	return false
 }
 
-func handlerShowRegistrationPage(display authorization.Display) gin.HandlerFunc {
+func handlerShowRegistrationPage(displayA accountControl.Display) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		if !showAuthorizedPage(ctx, display) {
-			ctx.HTML(http.StatusOK, "registration.html", nil)
-		}
+		redirectAuthorizedUsers(ctx, "registration.html", nil)
+	}
+}
+
+func handlerShowHubPage() gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		redirectDontAuthorizedUsers(ctx, "hub.html", nil)
+	}
+}
+
+func redirectDontAuthorizedUsers(ctx *gin.Context, nameHtml string, obj any) {
+	if value, _ := ctx.Get("id"); value != "" {
+		ctx.HTML(http.StatusOK, nameHtml, obj)
+	} else {
+		ctx.Redirect(http.StatusTemporaryRedirect, "/")
 	}
 }

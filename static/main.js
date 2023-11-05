@@ -25,28 +25,39 @@ for (let i = 0; i < inputCells.length; i++) {
     }
 }
 
+const email = document.getElementById('email-input');
+const password = document.getElementById('password-input');
+
 const authorizationError = document.getElementById('authorization-error');
 let authorizationErrorSwitcher = new HideSwitcher(authorizationError);
 
-btnCreateAccount.addEventListener('click', () => {
+btnGoAccount.addEventListener('click', () => {
     authorizationErrorSwitcher.hide();
+    if (email.value.length < 5 || password.value.length < 8) {
+        InvalidInputData();
+        return;
+    }
     fetch('/goToAccount', {
         method: 'POST',
         headers: {
-            'Accept': 'application/json'
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
         },
         body: JSON.stringify({
-            'email': email,
-            'password': password,
+            'email': email.value,
+            'password': password.value,
         })
     }).
-    then(data => data.json()).
     then(response => {
-        if(response.error === "") {
-            document.location.reload();
+        if (response.status === 200) {
+                document.location.reload();
         } else {
-            authorizationErrorSwitcher.innerText = response.error;
-            authorizationErrorSwitcher.show();
+            InvalidInputData();
         }
     });
 });
+
+function InvalidInputData() {
+    authorizationError.innerText = "Invalid email or password";
+    authorizationErrorSwitcher.show();
+}

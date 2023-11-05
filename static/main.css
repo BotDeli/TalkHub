@@ -1,21 +1,10 @@
-.main-panel {
-    min-width: 100%;
-    max-width: 100%;
-    display: flex;
-}
-
-#information-panel {
-    min-width: 20%;
-    height: 100px;
-}
-
 .authorization-panel {
     min-width: 300px;
-    width: 100%;
     display: flex;
     justify-content: right;
     align-items: center;
-    margin: 10px;
+    margin: 10px 20px 10px 0;
+    align-self: start;
 }
 
 #authorization-form {
@@ -83,13 +72,10 @@
 }
 
 .authorization-data input[type="button"] {
-    background-color: var(--main-color-2);
-    border: 1px solid black;
-    font-size: 16px;
     min-width: 250px;
     width: 70%;
     height: 35px;
-    margin: 5px;
+    font-size: 16px;
 }
 
 #authorization-error {

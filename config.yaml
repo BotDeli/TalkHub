@@ -4,8 +4,8 @@ http:
 grpc:
   address: ":50053"
 postgres:
-  user: ""
-  password: ""
-  address: "localhost:5432"
-  dbname: "TalkHub"
+  user: "kare"
+  password: "pass"
+  address: "localhost:5431"
+  dbname: "postgres"
   sslmode: "disable"

@@ -46,7 +46,7 @@
 
 #authorization-form, #registration-form {
     width: 40dvw;
-    background-color: var(--main-color-1);
+    background-color: var(--secondary-color);
     outline: 1px solid var(--selected-color-1);
     border-radius: 40px;
     text-align: center;

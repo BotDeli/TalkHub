@@ -37,31 +37,40 @@ for (let i = 0; i < inputCells.length; i++) {
 }
 
 const minLengthInputData = [1, 1, 1, 8, 8];
+const validData = [false, false, false, false, false]
 
 function correctInput(value, i) {
     if (i < 2) {
         if (value.length >= minLengthInputData[i]) {
             if (onlyLetters(value)) {
+                validData[i] = true;
                 return [true, ''];
             }
+            validData[i] = false;
             return [false, 'Name must contain only letters'];
         }
+        validData[i] = false;
         return [false, ''];
     } else if (i === 2) {
         if (value.length >= minLengthInputData[i]) {
             if (checkEmail(value)) {
+                validData[i] = true;
                 return [true, ''];
             }
+            validData[i] = false;
             return [false, 'Dont correct email'];
         }
+        validData[i] = false;
         return [false, ''];
     } else if (value.length >= minLengthInputData[i]) {
         if (onlyLetters(value.charAt(0))) {
+            validData[i] = true;
             return [true, ''];
-
         }
+        validData[i] = false;
         return [false, 'Password must start with letter'];
     }
+    validData[i] = false;
     return [false, 'Password must contain at least 8 characters.'];
 }
 
@@ -92,37 +101,52 @@ acceptPolicy.addEventListener('change', () => {
     registrationErrorSwitcher.hide();
 });
 
-btnCreateAccount.addEventListener('click', () => {
+btnGoAccount.addEventListener('click', () => {
     registrationErrorSwitcher.hide();
     if (acceptPolicy.checked) {
-        if (correctPassword()) {
-            fetch('/createAccount', {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json'
-                },
-                body: JSON.stringify({
-                    'first-name': firstName,
-                    'last-name': lastName,
-                    'email': email,
-                    'password': password,
-                })
-            }).
+        if (correctInputData()) {
+            if (correctPassword()) {
+                fetch('/createAccount', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        'first_name': firstName.value,
+                        'last_name': lastName.value,
+                        'email': email.value,
+                        'password': password.value,
+                    })
+                }).
                 then(data => data.json()).
                 then(response => {
-                    if(response.error === "") {
+                    if(response === null ||typeof response.error === 'undefined' || response.error === "") {
                         document.location.reload();
                     } else {
                         registrationError.innerText = response.error;
                         registrationErrorSwitcher.show();
                     }
                 });
+            } else {
+                registrationError.innerText = 'password and confirm password dont equals';
+                registrationErrorSwitcher.show();
+            }
         } else {
-            registrationError.innerText = 'password and confirm password dont equals';
+            registrationError.innerText = 'please fill all fields';
             registrationErrorSwitcher.show();
         }
     }
 });
+
+function correctInputData() {
+    for (let i = 0; i < validData.length; i++) {
+        if (!validData[i]) {
+            return false
+        }
+    }
+    return true
+}
 
 function correctPassword() {
     return password.value === confirmPassword.value;

@@ -1,16 +1,18 @@
 package handlers
 
 import (
-	"TalkHub/internal/api/authorization"
+	"TalkHub/internal/api/accountControl"
+	"TalkHub/internal/storage/postgres/userInfo"
 	"github.com/gin-gonic/gin"
 )
 
-func SetHandlers(router *gin.Engine, display authorization.Display, host string) {
-	router.GET("/", handlerShowMainPage(display))
-	router.GET("/registration", handlerShowRegistrationPage(display))
+func SetHandlers(router *gin.Engine, host string, displayA accountControl.Display, displayU userInfo.Display) {
+	router.GET("/", handlerShowMainPage(displayA))
+	router.GET("/registration", handlerShowRegistrationPage(displayA))
+	router.GET("/hub", handlerShowHubPage())
 
-	router.POST("goToAccount", handlerSignIn(display, host))
-	router.POST("createAccount", handlerSignUp(display, host))
+	router.POST("/createAccount", handlerSignUp(host, displayA, displayU))
+	router.POST("/goToAccount", handlerSignIn(host, displayA))
 
-	router.DELETE("/exitAccount", handlerExitAccount(host))
+	router.DELETE("/exitAccount", handlerExitAccount(host, displayA))
 }

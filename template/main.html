@@ -3,16 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <title>TalkHub SignIn</title>
-  <link rel="icon" type="image/svg" href="../images/favicon.svg">
+    <link rel="icon" type="image/svg" href="../images/favicon.svg">
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;1,300&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;1,300&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="../static/colors.css">
-  <link rel="stylesheet" href="../static/all.css">
-  <link rel="stylesheet" href="../static/inputCell.css">
-  <link rel="stylesheet" href="../static/main.css">
+    <link rel="stylesheet" href="../static/colors.css">
+    <link rel="stylesheet" href="../static/all.css">
+    <link rel="stylesheet" href="../static/inputCell.css">
+    <link rel="stylesheet" href="../static/information.css">
+    <link rel="stylesheet" href="../static/main.css">
 </head>
 <body>
   <header class="top-panel">
@@ -22,7 +23,17 @@
     </div>
   </header>
   <main class="main-panel">
-    <div id="information-panel"></div>
+    <div id="information-panel">
+        <h1>Доступные видео-звонки и встречи.</h1>
+        <h2>TalkHub - это сервис для планирования встреч и общения через видео-звонки.</h2>
+        <div class="join-the-meeting-panel">
+            <h3>Имеется приглашение?</h3>
+            <input id="join-the-meeting-input-code" type="text" placeholder="Введите код встречи">
+            <input id="btn-join-the-meeting" class="button" type="button" value="Присоединиться">
+        </div>
+        <div class="inner-line"></div>
+        <h4>Чтобы назначить встречу вам необходимо авторизоваться и запланировать её в меню "мои встречи".</h4>
+    </div>
     <div class="authorization-panel">
       <div id="authorization-form">
         <label class="heading-text">Sign In</label>
@@ -41,7 +52,7 @@
             </label>
           </label>
 
-          <input id="btn-go-account" type="button" value="Go to TalkHub account">
+          <input id="btn-go-account" class="button" type="button" value="Go to TalkHub account">
 
         </div>
         <label id="authorization-error"></label>
