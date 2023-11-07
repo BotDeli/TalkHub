@@ -19,7 +19,7 @@ var (
 
 	testError = errors.New("test error")
 
-	tableColumns = []string{"user_icon", "first_name", "last_name", "email"}
+	tableColumns = []string{"id", "user_icon", "first_name", "last_name", "email"}
 )
 
 func testingMockUser(t *testing.T, initMock func(sqlmock.Sqlmock), testMock func(*testing.T, userController.Display)) {
@@ -113,6 +113,7 @@ func checkErrorIsNotNil(t *testing.T, err error) {
 func TestSuccessfulGetUserInfo(t *testing.T) {
 	rows := getEmptyRows()
 	rows.AddRow(
+		testUser.Id,
 		testUser.UserIcon,
 		testUser.FirstName,
 		testUser.LastName,
