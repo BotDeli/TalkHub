@@ -4,7 +4,7 @@ import (
 	"TalkHub/internal/api/accountControl"
 	"TalkHub/internal/api/accountControl/pb"
 	"TalkHub/internal/server/gin/cookie"
-	"TalkHub/internal/storage/postgres/userInfo"
+	"TalkHub/internal/storage/postgres/userController"
 	"TalkHub/pkg/decoder"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -22,7 +22,7 @@ type SignInData struct {
 	Password string `json:"password"`
 }
 
-func handlerSignUp(host string, displayA accountControl.Display, displayU userInfo.Display) gin.HandlerFunc {
+func handlerSignUp(host string, displayA accountControl.Display, displayU userController.Display) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		data := getSignUpData(ctx)
 		if data == nil {
@@ -36,7 +36,7 @@ func handlerSignUp(host string, displayA accountControl.Display, displayU userIn
 			ctx.Status(http.StatusBadRequest)
 		}
 
-		displayU.SaveUserInfo(&userInfo.User{
+		displayU.SaveUserInfo(&userController.User{
 			Id:        session.Id,
 			UserIcon:  "",
 			FirstName: data.FirstName,

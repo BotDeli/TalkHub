@@ -1,16 +1,20 @@
 :root {
-    /*--main-color-1: #EFF2F7FF;*/
-    /*--main-color-1: #fafbfc;*/
+    --main-color-1: #EFF2F7FF;
+    --main-color-2: #fafbfc;
     --main-color: #c7c7f1;
 
     --secondary-color: #fafafa;
+    --secondary-color-2: #f4f4f4;
 
     --selected-color-1: #a8a9ad;
     --selected-color-2: #9f9fef;
 
     --cell-input-color: rgba(245, 245, 245, 0.6);
-    /*--cell-input-color: rgba(239, 242, 247, 0.5);*/
-    /*--cell-input-color: #fafbfc;*/
 
     --empty-color: rgba(0, 0, 0, 0);
+
+    --activated: rgba(143, 188, 143, 0.3);
+    --deactivated: rgba(205, 92, 92, 0.3);
+
+    --display-color: gray;
 }

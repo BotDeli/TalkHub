@@ -5,7 +5,7 @@ import (
 	"TalkHub/internal/config"
 	"TalkHub/internal/server/gin"
 	"TalkHub/internal/storage/postgres"
-	"TalkHub/internal/storage/postgres/userInfo"
+	"TalkHub/internal/storage/postgres/userController"
 	"log"
 )
 
@@ -18,6 +18,6 @@ func Start() {
 		log.Fatal(err)
 	}
 
-	displayU := userInfo.InitDisplay(pg)
+	displayU := userController.InitDisplay(pg)
 	log.Fatal(gin.StartGinServer(cfg.Http, displayA, displayU))
 }

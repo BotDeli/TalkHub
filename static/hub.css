@@ -68,7 +68,7 @@ body {
     justify-content: center;
 }
 
-.chat-panel {
+.lobby-panel {
     flex-grow: 1;
     background-color: var(--secondary-color);
     border-radius: 15px;

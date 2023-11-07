@@ -5,11 +5,11 @@ import (
 	"TalkHub/internal/config"
 	"TalkHub/internal/server/gin/handlers"
 	"TalkHub/internal/server/gin/middleware"
-	"TalkHub/internal/storage/postgres/userInfo"
+	"TalkHub/internal/storage/postgres/userController"
 	"github.com/gin-gonic/gin"
 )
 
-func StartGinServer(cfg *config.HttpConfig, displayA accountControl.Display, displayU userInfo.Display) error {
+func StartGinServer(cfg *config.HttpConfig, displayA accountControl.Display, displayU userController.Display) error {
 	router := gin.Default()
 	loadAllFiles(router)
 	router.Use(middleware.CheckerAuthorizedUser(displayA))

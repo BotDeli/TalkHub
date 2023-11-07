@@ -2,11 +2,11 @@ package handlers
 
 import (
 	"TalkHub/internal/api/accountControl"
-	"TalkHub/internal/storage/postgres/userInfo"
+	"TalkHub/internal/storage/postgres/userController"
 	"github.com/gin-gonic/gin"
 )
 
-func SetHandlers(router *gin.Engine, host string, displayA accountControl.Display, displayU userInfo.Display) {
+func SetHandlers(router *gin.Engine, host string, displayA accountControl.Display, displayU userController.Display) {
 	router.GET("/", handlerShowMainPage(displayA))
 	router.GET("/registration", handlerShowRegistrationPage(displayA))
 	router.GET("/hub", handlerShowHubPage())

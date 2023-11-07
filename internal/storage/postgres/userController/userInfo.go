@@ -1,23 +1,10 @@
-package userInfo
+package userController
 
 import (
 	"TalkHub/internal/storage/postgres"
 	"database/sql"
 	"log"
 )
-
-type Display interface {
-	SaveUserInfo(u *User)
-	GetUserInfo(email string) (*User, error)
-}
-
-type User struct {
-	Id        string
-	UserIcon  string
-	FirstName string
-	LastName  string
-	Email     string
-}
 
 type UIDisplay struct {
 	PG *postgres.Storage
@@ -30,19 +17,19 @@ func InitDisplay(pg *postgres.Storage) Display {
 
 func initTable(db *sql.DB) {
 	if _, err := db.Exec(
-		`CREATE TABLE IF NOT EXISTS users_info (
+		`CREATE TABLE IF NOT EXISTS users (
     	id VARCHAR NOT NULL PRIMARY KEY UNIQUE,
     	user_icon BYTEA,
 		first_name VARCHAR NOT NULL,
 		last_name VARCHAR NOT NULL,
 		email VARCHAR NOT NULL UNIQUE
 	)`); err != nil {
-		log.Printf("Error creating tables: %s\n", err)
+		log.Printf("Error creating users table: %s\n", err)
 	}
 }
 
 func (uid *UIDisplay) SaveUserInfo(u *User) {
-	query := `INSERT INTO users_info (id, user_icon, first_name, last_name, email) VALUES ($1, $2, $3, $4, $5)`
+	query := `INSERT INTO users (id, user_icon, first_name, last_name, email) VALUES ($1, $2, $3, $4, $5)`
 	_, err := uid.PG.DB.Exec(
 		query,
 		u.Id,
@@ -57,7 +44,7 @@ func (uid *UIDisplay) SaveUserInfo(u *User) {
 }
 
 func (uid *UIDisplay) GetUserInfo(email string) (*User, error) {
-	query := `SELECT * FROM users_info WHERE email = $1`
+	query := `SELECT * FROM users WHERE email = $1`
 	var u User
 	rows, err := uid.PG.DB.Query(query, email)
 	if err != nil {

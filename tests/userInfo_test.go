@@ -2,7 +2,7 @@ package tests
 
 import (
 	"TalkHub/internal/storage/postgres"
-	"TalkHub/internal/storage/postgres/userInfo"
+	"TalkHub/internal/storage/postgres/userController"
 	"database/sql/driver"
 	"errors"
 	"github.com/DATA-DOG/go-sqlmock"
@@ -10,7 +10,7 @@ import (
 )
 
 var (
-	testUser = &userInfo.User{
+	testUser = &userController.User{
 		UserIcon:  "",
 		FirstName: "TestFirstName",
 		LastName:  "T E S T L A S T N A M E",
@@ -22,7 +22,7 @@ var (
 	tableColumns = []string{"user_icon", "first_name", "last_name", "email"}
 )
 
-func testingMockUser(t *testing.T, initMock func(sqlmock.Sqlmock), testMock func(*testing.T, userInfo.Display)) {
+func testingMockUser(t *testing.T, initMock func(sqlmock.Sqlmock), testMock func(*testing.T, userController.Display)) {
 	db, mockDB, err := sqlmock.New()
 	if err != nil {
 		t.Fatal(err)
@@ -30,7 +30,7 @@ func testingMockUser(t *testing.T, initMock func(sqlmock.Sqlmock), testMock func
 
 	initMock(mockDB)
 
-	displayU := &userInfo.UIDisplay{PG: &postgres.Storage{DB: db}}
+	displayU := &userController.UIDisplay{PG: &postgres.Storage{DB: db}}
 
 	testMock(t, displayU)
 }
@@ -47,7 +47,7 @@ func TestSuccessfulSaveUserInfo(t *testing.T) {
 		).WillReturnResult(emptyResult)
 	}
 
-	testMock := func(t *testing.T, displayU userInfo.Display) {
+	testMock := func(t *testing.T, displayU userController.Display) {
 		displayU.SaveUserInfo(testUser)
 	}
 
@@ -63,7 +63,7 @@ func TestErrorGetUserInfo(t *testing.T) {
 		mockDB.ExpectQuery("SELECT").WithArgs(testUser.Email).WillReturnError(testError)
 	}
 
-	testMock := func(t *testing.T, displayU userInfo.Display) {
+	testMock := func(t *testing.T, displayU userController.Display) {
 		u, err := displayU.GetUserInfo(testUser.Email)
 		checkUserIsNil(t, u)
 		checkErrorIsTestError(t, err)
@@ -72,7 +72,7 @@ func TestErrorGetUserInfo(t *testing.T) {
 	testingMockUser(t, initMock, testMock)
 }
 
-func checkUserIsNil(t *testing.T, u *userInfo.User) {
+func checkUserIsNil(t *testing.T, u *userController.User) {
 	if u != nil {
 		t.Error("expected user info is nil, got ", u)
 	}
@@ -91,7 +91,7 @@ func TestEmptyUserInfoGetUserInfo(t *testing.T) {
 		mockDB.ExpectQuery("SELECT").WithArgs(testUser.Email).WillReturnRows(emptyRows)
 	}
 
-	testMock := func(t *testing.T, displayU userInfo.Display) {
+	testMock := func(t *testing.T, displayU userController.Display) {
 		u, err := displayU.GetUserInfo(testUser.Email)
 		checkUserIsNil(t, u)
 		checkErrorIsNotNil(t, err)
@@ -123,7 +123,7 @@ func TestSuccessfulGetUserInfo(t *testing.T) {
 		mockDB.ExpectQuery("SELECT").WithArgs(testUser.Email).WillReturnRows(rows)
 	}
 
-	testMock := func(t *testing.T, displayU userInfo.Display) {
+	testMock := func(t *testing.T, displayU userController.Display) {
 		u, err := displayU.GetUserInfo(testUser.Email)
 		if u == nil {
 			t.Fatal("user info is nil")
@@ -135,7 +135,7 @@ func TestSuccessfulGetUserInfo(t *testing.T) {
 	testingMockUser(t, initMock, testMock)
 }
 
-func equalsUserInfo(t *testing.T, u1, u2 *userInfo.User) {
+func equalsUserInfo(t *testing.T, u1, u2 *userController.User) {
 	if u1.UserIcon != u2.UserIcon {
 		t.Errorf("u1 user icon %s != u2 user icon %s", u1.UserIcon, u2.UserIcon)
 	}
