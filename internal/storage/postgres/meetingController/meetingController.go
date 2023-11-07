@@ -2,9 +2,16 @@ package meetingController
 
 import (
 	"TalkHub/internal/storage/postgres"
+	"TalkHub/pkg/generator"
 	"database/sql"
+	"errors"
 	"log"
 	"time"
+)
+
+var (
+	errMeetingNotCreated  = errors.New("meeting not created")
+	errMostCountConnected = errors.New("most connected connections")
 )
 
 type MCDisplay struct {
@@ -23,30 +30,121 @@ func initTable(db *sql.DB) {
     	name VARCHAR NOT NULL,
     	date DATE NOT NULL,
     	started BOOLEAN NOT NULL,
-    	count_connected INTEGER NOT NULL
+    	count_connected INTEGER NOT NULL,
+    	owner_id VARCHAR NOT NULL
 	)`); err != nil {
 		log.Printf("Error creating meetings table: %s\n", err)
 	}
 }
 
-func (m *MCDisplay) CreateNewMeeting(OwnerUserID string, name string, date time.Time) error {
-	return nil
+func (m *MCDisplay) CreateNewMeeting(ownerUserID string, name string, date time.Time) error {
+	query := `INSERT INTO meetings (id, name, date, started, count_connected, owner_id) VALUES ($1, $2, $3, $4, $5, $6)`
+	id := generator.NewUUIDDigitsLetters()
+	_, err := m.PG.DB.Exec(query, id, name, date, false, 0, ownerUserID)
+	return err
 }
-func (m *MCDisplay) GetMyMeetings(userID string) []Meeting {
-	return nil
+func (m *MCDisplay) GetMyMeetings(ownerUserID string) []Meeting {
+	query := `SELECT id, name, date, started, count_connected FROM meetings WHERE owner_id = $1`
+	rows, err := m.PG.DB.Query(query, ownerUserID)
+	if err != nil {
+		return []Meeting{}
+	}
+
+	return scanMeetingsFromRows(rows)
 }
-func (m *MCDisplay) StartMeeting(ownerUserID, meetingID string) error {
-	return nil
+
+func scanMeetingsFromRows(rows *sql.Rows) []Meeting {
+	meetings := []Meeting{}
+	var (
+		meetingID, name string
+		date            time.Time
+		started         bool
+		countConnected  int
+		err             error
+	)
+
+	for rows.Next() {
+		err = rows.Scan(&meetingID, &name, &date, &started, &countConnected)
+		if err == nil {
+			meetings = append(meetings, Meeting{
+				MeetingID:      meetingID,
+				Name:           name,
+				Date:           date,
+				Started:        started,
+				CountConnected: countConnected,
+			})
+		}
+	}
+
+	return meetings
 }
-func (m *MCDisplay) EndMeeting(ownerUserID, meetingID string) error {
-	return nil
+
+func (m *MCDisplay) StartMeeting(ownerUserID, meetingID string) {
+	query := `UPDATE meetings SET started = 1 WHERE owner_id = $1 AND id = $2`
+	_, _ = m.PG.DB.Exec(query, ownerUserID, meetingID)
 }
+
+func (m *MCDisplay) EndMeeting(ownerUserID, meetingID string) {
+	query := `DELETE FROM meetings WHERE owner_id = $1 AND id = $2`
+	_, _ = m.PG.DB.Exec(query, ownerUserID, meetingID)
+}
+
 func (m *MCDisplay) ConnectToMeeting(meetingID string) error {
+	countConnected, err := getCountConnectedToMeeting(m, meetingID)
+	if err != nil {
+		return err
+	}
+
+	if countConnected >= 12 {
+		return errMostCountConnected
+	}
+
+	query := `UPDATE meetings SET count_connected = $2 WHERE id = $1`
+	_, err = m.PG.DB.Exec(query, meetingID, countConnected+1)
+	if err != nil {
+		return errMeetingNotCreated
+	}
 	return nil
 }
-func (m *MCDisplay) DisconnectToMeeting(meetingID string) {
-	return
+
+func getCountConnectedToMeeting(m *MCDisplay, meetingID string) (int, error) {
+	query := `SELECT count_connected FROM meetings WHERE id = $1`
+	rows, err := m.PG.DB.Query(query, meetingID)
+	if err != nil {
+		return 0, errMeetingNotCreated
+	}
+
+	var countConnected int
+	rows.Next()
+	err = rows.Scan(&countConnected)
+	if err != nil {
+		return 0, errMeetingNotCreated
+	}
+
+	return countConnected, nil
 }
-func (m *MCDisplay) isActiveMeeting(meetingID string) bool {
-	return false
+
+func (m *MCDisplay) DisconnectToMeeting(meetingID string) {
+	countConnected, err := getCountConnectedToMeeting(m, meetingID)
+	if err != nil {
+		return
+	}
+
+	if countConnected >= 1 {
+		query := `UPDATE meetings SET count_connected = $2 WHERE id = $1`
+		_, _ = m.PG.DB.Exec(query, meetingID, countConnected-1)
+	}
+}
+
+func (m *MCDisplay) IsStartedMeeting(meetingID string) bool {
+	query := `SELECT started FROM meetings WHERE id = $1`
+	rows, err := m.PG.DB.Query(query, meetingID)
+	if err != nil {
+		return false
+	}
+
+	var started bool
+	rows.Next()
+	_ = rows.Scan(&started)
+	return started
 }
