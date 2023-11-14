@@ -22,7 +22,7 @@ const informationPanel = document.getElementById('information-panel');
 const defaultDisplay = informationPanel.style.display;
 const targetElement = document.getElementById('registration-form');
 const defaultDVW = targetElement.style.width;
-const limit = 760;
+const limit = 1000;
 
 const sync = new Synchronization(informationPanel, defaultDisplay, targetElement, defaultDVW, limit);
 sync.synchronize();

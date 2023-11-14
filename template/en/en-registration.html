@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TalkHub SignUp</title>
+    <link rel="icon" type="image/svg" href="../../images/favicon.svg">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;1,300&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="../../static/colors.css">
+    <link rel="stylesheet" href="../../static/all.css">
+    <link rel="stylesheet" href="../../static/input-cell.css">
+    <link rel="stylesheet" href="../../static/information.css">
+    <link rel="stylesheet" href="../../static/connect-to-meeting.css">
+    <link rel="stylesheet" href="../../static/registration.css">
+</head>
+<body>
+    <header class="top-panel">
+        <div class="logo-container">
+            <img class="logo-image" src="../../images/favicon.svg" alt="">
+            <label class="logo-name">TalkHub</label>
+        </div>
+        <div class="language-selector">
+            <div class="selected-language">en</div>
+            <div class="not-selected-language">ru</div>
+        </div>
+    </header>
+    <main class="main-panel">
+        <div id="information-panel">
+            <h1>Available video calls and meetings.</h1>
+            <h2>TalkHub is a service for scheduling meetings and communicating via video calls.</h2>
+            <div class="connect-to-meeting-panel">
+                <p>If you have a room code, then you can connect to it. Enter this code in the field below and click connect.</p>
+                <div class="connect-to-meeting-inputs">
+
+                    <label class="input-cell input-cell-meeting-code" for="connect-to-meeting-input-code">
+                        <input id="connect-to-meeting-input-code" type="text">
+                        <span id="connect-to-meeting-input-code-text" class="input-cell-popup-text input-cell-popup-text-meeting-code">Enter the meeting code</span>
+                    </label>
+
+                    <input id="btn-connect-to-meeting" class="button" type="button" value="Join">
+                </div>
+            </div>
+            <div class="inner-line"></div>
+            <h4>To make an appointment, you need to log in and schedule it in the "my appointments" menu.</h4>
+        </div>
+        <div class="registration-panel">
+            <div id="registration-form">
+                <label class="heading-text">Sign Up</label>
+                <div class="registration-data">
+
+                    <label class="input-cell input-cell-registration" for="first-name-input">
+                        <input id="first-name-input" class="registration-data-input" type="text">
+                        <span id="first-name-text" class="input-cell-popup-text input-cell-popup-text-registration">First Name</span>
+                    </label>
+
+                    <label class="input-cell input-cell-registration" for="last-name-input">
+                        <input id="last-name-input" type="text">
+                        <span id="last-name-text" class="input-cell-popup-text input-cell-popup-text-registration">Last Name</span>
+                    </label>
+
+                    <label class="input-cell input-cell-registration" for="email-input">
+                        <input id="email-input" type="text">
+                        <span id="email-text" class="input-cell-popup-text input-cell-popup-text-registration">Email</span>
+                    </label>
+
+                    <label class="input-cell input-cell-registration" for="password-input">
+                        <input id="password-input" type="password">
+                        <span id="password-text" class="input-cell-popup-text input-cell-popup-text-registration">Password</span>
+                        <label class="eye" for="password-input">
+                            <span class="pupil"></span>
+                        </label>
+                    </label>
+
+                    <label class="input-cell input-cell-registration" for="confirm-password-input">
+                        <input id="confirm-password-input" type="password">
+                        <span id="confirm-password-text" class="input-cell-popup-text input-cell-popup-text-registration">Confirm Password</span>
+                        <label class="eye" for="confirm-password-input">
+                            <span class="pupil"></span>
+                        </label>
+                    </label>
+
+                    <input id="btn-go-account" class="button" type="button" value="Create your TalkHub account">
+
+                </div>
+                <label class="footer-registration-panel">
+                    <input id="accept-policy" type="checkbox" checked>
+                    <label id="accept-policy-text" class="footer-text">I agree to the Terms of Service and Privacy Policy.</label>
+                </label>
+                <label id="form-error-output"></label>
+                <a class="hyperlink" href="/">Sign In</a>
+            </div>
+        </div>
+    </main>
+    <script src="../../static/en-language-selector.js"></script>
+    <script src="../../static/windowSynchronization.js"></script>
+    <script src="../../static/hideSwitcher.js"></script>
+    <script src="../../static/input-cell-eyes.js"></script>
+    <script src="../../static/input-cell-popups.js"></script>
+    <script src="../../static/connect-to-meeting.js"></script>
+    <script src="../../static/registration.js"></script>
+</body>
+</html>

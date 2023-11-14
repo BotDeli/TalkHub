@@ -6,6 +6,7 @@ import (
 	"TalkHub/internal/server/gin/cookie"
 	"TalkHub/internal/storage/postgres/userController"
 	"TalkHub/pkg/decoder"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
@@ -25,6 +26,7 @@ type SignInData struct {
 func handlerSignUp(host string, displayA accountControl.Display, displayU userController.Display) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		data := getSignUpData(ctx)
+		fmt.Println(data)
 		if data == nil {
 			ctx.Status(http.StatusBadRequest)
 			return
@@ -34,6 +36,7 @@ func handlerSignUp(host string, displayA accountControl.Display, displayU userCo
 
 		if session == nil {
 			ctx.Status(http.StatusBadRequest)
+			return
 		}
 
 		displayU.SaveUserInfo(&userController.User{
@@ -78,7 +81,7 @@ func handlerSignIn(host string, displayA accountControl.Display) gin.HandlerFunc
 		if session == nil {
 			ctx.Status(http.StatusBadRequest)
 		}
-		ctx.JSON(200, nil)
+		ctx.Status(http.StatusPermanentRedirect)
 	}
 }
 
@@ -90,10 +93,11 @@ func getSignInData(ctx *gin.Context) *SignInData {
 	return data
 }
 
-func handlerExitAccount(host string, displayA accountControl.Display) gin.HandlerFunc {
+func handlerLogOut(host string, displayA accountControl.Display) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		key := cookie.GetSessionKey(ctx)
 		displayA.DeleteSession(key)
 		cookie.SetSessionKey(ctx, host, "")
+		ctx.Redirect(http.StatusPermanentRedirect, "/")
 	}
 }

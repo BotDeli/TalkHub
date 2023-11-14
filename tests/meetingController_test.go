@@ -24,7 +24,7 @@ func TestErrorCreateNewMeeting(t *testing.T) {
 	}
 
 	testMock := func(t *testing.T, display meetingController.Display) {
-		err := display.CreateNewMeeting(testUserID, testName, testDate)
+		_, err := display.CreateMeeting(testUserID, testName, testDate)
 		checkErrorIsTestError(t, err)
 	}
 
@@ -51,7 +51,7 @@ func TestSuccessfulCreateNewMeeting(t *testing.T) {
 	}
 
 	testMock := func(t *testing.T, display meetingController.Display) {
-		err := display.CreateNewMeeting(testUserID, testName, testDate)
+		_, err := display.CreateMeeting(testUserID, testName, testDate)
 		checkErrorIsNil(t, err)
 	}
 
@@ -104,7 +104,7 @@ func TestSuccessfulGetMyMeetingsDontEmptyRows(t *testing.T) {
 	initMock := func(mock sqlmock.Sqlmock) {
 		rows := newMeetingRows()
 		for _, expectedRow := range expectedMeetings {
-			rows.AddRow(expectedRow.MeetingID, expectedRow.Name, expectedRow.Date, expectedRow.Started, expectedRow.CountConnected)
+			rows.AddRow(expectedRow.MeetingID, expectedRow.Name, expectedRow.Datetime, expectedRow.Started, expectedRow.CountConnected)
 		}
 		mock.ExpectQuery("SELECT").WithArgs(testUserID).WillReturnRows(rows).WillReturnError(nil)
 	}
@@ -124,7 +124,7 @@ func equalMeetings(t *testing.T, expectedMeetings, meetings []meetingController.
 	for i := 0; i < len(meetings); i++ {
 		if expectedMeetings[i].MeetingID != meetings[i].MeetingID ||
 			expectedMeetings[i].Name != meetings[i].Name ||
-			expectedMeetings[i].Date != meetings[i].Date ||
+			expectedMeetings[i].Datetime != meetings[i].Datetime ||
 			expectedMeetings[i].Started != meetings[i].Started ||
 			expectedMeetings[i].CountConnected != meetings[i].CountConnected {
 			t.Fatalf("expected %v, got %v", expectedMeetings, meetings)

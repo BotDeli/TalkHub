@@ -64,9 +64,17 @@ const Chat = new ChatChannel(chatMessagesList);
 
 const chatMessageInput = document.getElementById('chat-message-input');
 
-document.getElementById('btn-chat-message-send-message').addEventListener('click', () => {
+const sendMessageFromChat = () => {
     if (chatMessageInput.value !== "") {
         Chat.sendMessage("Вы", chatMessageInput.value);
         chatMessageInput.value = "";
     }
-});
+}
+
+document.getElementById('btn-chat-message-send-message').addEventListener('click', sendMessageFromChat);
+
+window.addEventListener('keypress', (e) => {
+    if (e.key === "Enter" && chatMessageInput === document.activeElement) {
+        sendMessageFromChat();
+    }
+})

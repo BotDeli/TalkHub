@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TalkHub SignUp</title>
+    <link rel="icon" type="image/svg" href="../../images/favicon.svg">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;1,300&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="../../static/colors.css">
+    <link rel="stylesheet" href="../../static/all.css">
+    <link rel="stylesheet" href="../../static/input-cell.css">
+    <link rel="stylesheet" href="../../static/information.css">
+    <link rel="stylesheet" href="../../static/connect-to-meeting.css">
+    <link rel="stylesheet" href="../../static/registration.css">
+</head>
+<body>
+    <header class="top-panel">
+        <div class="logo-container">
+            <img class="logo-image" src="../../images/favicon.svg" alt="">
+            <label class="logo-name">TalkHub</label>
+        </div>
+        <div class="language-selector">
+            <div class="not-selected-language">en</div>
+            <div class="selected-language">ru</div>
+        </div>
+    </header>
+    <main class="main-panel">
+        <div id="information-panel">
+            <h1>Доступные видео-звонки и встречи.</h1>
+            <h2>TalkHub - это сервис для планирования встреч и общения через видео-звонки.</h2>
+            <div class="connect-to-meeting-panel">
+                <p>Если у вас имеется код комнаты, то вы можете подключиться к ней. Введите данный код в поле ниже и нажмите кнопку подключиться.</p>
+                <div class="connect-to-meeting-inputs">
+
+                    <label class="input-cell input-cell-meeting-code" for="connect-to-meeting-input-code">
+                        <input id="connect-to-meeting-input-code" type="text">
+                        <span id="connect-to-meeting-input-code-text" class="input-cell-popup-text input-cell-popup-text-meeting-code">Введите код встречи</span>
+                    </label>
+
+                    <input id="btn-connect-to-meeting" class="button" type="button" value="Присоединиться">
+                </div>
+            </div>
+            <div class="inner-line"></div>
+            <h4>Чтобы назначить встречу вам необходимо авторизоваться и запланировать её в меню "мои встречи".</h4>
+        </div>
+        <div class="registration-panel">
+            <div id="registration-form">
+                <label class="heading-text">Регистрация</label>
+                <div class="registration-data">
+
+                    <label class="input-cell input-cell-registration" for="first-name-input">
+                        <input id="first-name-input" class="registration-data-input" type="text">
+                        <span id="first-name-text" class="input-cell-popup-text input-cell-popup-text-registration">Имя</span>
+                    </label>
+
+                    <label class="input-cell input-cell-registration" for="last-name-input">
+                        <input id="last-name-input" type="text">
+                        <span id="last-name-text" class="input-cell-popup-text input-cell-popup-text-registration">Фамилия</span>
+                    </label>
+
+                    <label class="input-cell input-cell-registration" for="email-input">
+                        <input id="email-input" type="text">
+                        <span id="email-text" class="input-cell-popup-text input-cell-popup-text-registration">Электронная почта</span>
+                    </label>
+
+                    <label class="input-cell input-cell-registration" for="password-input">
+                        <input id="password-input" type="password">
+                        <span id="password-text" class="input-cell-popup-text input-cell-popup-text-registration">Пароль</span>
+                        <label class="eye" for="password-input">
+                            <span class="pupil"></span>
+                        </label>
+                    </label>
+
+                    <label class="input-cell input-cell-registration" for="confirm-password-input">
+                        <input id="confirm-password-input" type="password">
+                        <span id="confirm-password-text" class="input-cell-popup-text input-cell-popup-text-registration">Подтвердите пароль</span>
+                        <label class="eye" for="confirm-password-input">
+                            <span class="pupil"></span>
+                        </label>
+                    </label>
+
+                    <input id="btn-go-account" class="button" type="button" value="Создать свою учетную запись Talk Hub">
+
+                </div>
+                <label class="footer-registration-panel">
+                    <input id="accept-policy" type="checkbox" checked>
+                    <label id="accept-policy-text" class="footer-text">Я согласен с Условиями предоставления услуг и Политикой конфиденциальности.</label>
+                </label>
+                <label id="form-error-output"></label>
+                <a class="hyperlink" href="/">Войти</a>
+            </div>
+        </div>
+    </main>
+    <script src="../../static/ru-language-selector.js"></script>
+    <script src="../../static/windowSynchronization.js"></script>
+    <script src="../../static/hideSwitcher.js"></script>
+    <script src="../../static/input-cell-eyes.js"></script>
+    <script src="../../static/input-cell-popups.js"></script>
+    <script src="../../static/connect-to-meeting.js"></script>
+    <script src="../../static/registration.js"></script>
+</body>
+</html>

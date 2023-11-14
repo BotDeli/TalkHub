@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Settings</title>
+
+    <link rel="stylesheet" href="../../static/colors.css">
+    <link rel="stylesheet" href="../../static/all.css">
+    <link rel="stylesheet" href="../../static/input-cell.css">
+    <link rel="stylesheet" href="../../static/settings.css">
+</head>
+<body>
+<div class="logo-container">
+    <img class="logo-image" src="../../images/favicon.svg" alt="">
+    <label class="logo-name">TalkHub</label>
+</div>
+<div class="main-panel">
+    <div class="settings-panel">
+        <a href="../..">
+            <div class="btn-back-to-hub" title="Вернуться в hub"></div>
+        </a>
+        <h1>Настройки</h1>
+        <div class="settings-general-information">
+            <h2>Общая информация</h2>
+            <div class="settings-input">
+                <div>First name</div>
+                <input id="settings-first-name-input" class="text-input" type="text">
+            </div>
+            <div class="settings-input">
+                <div>Last name</div>
+                <input id="settings-first-name-input" class="text-input" type="text">
+            </div>
+        </div>
+        <div class="settings-general-information">
+            <h2>Безопасность</h2>
+            <div class="settings-input">
+                <div>Email</div>
+                <input id="settings-first-name-input" class="text-input" type="text">
+            </div>
+            <div class="settings-input">
+                <label class="input-cell" for="password-input">
+                    <input id="password-input" type="password">
+                    <span id="password-text" class="authorization-data-popup-text">Password</span>
+                    <label class="eye" for="password-input">
+                        <span class="pupil"></span>
+                    </label>
+                </label>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../../static/input-cell-eyes.js"></script>
+</body>
+</html>

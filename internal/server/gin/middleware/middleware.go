@@ -3,6 +3,7 @@ package middleware
 import (
 	"TalkHub/internal/api/accountControl"
 	"TalkHub/internal/server/gin/cookie"
+	"fmt"
 	"github.com/gin-gonic/gin"
 )
 
@@ -15,6 +16,21 @@ func CheckerAuthorizedUser(displayA accountControl.Display) gin.HandlerFunc {
 				return
 			}
 		}
+
 		ctx.Set("id", "")
+	}
+}
+
+func CheckerLanguageSelect(host string) gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		lang := cookie.GetLanguageCookie(ctx)
+		if lang == "" {
+			cookie.SetLanguageCookie(ctx, host, "en")
+			lang = "en"
+		}
+
+		fmt.Println(lang)
+
+		ctx.Set("lang", lang)
 	}
 }

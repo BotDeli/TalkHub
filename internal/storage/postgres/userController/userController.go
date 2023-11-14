@@ -3,6 +3,7 @@ package userController
 import (
 	"TalkHub/internal/storage/postgres"
 	"database/sql"
+	"fmt"
 	"log"
 )
 
@@ -43,17 +44,31 @@ func (uid *UIDisplay) SaveUserInfo(u *User) {
 	}
 }
 
-func (uid *UIDisplay) GetUserInfo(email string) (*User, error) {
+func (uid *UIDisplay) GetUserInfoFromEmail(email string) (*User, error) {
 	query := `SELECT * FROM users WHERE email = $1`
-	var u User
 	rows, err := uid.PG.DB.Query(query, email)
 	if err != nil {
 		return nil, err
 	}
+	return scanUserInfo(rows)
+}
+
+func scanUserInfo(rows *sql.Rows) (*User, error) {
+	var u User
 	rows.Next()
-	err = rows.Scan(&u.Id, &u.UserIcon, &u.FirstName, &u.LastName, &u.Email)
+	err := rows.Scan(&u.Id, &u.UserIcon, &u.FirstName, &u.LastName, &u.Email)
+	fmt.Println(err)
 	if err != nil {
 		return nil, err
 	}
 	return &u, nil
+}
+
+func (uid *UIDisplay) GetUserInfoFromID(id any) (*User, error) {
+	query := `SELECT * FROM users WHERE id = $1`
+	rows, err := uid.PG.DB.Query(query, id)
+	if err != nil {
+		return nil, err
+	}
+	return scanUserInfo(rows)
 }

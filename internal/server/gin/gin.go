@@ -5,20 +5,21 @@ import (
 	"TalkHub/internal/config"
 	"TalkHub/internal/server/gin/handlers"
 	"TalkHub/internal/server/gin/middleware"
+	"TalkHub/internal/storage/postgres/meetingController"
 	"TalkHub/internal/storage/postgres/userController"
 	"github.com/gin-gonic/gin"
 )
 
-func StartGinServer(cfg *config.HttpConfig, displayA accountControl.Display, displayU userController.Display) error {
+func StartGinServer(cfg *config.HttpConfig, displayA accountControl.Display, displayU userController.Display, displayM meetingController.Display) error {
 	router := gin.Default()
 	loadAllFiles(router)
-	router.Use(middleware.CheckerAuthorizedUser(displayA))
-	handlers.SetHandlers(router, cfg.Host, displayA, displayU)
+	router.Use(middleware.CheckerAuthorizedUser(displayA), middleware.CheckerLanguageSelect(cfg.Host))
+	handlers.SetHandlers(router, cfg.Host, displayA, displayU, displayM)
 	return router.Run(cfg.GetAddress())
 }
 
 func loadAllFiles(router *gin.Engine) {
-	router.LoadHTMLGlob("template/*")
+	router.LoadHTMLGlob("template/*/*.html")
 	router.Static("/static/", "./static")
 	router.Static("/images/", "./images")
 }

@@ -2,7 +2,8 @@ package userController
 
 type Display interface {
 	SaveUserInfo(u *User)
-	GetUserInfo(email string) (*User, error)
+	GetUserInfoFromEmail(email string) (*User, error)
+	GetUserInfoFromID(id any) (*User, error)
 }
 
 type User struct {

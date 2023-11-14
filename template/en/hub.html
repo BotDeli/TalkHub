@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hub</title>
+    <link rel="icon" type="image/svg" href="../../images/favicon.svg">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;1,300&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="../../static/colors.css">
+    <link rel="stylesheet" href="../../static/all.css">
+    <link rel="stylesheet" href="../../static/input-cell.css">
+    <link rel="stylesheet" href="../../static/connect-to-meeting.css">
+    <link rel="stylesheet" href="../../static/hub.css">
+</head>
+<body>
+    <div id="await-meeting-panel">
+        <div class="logo-container">
+            <img class="logo-image" src="../../images/favicon.svg" alt="">
+            <label class="logo-name">TalkHub</label>
+        </div>
+        <div class="inner-line" style="width: calc(100% - 2px)"></div>
+        <div id="await-meetings-list" class="scroll"></div>
+        <div class="inner-line" style="width: calc(100% - 2px)"></div>
+        <div class="await-meeting-info-help">
+            <div class="await-meeting-info-help-not-started-color await-meeting-info-help-color"></div>
+            <div>- not started</div>
+            <div class="await-meeting-info-help-started-color await-meeting-info-help-color"></div>
+            <div>- started</div>
+        </div>
+    </div>
+
+    <main class="main-panel">
+        <div class="profile-top-panel">
+            <div id="profile-username">{{.Username}}</div>
+            <div id="profile-image"></div>
+            <div class="menu">
+                <div id="drop-down-menu">
+                    <a class="drop-down-menu-button" href="/settings">Settings</a>
+                    <a class="drop-down-menu-button" href="/logOut">Exit</a>
+                </div>
+            </div>
+        </div>
+        <div class="description-panel">
+            <div id="description-pages-list" class="scroll">
+                <div id="description-page-info" class="description-page">
+                    <div class="description-icon-id-page-info"></div>
+                    <div>info</div>
+                </div>
+            </div>
+            <div class="inner-line"></div>
+            <div id="description-pages-show-out-info" class="description-pages-show-out">
+                <h1 class="top-title">Добро пожаловать в TalkHub!</h1>
+                <div class="center-panel">
+                    <div class="description-left-block">
+                        <h2>Вход в комнату</h2>
+                        <p>Если у вас имеется код комнаты, то вы можете подключиться к ней. Введите данный код в поле ниже и нажмите кнопку подключиться.</p>
+                        <div class="connect-to-meeting-inputs">
+
+                            <label class="input-cell input-cell-meeting-code" for="connect-to-meeting-input-code">
+                                <input id="connect-to-meeting-input-code" type="text">
+                                <span id="connect-to-meeting-input-code-text" class="input-cell-popup-text input-cell-popup-text-meeting-code">Введите код встречи</span>
+                            </label>
+
+                            <input id="btn-connect-to-meeting" class="button" type="button" value="Присоединиться">
+                        </div>
+                    </div>
+                    <div class="description-right-block">
+                        <h2>Создание комнаты</h2>
+                        <p>Запланируйте вашу встречу! Введите название и определитесь с датой и временем вашей встречи. Для подтверждения вашего выбора, нажмите кнопку запланировать встречу.</p>
+                        <div class="create-meeting-inputs">
+
+                            <label class="input-cell input-cell-create-meeting" for="create-meeting-input-name">
+                                <input id="create-meeting-input-name" type="text">
+                                <span id="create-meeting-input-name-text" class="input-cell-popup-text input-cell-popup-text-create-meeting">Название</span>
+                            </label>
+
+                            <label class="input-cell input-cell-create-meeting" for="create-meeting-input-datetime">
+                                <input id="create-meeting-input-datetime" type="datetime-local">
+                                <span id="create-meeting-input-datetime-text" class="input-cell-popup-text input-cell-popup-text-create-meeting">Дата и время</span>
+                            </label>
+
+                            <input id="btn-create-meeting" class="button" type="button" value="Запланировать встречу">
+                            <div id="create-meeting-error-out"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="description-pages-show-out-meeting" class="description-pages-show-out" style="display: none;">
+                <div id="description-settings-meeting-id"></div>
+                <div id="description-settings-meeting-name"></div>
+                <div class="center-panel">
+                    <div class="description-left-block">
+                        <h2>Управление</h2>
+                        <p>Вы можете запустить вашу встречу досрочно или отменить её, если ваши планы поменялись.</p>
+                        <div class="description-settings-meeting-datetime">
+                            <div>Запланировано на:</div>
+                            <div class="description-settings-meeting-datetime-out">
+                                <div id="description-settings-meeting-date"></div>
+                                <div id="description-settings-meeting-time"></div>
+                            </div>
+                        </div>
+                        <div class="settings-meeting-status-change-buttons">
+                            <input id="btn-settings-meeting-start-meeting" class="button" type="button" value="Start">
+                            <input id="btn-settings-meeting-cancel-meeting" class="button" type="button" value="Cancel">
+                        </div>
+                    </div>
+                    <div class="description-right-block">
+                        <h2>Настройка</h2>
+                        <p>Вы можете изменить параметры вашей встречи, если допустили ошибку.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script src="../../static/hub-page-controller.js"></script>
+    <script src="../../static/input-cell-popups.js"></script>
+    <script src="../../static/connect-to-meeting.js"></script>
+    <script src="../../static/await-meetings-list.js"></script>
+    <script src="../../static/create-meeting.js"></script>
+    <script src="../../static/hub.js"></script>
+</body>
+</html>

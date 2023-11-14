@@ -16,6 +16,14 @@
     padding-right: 10%;
 }
 
+.input-cell-popup-text {
+    position: absolute;
+    height: 20px;
+    font-size: 22px;
+    align-self: start;
+    margin-left: 22px;
+}
+
 .eye {
     position: absolute;
     min-width: 15px;
@@ -28,6 +36,14 @@
     align-self: end;
     transform: translate(20px);
     cursor: grab;
+}
+
+.closed-eye:after {
+    position: absolute;
+    content: "";
+    height: 18px;
+    border-left: 2px solid red;
+    transform: rotate(60deg) translate(-4px, -1px);
 }
 
 .pupil {
@@ -57,4 +73,45 @@
     flex-wrap: wrap;
     flex-direction: column;
     align-items: center;
+}
+
+#form-error-output {
+    display: none;
+    font-size: 14px;
+    color: #d70000;
+}
+
+.input-cell input {
+    width: 90%;
+    height: 20px;
+    background-color: var(--empty-color);
+    border: none;
+    margin: 16px 0 16px 0;
+    padding: 4px 0 4px 10px;
+    font-size: 22px;
+    outline: none;
+}
+
+@keyframes flyAway {
+    0% {
+        font-size: 22px;
+    }
+    100% {
+        font-size: 14px;
+        transform: translate(-10px, -25px);
+    }
+}
+
+@keyframes flyAwayReversed {
+    0% {
+        font-size: 14px;
+        transform: translate(-10px, -25px);
+    }
+    100% {
+        font-size: 22px;
+    }
+}
+
+input[type="datetime-local"] {
+    font-size: 18px;
 }

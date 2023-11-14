@@ -8,6 +8,7 @@
 
     --selected-color-1: #a8a9ad;
     --selected-color-2: #9f9fef;
+    --selected-color-3: #00FA9A7F;
 
     --cell-input-color: rgba(245, 245, 245, 0.6);
 
@@ -16,5 +17,5 @@
     --activated: rgba(143, 188, 143, 0.3);
     --deactivated: rgba(205, 92, 92, 0.3);
 
-    --display-color: gray;
+    --display-color: #c2bfbf;
 }

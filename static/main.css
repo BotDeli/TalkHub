@@ -1,13 +1,14 @@
 .authorization-panel {
-    min-width: 300px;
+    min-width: 400px;
     display: flex;
     justify-content: right;
     align-items: center;
-    margin: 10px 20px 10px 0;
+    margin: 10px;
     align-self: start;
 }
 
 #authorization-form {
+    flex-grow: 1;
     min-height: 200px;
     min-width: 300px;
 }
@@ -27,48 +28,9 @@
     align-items: center;
 }
 
-.authorization-data input{
+.authorization-data input {
     padding: 4px 0 4px 10px;
     font-size: 22px;
-}
-
-.authorization-data-popup-text {
-    position: absolute;
-    height: 20px;
-    font-size: 22px;
-    align-self: start;
-    margin-left: 22px;
-}
-
-@keyframes flyAway {
-    0% {
-        font-size: 22px;
-    }
-    100% {
-        font-size: 14px;
-        transform: translate(-10px, -25px);
-    }
-}
-
-@keyframes flyAwayReversed {
-    0% {
-        font-size: 14px;
-        transform: translate(-10px, -25px);
-    }
-    100% {
-        font-size: 22px;
-    }
-}
-
-.input-cell input {
-    width: 90%;
-    height: 20px;
-    background-color: var(--empty-color);
-    border: none;
-    margin: 16px 0 16px 0;
-    padding: 4px 0 4px 10px;
-    font-size: 22px;
-    outline: none;
 }
 
 .authorization-data input[type="button"] {
@@ -76,19 +38,4 @@
     width: 70%;
     height: 35px;
     font-size: 16px;
-}
-
-#authorization-error {
-    display: none;
-    font-size: 14px;
-    color: #d70000;
-}
-
-.hyperlink-sign-up {
-    margin-top: 5px;
-    margin-bottom: 3px;
-    font-size: 16px;
-    font-weight: bold;
-    color: black;
-    text-decoration: none;
 }

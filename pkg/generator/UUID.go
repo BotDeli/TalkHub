@@ -27,10 +27,3 @@ func generateUUID(pattern string, lengthUUID int) string {
 func newRandom() *rand.Rand {
 	return rand.New(rand.NewSource(time.Now().UnixNano()))
 }
-
-const patternDigits = "0123456789"
-const lengthUUIDDigits = 7
-
-func NewUUIDDigits() string {
-	return generateUUID(patternDigits, lengthUUIDDigits)
-}

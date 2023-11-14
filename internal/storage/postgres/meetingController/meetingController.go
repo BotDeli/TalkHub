@@ -28,7 +28,7 @@ func initTable(db *sql.DB) {
 		`CREATE TABLE IF NOT EXISTS meetings (
     	id VARCHAR NOT NULL PRIMARY KEY UNIQUE,
     	name VARCHAR NOT NULL,
-    	date DATE NOT NULL,
+    	datetime TIMESTAMP NOT NULL,
     	started BOOLEAN NOT NULL,
     	count_connected INTEGER NOT NULL,
     	owner_id VARCHAR NOT NULL
@@ -37,14 +37,14 @@ func initTable(db *sql.DB) {
 	}
 }
 
-func (m *MCDisplay) CreateNewMeeting(ownerUserID string, name string, date time.Time) error {
-	query := `INSERT INTO meetings (id, name, date, started, count_connected, owner_id) VALUES ($1, $2, $3, $4, $5, $6)`
+func (m *MCDisplay) CreateMeeting(ownerUserID string, name string, date time.Time) (string, error) {
+	query := `INSERT INTO meetings (id, name, datetime, started, count_connected, owner_id) VALUES ($1, $2, $3, $4, $5, $6)`
 	id := generator.NewUUIDDigitsLetters()
 	_, err := m.PG.DB.Exec(query, id, name, date, false, 0, ownerUserID)
-	return err
+	return id, err
 }
 func (m *MCDisplay) GetMyMeetings(ownerUserID string) []Meeting {
-	query := `SELECT id, name, date, started, count_connected FROM meetings WHERE owner_id = $1`
+	query := `SELECT id, name, datetime, started, count_connected FROM meetings WHERE owner_id = $1`
 	rows, err := m.PG.DB.Query(query, ownerUserID)
 	if err != nil {
 		return []Meeting{}
@@ -57,23 +57,25 @@ func scanMeetingsFromRows(rows *sql.Rows) []Meeting {
 	meetings := []Meeting{}
 	var (
 		meetingID, name string
-		date            time.Time
+		datetime        time.Time
 		started         bool
 		countConnected  int
 		err             error
 	)
 
 	for rows.Next() {
-		err = rows.Scan(&meetingID, &name, &date, &started, &countConnected)
-		if err == nil {
-			meetings = append(meetings, Meeting{
-				MeetingID:      meetingID,
-				Name:           name,
-				Date:           date,
-				Started:        started,
-				CountConnected: countConnected,
-			})
+		err = rows.Scan(&meetingID, &name, &datetime, &started, &countConnected)
+		if err != nil {
+			continue
 		}
+
+		meetings = append(meetings, Meeting{
+			MeetingID:      meetingID,
+			Name:           name,
+			Datetime:       datetime,
+			Started:        started,
+			CountConnected: countConnected,
+		})
 	}
 
 	return meetings

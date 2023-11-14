@@ -48,13 +48,13 @@ func TestSuccessfulSaveUserInfo(t *testing.T) {
 	testingMockUser(t, initMock, testMock)
 }
 
-func TestErrorGetUserInfo(t *testing.T) {
+func TestErrorGetUserInfoFromEmail(t *testing.T) {
 	initMock := func(mockDB sqlmock.Sqlmock) {
 		mockDB.ExpectQuery("SELECT").WithArgs(testUser.Email).WillReturnError(testError)
 	}
 
 	testMock := func(t *testing.T, display userController.Display) {
-		u, err := display.GetUserInfo(testUser.Email)
+		u, err := display.GetUserInfoFromEmail(testUser.Email)
 		checkUserIsNil(t, u)
 		checkErrorIsTestError(t, err)
 	}
@@ -68,7 +68,7 @@ func checkUserIsNil(t *testing.T, u *userController.User) {
 	}
 }
 
-func TestEmptyUserInfoGetUserInfo(t *testing.T) {
+func TestEmptyUserInfoGetUserInfoFromEmail(t *testing.T) {
 	emptyRows := getEmptyUserRows()
 
 	initMock := func(mockDB sqlmock.Sqlmock) {
@@ -76,7 +76,7 @@ func TestEmptyUserInfoGetUserInfo(t *testing.T) {
 	}
 
 	testMock := func(t *testing.T, display userController.Display) {
-		u, err := display.GetUserInfo(testUser.Email)
+		u, err := display.GetUserInfoFromEmail(testUser.Email)
 		checkUserIsNil(t, u)
 		checkErrorIsNotNil(t, err)
 	}
@@ -88,7 +88,7 @@ func getEmptyUserRows() *sqlmock.Rows {
 	return sqlmock.NewRows([]string{"id", "user_icon", "first_name", "last_name", "email"})
 }
 
-func TestSuccessfulGetUserInfo(t *testing.T) {
+func TestSuccessfulGetUserInfoFromEmail(t *testing.T) {
 	rows := getEmptyUserRows()
 	rows.AddRow(
 		testUser.Id,
@@ -103,7 +103,7 @@ func TestSuccessfulGetUserInfo(t *testing.T) {
 	}
 
 	testMock := func(t *testing.T, display userController.Display) {
-		u, err := display.GetUserInfo(testUser.Email)
+		u, err := display.GetUserInfoFromEmail(testUser.Email)
 		if u == nil {
 			t.Fatal("user info is nil")
 		}

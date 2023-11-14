@@ -153,14 +153,14 @@ body {
 }
 
 .stream-functionality-microphone-on {
-    background-image: url(../images/microphone.svg);
+    background-image: url(../images/icon-back-to-hub.svg);
     background-position: -1px;
     background-color: var(--activated);
     border: 1px solid var(--activated);
 }
 
 .stream-functionality-microphone-off {
-    background-image: url(../images/microphone.svg);
+    background-image: url(../images/icon-back-to-hub.svg);
     background-position: -1px;
     background-color: var(--deactivated);
     border: 1px solid var(--deactivated);
