@@ -8,9 +8,6 @@ meetingDatetime.value = getCurrentFormattedDate();
 
 const errorOut = document.getElementById('create-meeting-error-out');
 
-awaitMeetingsList.addMeeting('id222', "meetingName.value", new Date())
-awaitMeetingsList.addMeeting('id11111', "meetingName2222", new Date())
-
 document.getElementById('btn-create-meeting').addEventListener('click', () => {
     errorOut.display = "none";
     if (onlyLetters(meetingName.value) && datetimeInTheFuture(meetingDatetime.value)) {
@@ -28,7 +25,7 @@ document.getElementById('btn-create-meeting').addEventListener('click', () => {
             if (response.status === 201) {
                 let json = response.json();
                 json.then(data => {
-                    awaitMeetingsList.addMeeting(data.id, meetingName.value, new Date(meetingDatetime.value))
+                    awaitMeetingsList.addMeeting(data.id, meetingName.value, new Date(meetingDatetime.value), false)
                 })
             } else {
                 errorOut.innerText = "Error create meeting";

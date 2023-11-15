@@ -82,7 +82,7 @@ func scanMeetingsFromRows(rows *sql.Rows) []Meeting {
 }
 
 func (m *MCDisplay) StartMeeting(ownerUserID, meetingID string) {
-	query := `UPDATE meetings SET started = 1 WHERE owner_id = $1 AND id = $2`
+	query := `UPDATE meetings SET started = true WHERE owner_id = $1 AND id = $2`
 	_, _ = m.PG.DB.Exec(query, ownerUserID, meetingID)
 }
 

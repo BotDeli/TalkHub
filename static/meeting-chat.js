@@ -1,14 +1,40 @@
+const chatMessagesList = document.getElementById('chat-messages-list');
+
+function addMessageToMessagesList(sender, text) {
+    let message = document.createElement('div');
+    message.className = "chat-message";
+    message.innerHTML = `<strong>${sender}</strong>: ${text}`;
+    chatMessagesList.appendChild(message);
+}
+
 class ChatChannel {
-    constructor(messagesOut) {
-        this.messagesOut = messagesOut;
+    constructor() {
+        this.socket = null;
     }
 
-    sendMessage(sender, message) {
-        // TODO: отправка сообщения на сервер
+    initSocket() {
+        const socket = new WebSocket(`ws://${window.location.host}${window.location.pathname}/chat`);
 
-        let msg = document.createElement('div');
-        msg.className = "chat-message";
-        msg.innerHTML = "<strong>"+sender+"</strong>"+": "+message;
-        this.messagesOut.appendChild(msg);
+        socket.onmessage = (event) => {
+            let data = JSON.parse(event.data)
+            addMessageToMessagesList(data.sender, data.text);
+        };
+
+        socket.onclose = () => {
+            window.location.reload();
+        };
+
+        this.socket = socket;
+    }
+
+    sendMessage(sender, text) {
+        if (this.socket === null) {
+            return;
+        }
+
+        this.socket.send(JSON.stringify({
+            "sender": sender,
+            "text": text,
+        }));
     }
 }

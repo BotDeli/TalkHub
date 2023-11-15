@@ -2,6 +2,8 @@ package handlers
 
 import (
 	"TalkHub/internal/api/accountControl"
+	"TalkHub/internal/server/gin/params"
+	"TalkHub/internal/storage/postgres/meetingController"
 	"TalkHub/internal/storage/postgres/userController"
 	"errors"
 	"github.com/gin-gonic/gin"
@@ -86,5 +88,28 @@ func handlerShowSettingsPage(displayU userController.Display) gin.HandlerFunc {
 		//	"Username": user.FirstName + " " + user.LastName,
 		//	"UserID":   id,
 		//})
+	}
+}
+
+func handlerShowMeetingPage(displayM meetingController.Display, displayU userController.Display) gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		meetingID := params.GetParamsMeetingId(ctx, displayM)
+		if meetingID == "" {
+			return
+		}
+
+		username := "Guest"
+
+		id := getUserID(ctx)
+		if id != nil {
+			user, err := displayU.GetUserInfoFromID(id)
+			if err == nil {
+				username = user.FirstName + " " + user.LastName
+			}
+		}
+
+		ctx.HTML(http.StatusOK, "meeting.html", gin.H{
+			"Username": username,
+		})
 	}
 }

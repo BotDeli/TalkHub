@@ -22,4 +22,8 @@ func SetHandlers(router *gin.Engine, host string, displayA accountControl.Displa
 
 	router.POST("/createMeeting", handlerCreateMeeting(displayM))
 	router.GET("/getMyMeetings", handlerGetMyMeetings(displayM))
+	router.Handle("UPDATE", "/startMeeting", handlerStartMeeting(displayM))
+
+	router.GET("/meeting/:id", handlerShowMeetingPage(displayM, displayU))
+	router.GET("/meeting/:id/chat", handlerChatWebsocket(displayM))
 }

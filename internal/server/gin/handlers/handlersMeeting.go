@@ -51,3 +51,24 @@ func handlerGetMyMeetings(displayM meetingController.Display) gin.HandlerFunc {
 		})
 	}
 }
+
+type MeetingID struct {
+	Id string `json:"id"`
+}
+
+func handlerStartMeeting(displayM meetingController.Display) gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		id := getUserID(ctx)
+		if id == nil {
+			return
+		}
+
+		meeting, err := decoder.JSONDecoder[MeetingID](ctx.Request.Body)
+		if err != nil {
+			ctx.Status(http.StatusBadRequest)
+		}
+
+		displayM.StartMeeting(id.(string), meeting.Id)
+		ctx.Status(http.StatusAccepted)
+	}
+}

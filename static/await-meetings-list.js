@@ -41,7 +41,11 @@ class AwaitMeetingsList {
         meeting.appendChild(row);
 
         meeting.addEventListener('click', () => {
-            Pages.addPageMeeting(id, name, datetime);
+            if (started) {
+                redirectToMeetingCode(id);
+            } else {
+                Pages.addPageMeeting(id, name, datetime);
+            }
         });
 
         awaitMeetings.appendChild(meeting);

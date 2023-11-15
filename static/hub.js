@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
            let json = response.json();
            json.then(data => {
                data.meetings.forEach(meeting => {
-                   awaitMeetingsList.addMeeting(meeting.id, meeting.name, new Date(meeting.date));
+                   awaitMeetingsList.addMeeting(meeting.id, meeting.name, new Date(meeting.date), meeting.started);
                });
            })
        }

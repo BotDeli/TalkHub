@@ -39,7 +39,22 @@ class PageController {
         });
 
         btnStartMeeting.onclick = () => {
-            console.log("Start", id);
+            fetch("/startMeeting", {
+                method: "UPDATE",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    'id': id,
+                })
+            }).then((response) => {
+                if (response.status === 202) {
+                    redirectToMeetingCode(id);
+                } else {
+                    alert(`Error updating meeting, status ${response.status}`);
+                }
+            })
         }
 
         btnCancelMeeting.onclick = () => {

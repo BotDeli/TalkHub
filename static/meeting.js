@@ -58,15 +58,13 @@ btnStreamWebCamera.addEventListener('click', () => {
 })
 
 
-const chatMessagesList = document.getElementById('chat-messages-list');
 const Chat = new ChatChannel(chatMessagesList);
-// Chat.sendMessage("testSender)))", "HELLO WORLD!!!");
 
 const chatMessageInput = document.getElementById('chat-message-input');
 
 const sendMessageFromChat = () => {
     if (chatMessageInput.value !== "") {
-        Chat.sendMessage("Вы", chatMessageInput.value);
+        Chat.sendMessage(username, chatMessageInput.value);
         chatMessageInput.value = "";
     }
 }
@@ -78,3 +76,8 @@ window.addEventListener('keypress', (e) => {
         sendMessageFromChat();
     }
 })
+
+document.getElementById('btn-connect-to-meeting').addEventListener('click', () => {
+    Chat.initSocket();
+    document.getElementById('pre-connect-panel').style.display = 'none';
+});

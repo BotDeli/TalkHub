@@ -75,6 +75,9 @@ body {
 }
 
 #profile-username {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     margin: 2px;
     font-size: 18px;
     font-weight: bold;
@@ -160,7 +163,7 @@ body {
 }
 
 .stream-functionality-microphone-off {
-    background-image: url(../images/icon-back-to-hub.svg);
+    background-image: url(../images/microphone.svg);
     background-position: -1px;
     background-color: var(--deactivated);
     border: 1px solid var(--deactivated);
@@ -237,4 +240,20 @@ body {
 
 #btn-chat-message-send-message:active {
     scale: 0.9;
+}
+
+#pre-connect-panel {
+    position: absolute;
+    z-index: 1000;
+    width: 100dvw;
+    height: 100dvh;
+    background-color: var(--main-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#btn-connect-to-meeting {
+    background-color: var(--activated);
+    padding: 5px;
 }
