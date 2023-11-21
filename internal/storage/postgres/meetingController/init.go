@@ -8,7 +8,7 @@ type Display interface {
 	StartMeeting(ownerUserID, meetingID string)
 	EndMeeting(ownerUserID, meetingID string)
 	ConnectToMeeting(meetingID string) error
-	DisconnectToMeeting(meetingID string)
+	DisconnectFromMeeting(meetingID string)
 	IsStartedMeeting(meetingID string) bool
 }
 

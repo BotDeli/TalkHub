@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"TalkHub/internal/api/accountControl"
+	"TalkHub/internal/server/gin/context"
 	"TalkHub/internal/server/gin/params"
 	"TalkHub/internal/storage/postgres/meetingController"
 	"TalkHub/internal/storage/postgres/userController"
@@ -42,7 +43,7 @@ func handlerShowRegistrationPage(displayA accountControl.Display) gin.HandlerFun
 
 func handlerShowHubPage(displayU userController.Display) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		id := getUserID(ctx)
+		id := context.GetUserIDFromContext(ctx)
 		if id == nil {
 			ctx.Redirect(http.StatusTemporaryRedirect, "/")
 			return
@@ -58,16 +59,6 @@ func handlerShowHubPage(displayU userController.Display) gin.HandlerFunc {
 			"Username": user.FirstName + " " + user.LastName,
 		})
 	}
-}
-
-func getUserID(ctx *gin.Context) any {
-	id, have := ctx.Get("id")
-	if !have || id == "" {
-		ctx.Status(http.StatusUnauthorized)
-		return nil
-	}
-
-	return id
 }
 
 func handlerShowSettingsPage(displayU userController.Display) gin.HandlerFunc {
@@ -91,6 +82,8 @@ func handlerShowSettingsPage(displayU userController.Display) gin.HandlerFunc {
 	}
 }
 
+var guestID = 1
+
 func handlerShowMeetingPage(displayM meetingController.Display, displayU userController.Display) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		meetingID := params.GetParamsMeetingId(ctx, displayM)
@@ -100,16 +93,23 @@ func handlerShowMeetingPage(displayM meetingController.Display, displayU userCon
 
 		username := "Guest"
 
-		id := getUserID(ctx)
-		if id != nil {
+		id := context.GetUserIDFromContext(ctx)
+		if id == nil {
+			id = guestID
+			guestID++
+		} else {
 			user, err := displayU.GetUserInfoFromID(id)
 			if err == nil {
 				username = user.FirstName + " " + user.LastName
+			} else {
+				guestID++
+				id = guestID
 			}
 		}
 
 		ctx.HTML(http.StatusOK, "meeting.html", gin.H{
 			"Username": username,
+			"UserID":   id,
 		})
 	}
 }

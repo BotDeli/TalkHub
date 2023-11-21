@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"TalkHub/internal/server/gin/context"
 	"TalkHub/internal/storage/postgres/meetingController"
 	"TalkHub/pkg/decoder"
 	"github.com/gin-gonic/gin"
@@ -15,7 +16,7 @@ type MeetingRequest struct {
 
 func handlerCreateMeeting(displayM meetingController.Display) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		id := getUserID(ctx)
+		id := context.GetUserIDFromContext(ctx)
 		if id == nil {
 			return
 		}
@@ -40,7 +41,7 @@ func handlerCreateMeeting(displayM meetingController.Display) gin.HandlerFunc {
 
 func handlerGetMyMeetings(displayM meetingController.Display) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		id := getUserID(ctx)
+		id := context.GetUserIDFromContext(ctx)
 		if id == nil {
 			return
 		}
@@ -58,7 +59,7 @@ type MeetingID struct {
 
 func handlerStartMeeting(displayM meetingController.Display) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		id := getUserID(ctx)
+		id := context.GetUserIDFromContext(ctx)
 		if id == nil {
 			return
 		}

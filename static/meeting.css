@@ -1,65 +1,71 @@
 body {
-    min-width: 550px;
-    min-height: 450px;
+    min-width: 1140px;
+    min-height: 480px;
+    width: 100dvw;
+    height: 100dvh;
 }
 
 .main-panel {
     align-self: center;
-    width: 90%;
+    min-width: 90%;
     min-height: 85%;
-    margin: 10px;
+    margin: 20px;
     display: flex;
     background-color: var(--secondary-color-2);
     border-radius: 10px;
     border: 2px solid var(--selected-color-1);
     position: relative;
-    overflow: hidden;
 }
 
 .users-panel {
-    position: absolute;
+    float: left;
+    min-width: 100px;
+    width: 10%;
     height: 100%;
     display: flex;
     flex-direction: column;
-    min-width: 100px;
-    width: 15%;
-    overflow: hidden;
+    flex-wrap: wrap;
+    background-color: white;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
 }
 
-.icon-users-list {
-    position: absolute;
-    z-index: 1;
+.users-panel-header {
+    width: 100%;
+    height: 30px;
+    margin-bottom: 5px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    align-items: center;
+}
+
+.users-panel-header-icon {
+    width: 30px;
     background-image: url(../images/icon-users-list.svg);
     background-size: cover;
-    margin: 5px;
-    width: 30px;
-    aspect-ratio: 1/1;
-    opacity: 0.8;
+    aspect-ratio: 1;
+    margin: 0 5px 0 5px;
+}
+
+.users-panel-header-label {
+    width: calc(100% - 25px);
+    font-size: 22px;
+    text-align: center;
 }
 
 #users-list {
     width: 100%;
-    height: 100%;
-    transform: translate(-100%);
-    background-color: white;
+    min-width: 100px;
+    height: calc(100% - 40px);
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: center;
     overflow: auto;
     z-index: 1;
-}
-
-.users-panel:hover #users-list{
-    animation: 0.8s show-users-list forwards;
-}
-
-@keyframes show-users-list {
-    0% {
-        transform: translate(-100%);
-    }
-    100% {
-        transform: translate(0);
-    }
 }
 
 .users-list-user {
@@ -74,7 +80,7 @@ body {
     align-items: center;
 }
 
-#profile-username {
+.profile-username {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -93,49 +99,43 @@ body {
 }
 
 .stream-panel {
-    width: 100%;
-    height: 100%;
+    flex-grow: 1;
+    /*max-width: 70%;*/
+    height: calc(100% - 15px);
     display: flex;
     flex-direction: column;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+    place-self: center;
     align-items: center;
     justify-content: center;
-    margin-right: 20px;
+    margin: 15px;
 }
 
 #stream-users-list {
-    max-width: 92%;
-    max-height: 80%;
-    width: 100%;
-    height: auto;
-    aspect-ratio: 4/3;
-    background-color: var(--display-color);
-    border: 1px solid var(--selected-color-1);
-    border-radius: 15px;
-    margin: 5px;
+    width: calc(100% - 150px);
+    height: calc(100% - 40px);
     display: flex;
+    flex-grow: 1;
     flex-wrap: wrap;
     justify-content: center;
+    align-content: center;
 }
 
 .stream-user {
-    object-fit: cover;
-    display: inline-block;
-    aspect-ratio: 4/3;
-    background-color: black;
     border-radius: 5px;
-    margin: auto;
-    border: 1px solid var(--selected-color-1);
+    margin: 1px;
 }
 
 .stream-functionality {
-    min-height: 40px;
+    flex-grow: 1;
     width: auto;
-    height: auto;
+    min-height: 40px;
+    max-height: 40px;
+    padding: 2px;
     background: var(--secondary-color-2);
     border: 1px solid var(--selected-color-1);
     border-radius: 20px;
-    margin: 10px;
+    margin: 5px;
 }
 
 .stream-functionality-button {
@@ -182,19 +182,23 @@ body {
 }
 
 .chat-panel {
+    float: right;
+    flex-grow: 1;
     min-width: 170px;
-    width: 20%;
+    max-width: 20%;
     height: 100%;
     background-color: white;
     border-left: 1px solid var(--selected-color-1);
     display: flex;
     flex-direction: column;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
 }
 
 #chat-messages-list {
     flex-grow: 1;
     border: 1px solid var(--selected-color-1);
-    margin: 5px;
+    margin: 5px 5px 0 5px;
     border-radius: 10px;
     overflow-x: auto;
     display: flex;
@@ -221,7 +225,8 @@ body {
     width: 80%;
     border-radius: 5px;
     border: 1px solid var(--selected-color-1);
-    margin: 6px;
+    margin: 2px;
+    height: 28px;
 }
 
 #btn-chat-message-send-message {
@@ -243,10 +248,12 @@ body {
 }
 
 #pre-connect-panel {
-    position: absolute;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
     z-index: 1000;
-    width: 100dvw;
-    height: 100dvh;
     background-color: var(--main-color);
     display: flex;
     align-items: center;

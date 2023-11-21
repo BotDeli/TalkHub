@@ -23,13 +23,11 @@
     </header>
     <div class="main-panel">
         <div class="users-panel">
-            <i class="icon-users-list"></i>
-            <div id="users-list">
-                <div class="users-list-user">
-                    <div class="profile-image"></div>
-                    <div id="profile-username">username</div>
-                </div>
+            <div class="users-panel-header">
+                <i class="users-panel-header-icon"></i>
+                <div class="users-panel-header-label">users:</div>
             </div>
+            <div id="users-list"></div>
         </div>
         <div class="stream-panel">
             <div id="stream-users-list"></div>
@@ -51,9 +49,12 @@
     </div>
     <script>
         const username = {{.Username}};
+        const userID = {{.UserID}};
     </script>
     <script src="../../static/meeting-chat.js"></script>
-    <script src="../../static/meeting-stream-synchronizer.js"></script>
+    <script src="../../static/meeting-stream-window-controller.js"></script>
+    <script src="../../static/meeting-functionality-buttons.js"></script>
+    <script src="../../static/meeting-stream.js"></script>
     <script src="../../static/meeting.js"></script>
 </body>
 </html>

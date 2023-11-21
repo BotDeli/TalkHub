@@ -2,12 +2,14 @@ package handlers
 
 import (
 	"TalkHub/internal/api/accountControl"
+	"TalkHub/internal/config"
+	"TalkHub/internal/server/gin/handlers/socket"
 	"TalkHub/internal/storage/postgres/meetingController"
 	"TalkHub/internal/storage/postgres/userController"
 	"github.com/gin-gonic/gin"
 )
 
-func SetHandlers(router *gin.Engine, host string, displayA accountControl.Display, displayU userController.Display, displayM meetingController.Display) {
+func SetHandlers(router *gin.Engine, host string, webrtcCfg *config.WebrtcConfig, displayA accountControl.Display, displayU userController.Display, displayM meetingController.Display) {
 	router.GET("/", handlerShowMainPage(displayA))
 	router.GET("/registration", handlerShowRegistrationPage(displayA))
 	router.GET("/hub", handlerShowHubPage(displayU))
@@ -25,5 +27,8 @@ func SetHandlers(router *gin.Engine, host string, displayA accountControl.Displa
 	router.Handle("UPDATE", "/startMeeting", handlerStartMeeting(displayM))
 
 	router.GET("/meeting/:id", handlerShowMeetingPage(displayM, displayU))
-	router.GET("/meeting/:id/chat", handlerChatWebsocket(displayM))
+
+	router.GET("/webrtcConfig", handlerGetWebrtcConfig(webrtcCfg))
+
+	socket.SetSocketHandlers(router, displayU, displayM)
 }

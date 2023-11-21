@@ -10,11 +10,11 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func StartGinServer(cfg *config.HttpConfig, displayA accountControl.Display, displayU userController.Display, displayM meetingController.Display) error {
+func StartGinServer(cfg *config.HttpConfig, webrtcCfg *config.WebrtcConfig, displayA accountControl.Display, displayU userController.Display, displayM meetingController.Display) error {
 	router := gin.Default()
 	loadAllFiles(router)
 	router.Use(middleware.CheckerAuthorizedUser(displayA), middleware.CheckerLanguageSelect(cfg.Host))
-	handlers.SetHandlers(router, cfg.Host, displayA, displayU, displayM)
+	handlers.SetHandlers(router, cfg.Host, webrtcCfg, displayA, displayU, displayM)
 	return router.Run(cfg.GetAddress())
 }
 

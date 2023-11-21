@@ -232,7 +232,7 @@ func TestDisconnectToMeeting(t *testing.T) {
 	}
 
 	testMock := func(t *testing.T, display meetingController.Display) {
-		display.DisconnectToMeeting(testMeetingID)
+		display.DisconnectFromMeeting(testMeetingID)
 	}
 
 	testingMockMeeting(t, initMock, testMock)

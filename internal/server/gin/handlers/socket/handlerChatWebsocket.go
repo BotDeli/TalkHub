@@ -1,4 +1,4 @@
-package handlers
+package socket
 
 import (
 	"TalkHub/internal/server/gin/params"
@@ -9,17 +9,12 @@ import (
 	"net/http"
 )
 
-type Message struct {
-	Sender string `json:"sender"`
-	Text   string `json:"text"`
-}
-
-var upgrader = websocket.Upgrader{
+var upgraderChat = websocket.Upgrader{
 	ReadBufferSize:  1024,
 	WriteBufferSize: 1024,
 }
 
-var connections = make(map[string][]*websocket.Conn)
+var chatConnections = make(map[string][]*websocket.Conn)
 
 func handlerChatWebsocket(displayM meetingController.Display) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
@@ -28,7 +23,7 @@ func handlerChatWebsocket(displayM meetingController.Display) gin.HandlerFunc {
 			return
 		}
 
-		conn, err := upgrader.Upgrade(ctx.Writer, ctx.Request, nil)
+		conn, err := upgraderChat.Upgrade(ctx.Writer, ctx.Request, nil)
 		if err != nil {
 			ctx.Status(http.StatusInternalServerError)
 			return
@@ -36,22 +31,21 @@ func handlerChatWebsocket(displayM meetingController.Display) gin.HandlerFunc {
 
 		defer conn.Close()
 
-		if _, ok := connections[meetingID]; ok {
-			connections[meetingID] = append(connections[meetingID], conn)
+		if _, ok := chatConnections[meetingID]; ok {
+			chatConnections[meetingID] = append(chatConnections[meetingID], conn)
 		} else {
-			connections[meetingID] = []*websocket.Conn{conn}
+			chatConnections[meetingID] = []*websocket.Conn{conn}
 		}
 
 		for {
-			var msg Message
-			err = conn.ReadJSON(&msg)
+			t, msg, err := conn.ReadMessage()
 			if err != nil {
 				log.Println(err)
 				break
 			}
 
-			for _, otherConn := range connections[meetingID] {
-				_ = otherConn.WriteJSON(msg)
+			for _, otherConn := range chatConnections[meetingID] {
+				_ = otherConn.WriteMessage(t, msg)
 			}
 		}
 	}

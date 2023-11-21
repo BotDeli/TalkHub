@@ -9,3 +9,8 @@ postgres:
   address: "localhost:5431"
   dbname: "postgres"
   sslmode: "disable"
+webrtc:
+  stun: "stun:127.0.0.1:3478"
+  turn: "turn:127.0.0.1:3478"
+  username: "username"
+  credential: "password"

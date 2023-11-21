@@ -126,7 +126,7 @@ func getCountConnectedToMeeting(m *MCDisplay, meetingID string) (int, error) {
 	return countConnected, nil
 }
 
-func (m *MCDisplay) DisconnectToMeeting(meetingID string) {
+func (m *MCDisplay) DisconnectFromMeeting(meetingID string) {
 	countConnected, err := getCountConnectedToMeeting(m, meetingID)
 	if err != nil {
 		return

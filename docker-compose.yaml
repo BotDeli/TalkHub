@@ -1,0 +1,13 @@
+version: '3'
+services:
+  coturn_server:
+    build: .
+    restart: always
+    ports:
+      - 3478:3478
+    networks:
+      - host-network
+
+networks:
+  host-network:
+    driver: bridge

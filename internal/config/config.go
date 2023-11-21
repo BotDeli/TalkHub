@@ -6,6 +6,7 @@ type Config struct {
 	Http     *HttpConfig     `yaml:"http" env-required:"true"`
 	Grpc     *GRPCConfig     `yaml:"grpc" env-required:"true"`
 	Postgres *PostgresConfig `yaml:"postgres" env-required:"true"`
+	Webrtc   *WebrtcConfig   `yaml:"webrtc" event-required:"true"`
 }
 
 type HttpConfig struct {
@@ -27,6 +28,13 @@ type PostgresConfig struct {
 	Address  string `yaml:"address" env-required:"true"`
 	Dbname   string `yaml:"dbname" env-required:"true"`
 	Sslmode  string `yaml:"sslmode" env-default:"false"`
+}
+
+type WebrtcConfig struct {
+	StunUrl    string `yaml:"stun" json:"stun" env-required:"true"`
+	TurnUrl    string `yaml:"turn" json:"turn" env-required:"true"`
+	Username   string `yaml:"username" json:"username" env-required:"true"`
+	Credential string `yaml:"credential" json:"credential" env-required:"true"`
 }
 
 func (cfg *PostgresConfig) GetSourceName() string {

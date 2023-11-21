@@ -1,64 +1,18 @@
-const streamUsersList = document.getElementById('stream-users-list');
 
-const userID = '1';
-
-Synchronizer = new StreamSynchronizer();
+// Synchronizer = new StreamSynchronizer();
 // for (var i = 0; i < 12; i++) {
-    const myVideoOutput = document.createElement('video');
-    myVideoOutput.autoplay = true;
-    myVideoOutput.className = 'stream-user';
-    streamUsersList.appendChild(myVideoOutput);
-    Synchronizer.addVideoOutput(userID, myVideoOutput);
+
+    // Synchronizer.addVideoOutput(userID, myVideoOutput);
 // }
 
-Synchronizer.synchronize();
+// Synchronizer.synchronize();
 
-window.addEventListener('resize', () => {
-    Synchronizer.synchronize();
-});
-
-const btnStreamMicrophone = document.getElementById('btn-stream-microphone');
-
-changerAudioStream = function() {
-    let activated = false;
-    return () => {
-        if (activated) {
-            Synchronizer.closeAudioStream(userID);
-            btnStreamMicrophone.className = 'stream-functionality-button stream-functionality-microphone-off'
-        } else {
-            Synchronizer.openAudioStream(userID);
-            btnStreamMicrophone.className = 'stream-functionality-button stream-functionality-microphone-on'
-        }
-        activated = !activated;
-    }
-}();
-
-const btnStreamWebCamera = document.getElementById('btn-stream-web-camera');
-
-changerVideoStream = function() {
-    let activated = false;
-    return () => {
-        if (activated) {
-            Synchronizer.closeVideoStream(userID);
-            btnStreamWebCamera.className = 'stream-functionality-button stream-functionality-web-camera-off'
-        } else {
-            Synchronizer.openVideoStream(userID);
-            btnStreamWebCamera.className = 'stream-functionality-button stream-functionality-web-camera-on'
-        }
-        activated = !activated;
-    }
-}();
-
-btnStreamMicrophone.addEventListener('click', () => {
-    changerAudioStream();
-})
-
-btnStreamWebCamera.addEventListener('click', () => {
-    changerVideoStream();
-})
+// window.addEventListener('resize', () => {
+    // Synchronizer.synchronize();
+// });
 
 
-const Chat = new ChatChannel(chatMessagesList);
+const Chat = new ChatChannel();
 
 const chatMessageInput = document.getElementById('chat-message-input');
 
@@ -77,7 +31,11 @@ window.addEventListener('keypress', (e) => {
     }
 })
 
+
+const Stream = new StreamChannel();
+
 document.getElementById('btn-connect-to-meeting').addEventListener('click', () => {
     Chat.initSocket();
+    Stream.initSocket();
     document.getElementById('pre-connect-panel').style.display = 'none';
 });
