@@ -35,6 +35,8 @@ type WebrtcConfig struct {
 	TurnUrl    string `yaml:"turn" json:"turn" env-required:"true"`
 	Username   string `yaml:"username" json:"username" env-required:"true"`
 	Credential string `yaml:"credential" json:"credential" env-required:"true"`
+	AudioCodec string `yaml:"audio_codec" json:"audio" env-required:"true"`
+	VideoCodec string `yaml:"video_codec" json:"video" env-required:"true"`
 }
 
 func (cfg *PostgresConfig) GetSourceName() string {

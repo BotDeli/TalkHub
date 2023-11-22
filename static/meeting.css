@@ -156,7 +156,7 @@ body {
 }
 
 .stream-functionality-microphone-on {
-    background-image: url(../images/icon-back-to-hub.svg);
+    background-image: url(../images/microphone.svg);
     background-position: -1px;
     background-color: var(--activated);
     border: 1px solid var(--activated);

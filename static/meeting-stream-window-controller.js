@@ -14,7 +14,7 @@ class StreamWindowController {
         });
     }
 
-    startNewStream(userID, username, stream) {
+    startNewStream(userID, username, stream, muted = false) {
         if (userID === undefined || username === undefined || stream === undefined) {
             return;
         }
@@ -29,9 +29,8 @@ class StreamWindowController {
 
         let video = document.createElement('video');
         video.className = 'stream-user';
-        video.style.width = '400px';
-        video.style.height = '300px';
         video.autoplay = true;
+        video.muted = muted;
         video.srcObject = stream;
         streamUsersList.appendChild(video);
 

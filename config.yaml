@@ -14,3 +14,5 @@ webrtc:
   turn: "turn:127.0.0.1:3478"
   username: "username"
   credential: "password"
+  audio_codec: "audio/G.711"
+  video_codec: "video/VP8"

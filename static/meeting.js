@@ -33,6 +33,7 @@ window.addEventListener('keypress', (e) => {
 
 
 const Stream = new StreamChannel();
+const Actives = new VideoAudioController(true, true);
 
 document.getElementById('btn-connect-to-meeting').addEventListener('click', () => {
     Chat.initSocket();
