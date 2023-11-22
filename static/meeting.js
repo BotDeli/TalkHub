@@ -1,17 +1,3 @@
-
-// Synchronizer = new StreamSynchronizer();
-// for (var i = 0; i < 12; i++) {
-
-    // Synchronizer.addVideoOutput(userID, myVideoOutput);
-// }
-
-// Synchronizer.synchronize();
-
-// window.addEventListener('resize', () => {
-    // Synchronizer.synchronize();
-// });
-
-
 const Chat = new ChatChannel();
 
 const chatMessageInput = document.getElementById('chat-message-input');

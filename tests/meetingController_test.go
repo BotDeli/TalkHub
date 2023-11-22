@@ -9,6 +9,8 @@ import (
 )
 
 const (
+	maxCountConnections = 4
+
 	testUserID    = "10203045fff"
 	testMeetingID = "fff1ds020fff"
 	testName      = "testMeetingName"
@@ -39,7 +41,10 @@ func testingMockMeeting(t *testing.T, initMock func(sqlmock.Sqlmock), testMock f
 
 	initMock(mockDB)
 
-	display := &meetingController.MCDisplay{PG: &postgres.Storage{DB: db}}
+	display := &meetingController.MCDisplay{
+		PG:                  &postgres.Storage{DB: db},
+		MaxCountConnections: maxCountConnections,
+	}
 
 	testMock(t, display)
 }
@@ -92,13 +97,13 @@ func newMeetingRows() *sqlmock.Rows {
 func TestSuccessfulGetMyMeetingsDontEmptyRows(t *testing.T) {
 	expectedMeetings := []meetingController.Meeting{
 		{testMeetingID, testName, testDate, false, 0},
-		{testMeetingID, testName, testDate, true, 4},
-		{testMeetingID, testName, testDate, false, 10},
-		{testMeetingID, testName, testDate, false, 12},
+		{testMeetingID, testName, testDate, false, 1},
+		{testMeetingID, testName, testDate, false, 2},
+		{testMeetingID, testName, testDate, false, 3},
+		{testMeetingID, testName, testDate, true, 0},
+		{testMeetingID, testName, testDate, true, 1},
 		{testMeetingID, testName, testDate, true, 2},
 		{testMeetingID, testName, testDate, true, 3},
-		{testMeetingID, testName, testDate, true, 1},
-		{testMeetingID, testName, testDate, false, 9},
 	}
 
 	initMock := func(mock sqlmock.Sqlmock) {
@@ -207,11 +212,11 @@ func TestErrorUpdateCountConnectedConnectedConnectToMeeting(t *testing.T) {
 
 func TestSuccessfulConnectToMeeting(t *testing.T) {
 	initMock := func(mock sqlmock.Sqlmock) {
-		rows := newRowsCountConnected(10)
+		rows := newRowsCountConnected(3)
 		mock.ExpectQuery("SELECT").WithArgs(testMeetingID).WillReturnRows(rows).WillReturnError(nil)
 
 		result := getEmptyResult()
-		mock.ExpectExec("UPDATE").WithArgs(testMeetingID, 11).WillReturnResult(result)
+		mock.ExpectExec("UPDATE").WithArgs(testMeetingID, 4).WillReturnResult(result)
 	}
 
 	testMock := func(t *testing.T, display meetingController.Display) {

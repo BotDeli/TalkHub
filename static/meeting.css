@@ -212,6 +212,10 @@ body {
     font-size: 14px;
 }
 
+.chat-message strong {
+    font-size: 12px;
+}
+
 .chat-panel-functionality {
     width: 100%;
     height: 50px;

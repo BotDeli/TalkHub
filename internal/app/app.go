@@ -22,7 +22,7 @@ func Start() {
 	defer pg.Close()
 
 	displayU := userController.InitDisplay(pg)
-	displayM := meetingController.InitDisplay(pg)
+	displayM := meetingController.InitDisplay(pg, cfg.Meeting)
 
 	log.Fatal(gin.StartGinServer(cfg.Http, cfg.Webrtc, displayA, displayU, displayM))
 }

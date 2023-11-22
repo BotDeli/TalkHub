@@ -9,6 +9,8 @@ postgres:
   address: "localhost:5431"
   dbname: "postgres"
   sslmode: "disable"
+meeting:
+  max_count_connections: 4
 webrtc:
   stun: "stun:127.0.0.1:3478"
   turn: "turn:127.0.0.1:3478"

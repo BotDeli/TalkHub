@@ -1,6 +1,7 @@
 package meetingController
 
 import (
+	"TalkHub/internal/config"
 	"TalkHub/internal/storage/postgres"
 	"TalkHub/pkg/generator"
 	"database/sql"
@@ -15,12 +16,16 @@ var (
 )
 
 type MCDisplay struct {
-	PG *postgres.Storage
+	PG                  *postgres.Storage
+	MaxCountConnections int
 }
 
-func InitDisplay(pg *postgres.Storage) Display {
+func InitDisplay(pg *postgres.Storage, cfg *config.MeetingConfig) Display {
 	initTable(pg.DB)
-	return &MCDisplay{PG: pg}
+	return &MCDisplay{
+		PG:                  pg,
+		MaxCountConnections: cfg.MaxCountConnections,
+	}
 }
 
 func initTable(db *sql.DB) {
@@ -97,7 +102,7 @@ func (m *MCDisplay) ConnectToMeeting(meetingID string) error {
 		return err
 	}
 
-	if countConnected >= 12 {
+	if countConnected >= m.MaxCountConnections {
 		return errMostCountConnected
 	}
 

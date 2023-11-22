@@ -6,6 +6,7 @@ type Config struct {
 	Http     *HttpConfig     `yaml:"http" env-required:"true"`
 	Grpc     *GRPCConfig     `yaml:"grpc" env-required:"true"`
 	Postgres *PostgresConfig `yaml:"postgres" env-required:"true"`
+	Meeting  *MeetingConfig  `yaml:"meeting" env-required:"true"`
 	Webrtc   *WebrtcConfig   `yaml:"webrtc" event-required:"true"`
 }
 
@@ -28,6 +29,10 @@ type PostgresConfig struct {
 	Address  string `yaml:"address" env-required:"true"`
 	Dbname   string `yaml:"dbname" env-required:"true"`
 	Sslmode  string `yaml:"sslmode" env-default:"false"`
+}
+
+type MeetingConfig struct {
+	MaxCountConnections int `yaml:"max_count_connections" env-required:"true"`
 }
 
 type WebrtcConfig struct {
