@@ -14,6 +14,7 @@ body {
 #await-meeting-panel {
     min-width: 200px;
     max-width: 200px;
+    min-height: 645px;
     background-color: var(--secondary-color);
     border: 2px solid var(--selected-color-1);
     outline: 5px solid var(--main-color);
@@ -207,33 +208,32 @@ body {
     border: 2px solid var(--selected-color-1);
     outline: 5px solid var(--main-color);
     margin: 5px;
+    padding: 2px;
     display: flex;
     flex-direction: column;
 }
 
 #description-pages-list {
-    height: 44px;
-    margin: 2px;
+    min-height: 50px;
+    max-height: 50px;
+    width: calc(100% - 10px);
+    margin: 2px 0 2px 0;
     display: flex;
     align-items: center;
     justify-content: start;
+    place-self: center;
     font-size: 20px;
     overflow-x: auto;
     overflow-y: hidden;
 }
 
-#description-pages-list::-webkit-scrollbar {
-    height: 5px;
-    width: 100%;
-}
-
-.scroll::-webkit-scrollbar-thumb {
-    background-color: lightgray;
-    border-radius: 5px;
+#description-page-info {
+    margin: 0;
 }
 
 .description-page {
-    height: 30px;
+    min-height: 30px;
+    max-height: 30px;
     margin-left: 5px;
     display: flex;
     align-items: center;
@@ -273,22 +273,7 @@ body {
     place-self: start;
     margin: 0;
     opacity: 0;
-}
-
-.btn-description-page-close:after {
-    position: absolute;
-    content: "";
-    height: 10px;
-    border-left: 2px solid gray;
-    transform: translate(5px, 2px) rotate(45deg);
-}
-
-.btn-description-page-close:before {
-    position: absolute;
-    content: "";
-    height: 10px;
-    border-left: 2px solid gray;
-    transform: translate(5px, 2px) rotate(135deg);
+    background-image: url(../images/icon-close.svg);
 }
 
 .description-pages-show-out {
@@ -314,6 +299,7 @@ body {
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
+    min-height: 425px;
 }
 
 h2 {
@@ -361,6 +347,10 @@ h2 {
 .create-meeting-data-input {
     font-size: 14px;
     margin: 2px;
+}
+
+#create-meeting-input-datetime {
+    min-height: 32px;
 }
 
 #btn-create-meeting {

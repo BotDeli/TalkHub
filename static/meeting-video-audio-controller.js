@@ -5,6 +5,8 @@ class VideoAudioController {
     constructor(video, audio) {
         this.videoActive = video;
         this.audioActive = audio;
+        this.screenActive = false;
+
         if (this.videoActive) {
             btnStreamWebCamera.className = 'stream-functionality-button stream-functionality-web-camera-on'
         } else {
@@ -36,32 +38,32 @@ class VideoAudioController {
     onVideo() {
         if (!this.videoActive) {
             this.videoActive = true;
-            updateTrackTransfer('video', true)
-            btnStreamWebCamera.className = 'stream-functionality-button stream-functionality-web-camera-on'
+            updateTrackTransfer('video', true);
+            btnStreamWebCamera.className = 'stream-functionality-button stream-functionality-web-camera-on';
         }
     }
 
     offVideo() {
         if (this.videoActive) {
             this.videoActive = false;
-            updateTrackTransfer('video', false)
-            btnStreamWebCamera.className = 'stream-functionality-button stream-functionality-web-camera-off'
+            updateTrackTransfer('video', false);
+            btnStreamWebCamera.className = 'stream-functionality-button stream-functionality-web-camera-off';
         }
     }
 
     onAudio() {
         if (!this.audioActive) {
             this.audioActive = true;
-            updateTrackTransfer('audio', true)
-            btnStreamMicrophone.className = 'stream-functionality-button stream-functionality-microphone-on'
+            updateTrackTransfer('audio', true);
+            btnStreamMicrophone.className = 'stream-functionality-button stream-functionality-microphone-on';
         }
     }
 
     offAudio() {
         if (this.audioActive) {
             this.audioActive = false;
-            updateTrackTransfer('audio', false)
-            btnStreamMicrophone.className = 'stream-functionality-button stream-functionality-microphone-off'
+            updateTrackTransfer('audio', false);
+            btnStreamMicrophone.className = 'stream-functionality-button stream-functionality-microphone-off';
         }
     }
 }

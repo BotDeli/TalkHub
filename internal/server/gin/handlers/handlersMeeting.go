@@ -18,6 +18,7 @@ func handlerCreateMeeting(displayM meetingController.Display) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		id := context.GetUserIDFromContext(ctx)
 		if id == nil {
+			ctx.Status(http.StatusUnauthorized)
 			return
 		}
 
@@ -43,6 +44,7 @@ func handlerGetMyMeetings(displayM meetingController.Display) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		id := context.GetUserIDFromContext(ctx)
 		if id == nil {
+			ctx.Status(http.StatusUnauthorized)
 			return
 		}
 
@@ -61,6 +63,7 @@ func handlerStartMeeting(displayM meetingController.Display) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		id := context.GetUserIDFromContext(ctx)
 		if id == nil {
+			ctx.Status(http.StatusUnauthorized)
 			return
 		}
 

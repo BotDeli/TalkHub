@@ -19,7 +19,7 @@ class StreamChannel {
             socket = new WebSocket(wsStreamURL);
 
             socket.onclose = () => {
-                window.location.reload();
+                // window.location.reload();
             };
 
             socket.onmessage = (event) => {
@@ -116,7 +116,7 @@ async function sendAnswer(peer, recipient, offer) {
 }
 
 function updateTrackTransfer(kind, enabled) {
-    peers.forEach((key, value) => {
+    peers.forEach((key) => {
         const sender = key.getSenders().find(sender => sender.track.kind === kind);
         if (sender) {
             sender.track.enabled = enabled;

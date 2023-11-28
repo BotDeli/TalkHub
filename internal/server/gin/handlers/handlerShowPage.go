@@ -1,19 +1,15 @@
 package handlers
 
 import (
-	"TalkHub/internal/api/accountControl"
 	"TalkHub/internal/server/gin/context"
 	"TalkHub/internal/server/gin/params"
 	"TalkHub/internal/storage/postgres/meetingController"
 	"TalkHub/internal/storage/postgres/userController"
-	"errors"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
 
-var errNotAuthorized = errors.New("not authorized")
-
-func handlerShowMainPage(displayA accountControl.Display) gin.HandlerFunc {
+func handlerShowMainPage() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		if value, _ := ctx.Get("lang"); value == "ru" {
 			redirectAuthorizedUsers(ctx, "ru-main.html", nil)
@@ -31,7 +27,7 @@ func redirectAuthorizedUsers(ctx *gin.Context, nameHtml string, obj any) {
 	}
 }
 
-func handlerShowRegistrationPage(displayA accountControl.Display) gin.HandlerFunc {
+func handlerShowRegistrationPage() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		if value, _ := ctx.Get("lang"); value == "ru" {
 			redirectAuthorizedUsers(ctx, "ru-registration.html", nil)
@@ -45,6 +41,7 @@ func handlerShowHubPage(displayU userController.Display) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		id := context.GetUserIDFromContext(ctx)
 		if id == nil {
+			ctx.Status(http.StatusUnauthorized)
 			ctx.Redirect(http.StatusTemporaryRedirect, "/")
 			return
 		}

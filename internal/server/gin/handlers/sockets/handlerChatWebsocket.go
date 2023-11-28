@@ -1,4 +1,4 @@
-package socket
+package sockets
 
 import (
 	"TalkHub/internal/server/gin/params"

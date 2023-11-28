@@ -7,6 +7,7 @@ import (
 	"TalkHub/internal/storage/postgres"
 	"TalkHub/internal/storage/postgres/meetingController"
 	"TalkHub/internal/storage/postgres/userController"
+	"TalkHub/internal/tempStorage/tempUserID"
 	"log"
 )
 
@@ -22,7 +23,8 @@ func Start() {
 	defer pg.Close()
 
 	displayU := userController.InitDisplay(pg)
+	displayTU := tempUserID.InitDisplay(displayU)
 	displayM := meetingController.InitDisplay(pg, cfg.Meeting)
 
-	log.Fatal(gin.StartGinServer(cfg.Http, cfg.Webrtc, displayA, displayU, displayM))
+	log.Fatal(gin.StartGinServer(cfg.Http, cfg.Webrtc, displayA, displayU, displayTU, displayM))
 }

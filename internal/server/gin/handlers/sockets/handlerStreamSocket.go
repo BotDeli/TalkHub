@@ -1,11 +1,12 @@
-package socket
+package sockets
 
 import (
 	"TalkHub/internal/server/gin/context"
 	"TalkHub/internal/server/gin/params"
 	"TalkHub/internal/storage/postgres/meetingController"
 	"TalkHub/internal/storage/postgres/userController"
-	"TalkHub/pkg/generator"
+	"TalkHub/internal/tempStorage/tempUserID"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
 	"net/http"
@@ -22,7 +23,7 @@ type StreamMessage struct {
 
 var streamConnections = make(map[string]map[any]*websocket.Conn)
 
-func handlerStreamSocket(displayU userController.Display, displayM meetingController.Display) gin.HandlerFunc {
+func handlerStreamSocket(displayU userController.Display, displayTU tempUserID.Display, displayM meetingController.Display) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		meetingID := params.GetParamsMeetingId(ctx, displayM)
 		if meetingID == "" {
@@ -36,7 +37,10 @@ func handlerStreamSocket(displayU userController.Display, displayM meetingContro
 
 		defer closeSocketConnection(conn)
 
-		var username string
+		var (
+			username string
+			err      error
+		)
 		userID := context.GetUserIDFromContext(ctx)
 
 		if userID != nil {
@@ -47,21 +51,29 @@ func handlerStreamSocket(displayU userController.Display, displayM meetingContro
 			}
 
 		} else {
-			userID = getTempUserID()
+			userID, err = displayTU.TakeTempUserID()
+			if err != nil {
+				ctx.Status(http.StatusConflict)
+				return
+			}
 		}
 
 		if username == "" {
 			username = "Guest"
 		}
 
-		err := NotifyConnect(conn, meetingID, username, userID, displayM)
+		fmt.Println(userID, username)
+
+		err = NotifyConnect(conn, meetingID, username, userID, displayM)
+
+		fmt.Println(err)
 
 		if err != nil {
 			ctx.Status(http.StatusLocked)
 			return
 		}
 
-		go AwaitNotifyDisconnect(conn, meetingID, username, userID, displayM)
+		go AwaitNotifyDisconnect(conn, meetingID, username, userID, displayTU, displayM)
 
 		var msg StreamMessage
 
@@ -84,10 +96,6 @@ func handlerStreamSocket(displayU userController.Display, displayM meetingContro
 			}
 		}
 	}
-}
-
-func getTempUserID() string {
-	return generator.NewUUIDDigitsLetters()
 }
 
 func NotifyConnect(conn *websocket.Conn, meetingID, username string, userID any, displayM meetingController.Display) error {
@@ -123,7 +131,7 @@ func addConnToStreamConnections(conn *websocket.Conn, meetingID string, userID a
 	}
 }
 
-func AwaitNotifyDisconnect(conn *websocket.Conn, meetingID, username string, userID any, displayM meetingController.Display) {
+func AwaitNotifyDisconnect(conn *websocket.Conn, meetingID, username string, userID any, displayTU tempUserID.Display, displayM meetingController.Display) {
 	var err error
 	for err == nil {
 		time.Sleep(5 * time.Second)
@@ -143,4 +151,5 @@ func AwaitNotifyDisconnect(conn *websocket.Conn, meetingID, username string, use
 	}
 
 	displayM.DisconnectFromMeeting(meetingID)
+	displayTU.GiveTempUserID(userID)
 }

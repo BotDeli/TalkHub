@@ -10,12 +10,15 @@ const pageShowOutTime = document.getElementById('description-settings-meeting-ti
 
 const btnStartMeeting = document.getElementById('btn-settings-meeting-start-meeting');
 const btnCancelMeeting = document.getElementById('btn-settings-meeting-cancel-meeting');
-document.getElementById('description-page-info').addEventListener("click", () => {
+document.getElementById('description-page-info').addEventListener("click", showInfoPage);
+
+function showInfoPage() {
     pageShowOut.style.display = "none";
     pageInfo.style.display = "flex";
-});
+}
 
 let openedPages = {};
+let openedPagesObjects = {};
 
 class PageController {
     constructor() {}
@@ -38,7 +41,7 @@ class PageController {
             pageInfo.style.display = "none";
         });
 
-        btnStartMeeting.onclick = () => {
+        btnStartMeeting.addEventListener('click', () => {
             fetch("/startMeeting", {
                 method: "UPDATE",
                 headers: {
@@ -55,11 +58,12 @@ class PageController {
                     alert(`Error updating meeting, status ${response.status}`);
                 }
             })
-        }
+        })
 
-        btnCancelMeeting.onclick = () => {
-            console.log("end", id);
-        }
+        btnCancelMeeting.addEventListener("click", (e) => {
+            e.stopPropagation();
+            closePageFromID(page, id);
+        });
 
         let div = document.createElement('div');
         div.innerText = name;
@@ -69,13 +73,25 @@ class PageController {
         div.className = 'btn-description-page-close';
         div.addEventListener("click", (e) => {
             e.stopPropagation();
-            page.remove();
-            openedPages[id] = false;
+            closePageFromID(page, id);
         });
         page.appendChild(div);
 
         pagesList.appendChild(page);
+        openedPagesObjects[id] = page;
     }
+
+    openPageFromID(id) {
+        if (openedPagesObjects[id]) {
+            openedPagesObjects[id].click();
+        }
+    }
+}
+
+function closePageFromID(page, id) {
+    page.remove();
+    openedPages[id] = false;
+    showInfoPage();
 }
 
 function setDateText(node, datetime) {

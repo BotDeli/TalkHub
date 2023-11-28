@@ -1,7 +1,7 @@
 const awaitMeetings = document.getElementById('await-meetings-list');
 const Pages = new PageController();
 
-class AwaitMeetingsList {
+class MeetingAwaitMeetingsList {
     constructor() {
         awaitMeetings.innerHTML = "";
     }
@@ -49,5 +49,6 @@ class AwaitMeetingsList {
         });
 
         awaitMeetings.appendChild(meeting);
+        return meeting;
     }
 }

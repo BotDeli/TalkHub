@@ -1,9 +1,9 @@
-new ControllerPopupFromInputCells('input-cell input-cell-create-meeting', 'input-cell-popup-text input-cell-popup-text-create-meeting');
+const controller = new ControllerPopupFromInputCells('input-cell input-cell-create-meeting', 'input-cell-popup-text input-cell-popup-text-create-meeting');
 
 const meetingName = document.getElementById('create-meeting-input-name');
 const meetingDatetime = document.getElementById('create-meeting-input-datetime');
 
-const awaitMeetingsList = new AwaitMeetingsList();
+const awaitMeetingsList = new MeetingAwaitMeetingsList();
 meetingDatetime.value = getCurrentFormattedDate();
 
 const errorOut = document.getElementById('create-meeting-error-out');
@@ -25,7 +25,12 @@ document.getElementById('btn-create-meeting').addEventListener('click', () => {
             if (response.status === 201) {
                 let json = response.json();
                 json.then(data => {
-                    awaitMeetingsList.addMeeting(data.id, meetingName.value, new Date(meetingDatetime.value), false)
+                    const meeting = awaitMeetingsList.addMeeting(data.id, meetingName.value, new Date(meetingDatetime.value), false)
+                    meetingName.value = "";
+                    meetingDatetime.value = getCurrentFormattedDate();
+                    controller.defaultSettings();
+                    meeting.click();
+                    Pages.openPageFromID(data.id);
                 })
             } else {
                 errorOut.innerText = "Error create meeting";

@@ -3,7 +3,6 @@ package userController
 import (
 	"TalkHub/internal/storage/postgres"
 	"database/sql"
-	"fmt"
 	"log"
 )
 
@@ -57,7 +56,6 @@ func scanUserInfo(rows *sql.Rows) (*User, error) {
 	var u User
 	rows.Next()
 	err := rows.Scan(&u.Id, &u.UserIcon, &u.FirstName, &u.LastName, &u.Email)
-	fmt.Println(err)
 	if err != nil {
 		return nil, err
 	}

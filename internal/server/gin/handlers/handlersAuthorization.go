@@ -6,7 +6,6 @@ import (
 	"TalkHub/internal/server/gin/cookie"
 	"TalkHub/internal/storage/postgres/userController"
 	"TalkHub/pkg/decoder"
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
@@ -26,7 +25,6 @@ type SignInData struct {
 func handlerSignUp(host string, displayA accountControl.Display, displayU userController.Display) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		data := getSignUpData(ctx)
-		fmt.Println(data)
 		if data == nil {
 			ctx.Status(http.StatusBadRequest)
 			return

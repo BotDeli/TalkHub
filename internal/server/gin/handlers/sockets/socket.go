@@ -1,17 +1,18 @@
-package socket
+package sockets
 
 import (
 	"TalkHub/internal/storage/postgres/meetingController"
 	"TalkHub/internal/storage/postgres/userController"
+	"TalkHub/internal/tempStorage/tempUserID"
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
 	"log"
 	"net/http"
 )
 
-func SetSocketHandlers(router *gin.Engine, displayU userController.Display, displayM meetingController.Display) {
+func SetSocketHandlers(router *gin.Engine, displayU userController.Display, displayTU tempUserID.Display, displayM meetingController.Display) {
 	router.GET("/meeting/:id/chat", handlerChatWebsocket(displayM))
-	router.GET("/meeting/:id/stream", handlerStreamSocket(displayU, displayM))
+	router.GET("/meeting/:id/stream", handlerStreamSocket(displayU, displayTU, displayM))
 }
 
 var upgrader = websocket.Upgrader{
@@ -31,6 +32,6 @@ func upgradeContextToSocketConnection(ctx *gin.Context) *websocket.Conn {
 func closeSocketConnection(conn *websocket.Conn) {
 	err := conn.Close()
 	if err != nil {
-		log.Printf("Error closing socket connection: %v", err)
+		log.Printf("Error closing sockets connection: %v", err)
 	}
 }

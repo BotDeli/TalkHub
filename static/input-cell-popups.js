@@ -24,13 +24,17 @@ class ControllerPopupFromInputCells {
 
             let inputType = targetInput.getAttribute("type");
             if (isTypeDatetime(inputType)) {
+                popup.style.zIndex = '2';
+            }
+
+            if (popup.style.zIndex === '2') {
                 popup.style.animation = `flyAway ${timeAnimation} forwards`;
             }
 
             targetInput.addEventListener('focusin', () => {
                 this.inputCells[i].style.borderBottomColor = 'blueviolet';
                 popup.style.color = 'black';
-                if (!isTypeDatetime(inputType)) {
+                if (popup.style.zIndex !== '2') {
                     popup.style.animation = `flyAway ${timeAnimation} forwards`;
                 }
             });
@@ -42,7 +46,7 @@ class ControllerPopupFromInputCells {
                 if (targetInput.value === "") {
                     this.inputCells[i].style.borderBottomColor = 'black';
                     popup.style.color = 'black';
-                    if (!isTypeDatetime(inputType)) {
+                    if (popup.style.zIndex !== '2') {
                         popup.style.animation = `flyAwayReversed ${timeAnimation} forwards`;
                     }
                 } else if (checkFunction(targetInput.value)) {
@@ -55,6 +59,19 @@ class ControllerPopupFromInputCells {
             });
         }
     }
+
+     defaultSettings() {
+        Object.values(this.inputCells).forEach(value => {
+            value.style.borderBottomColor = 'black';
+        });
+        Object.values(this.popupsText).forEach(value => {
+            value.style.color = 'black';
+
+            if (value.style.zIndex !== '2') {
+                value.style.animation = `flyAwayReversed ${timeAnimation} forwards`;
+            }
+        })
+     }
 }
 
 function isTypeDatetime(type) {
