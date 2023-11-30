@@ -331,7 +331,7 @@ h2 {
     padding-top: 30px;
 }
 
-.create-meeting-inputs {
+.create-meeting-inputs, .change-settings-meeting-inputs {
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -340,20 +340,20 @@ h2 {
     margin: 5px;
 }
 
-.create-meeting-inputs * {
+.create-meeting-inputs *, .change-settings-meeting-inputs *{
     width: 80%;
 }
 
-.create-meeting-data-input {
+.create-meeting-data-input, .change-settings-meeting-data-input {
     font-size: 14px;
     margin: 2px;
 }
 
-#create-meeting-input-datetime {
+#create-meeting-input-datetime, #change-settings-meeting-input-datetime {
     min-height: 32px;
 }
 
-#btn-create-meeting {
+#btn-create-meeting, #btn-change-settings-meeting-name, #btn-change-settings-meeting-datetime {
     width: calc(80% + 10px);
     margin: 5px 2px 2px 2px;
     padding: 4px;
@@ -417,4 +417,8 @@ h2 {
     font-size: 20px;
     background-color: var(--deactivated);
     border-radius: 5px;
+}
+
+#btn-change-settings-meeting-name {
+    margin-bottom: 30px;
 }

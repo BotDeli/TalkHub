@@ -5,7 +5,6 @@ class VideoAudioController {
     constructor(video, audio) {
         this.videoActive = video;
         this.audioActive = audio;
-        this.screenActive = false;
 
         if (this.videoActive) {
             btnStreamWebCamera.className = 'stream-functionality-button stream-functionality-web-camera-on'

@@ -1,3 +1,22 @@
+let userID, username;
+getUserData();
+
+function getUserData() {
+    fetch('/getUserData', {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+        }
+    }).then(response => {
+        if (response && isStatusOK(response)) {
+            response.json().then(data => {
+                userID = data.userID;
+                username = data.username;
+            })
+        }
+    })
+}
+
 let webRTCConfig;
 getWebrtcConfig();
 

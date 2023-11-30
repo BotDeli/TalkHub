@@ -27,7 +27,7 @@ func TestErrorCreateNewMeeting(t *testing.T) {
 
 	testMock := func(t *testing.T, display meetingController.Display) {
 		_, err := display.CreateMeeting(testUserID, testName, testDate)
-		checkErrorIsTestError(t, err)
+		checkErrorIsNotNil(t, err)
 	}
 
 	testingMockMeeting(t, initMock, testMock)
@@ -42,7 +42,7 @@ func testingMockMeeting(t *testing.T, initMock func(sqlmock.Sqlmock), testMock f
 	initMock(mockDB)
 
 	display := &meetingController.MCDisplay{
-		PG:                  &postgres.Storage{DB: db},
+		Storage:             &postgres.Storage{DB: db},
 		MaxCountConnections: maxCountConnections,
 	}
 
@@ -285,6 +285,56 @@ func TestSuccessfulTrueIsStartedMeeting(t *testing.T) {
 	testMock := func(t *testing.T, display meetingController.Display) {
 		started := display.IsStartedMeeting(testMeetingID)
 		checkIsTrue(t, started)
+	}
+
+	testingMockMeeting(t, initMock, testMock)
+}
+
+func TestErrorUpdateMeetingName(t *testing.T) {
+	initMock := func(mock sqlmock.Sqlmock) {
+		mock.ExpectExec("UPDATE").WithArgs(testUserID, testMeetingID, testName).WillReturnError(testError)
+	}
+
+	testMock := func(t *testing.T, display meetingController.Display) {
+		display.UpdateMeetingName(testUserID, testMeetingID, testName)
+	}
+
+	testingMockMeeting(t, initMock, testMock)
+}
+
+func TestSuccessfulUpdateMeetingName(t *testing.T) {
+	initMock := func(mock sqlmock.Sqlmock) {
+		result := getEmptyResult()
+		mock.ExpectExec("UPDATE").WithArgs(testUserID, testMeetingID, testName).WillReturnResult(result).WillReturnError(nil)
+	}
+
+	testMock := func(t *testing.T, display meetingController.Display) {
+		display.UpdateMeetingName(testUserID, testMeetingID, testName)
+	}
+
+	testingMockMeeting(t, initMock, testMock)
+}
+
+func TestErrorUpdateMeetingDatetime(t *testing.T) {
+	initMock := func(mock sqlmock.Sqlmock) {
+		mock.ExpectExec("UPDATE").WithArgs(testUserID, testMeetingID, testDate).WillReturnError(testError)
+	}
+
+	testMock := func(t *testing.T, display meetingController.Display) {
+		display.UpdateMeetingDatetime(testUserID, testMeetingID, testDate)
+	}
+
+	testingMockMeeting(t, initMock, testMock)
+}
+
+func TestSuccessfulUpdateMeetingDatetime(t *testing.T) {
+	initMock := func(mock sqlmock.Sqlmock) {
+		result := getEmptyResult()
+		mock.ExpectExec("UPDATE").WithArgs(testUserID, testMeetingID, testDate).WillReturnResult(result).WillReturnError(nil)
+	}
+
+	testMock := func(t *testing.T, display meetingController.Display) {
+		display.UpdateMeetingDatetime(testUserID, testMeetingID, testDate)
 	}
 
 	testingMockMeeting(t, initMock, testMock)

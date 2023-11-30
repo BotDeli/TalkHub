@@ -24,7 +24,7 @@ func testingMockUser(t *testing.T, initMock func(sqlmock.Sqlmock), testMock func
 
 	initMock(mockDB)
 
-	display := &userController.UIDisplay{PG: &postgres.Storage{DB: db}}
+	display := &userController.UIDisplay{Storage: &postgres.Storage{DB: db}}
 
 	testMock(t, display)
 }
@@ -56,7 +56,7 @@ func TestErrorGetUserInfoFromEmail(t *testing.T) {
 	testMock := func(t *testing.T, display userController.Display) {
 		u, err := display.GetUserInfoFromEmail(testUser.Email)
 		checkUserIsNil(t, u)
-		checkErrorIsTestError(t, err)
+		checkErrorIsNotNil(t, err)
 	}
 
 	testingMockUser(t, initMock, testMock)

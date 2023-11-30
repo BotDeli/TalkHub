@@ -81,32 +81,15 @@ func handlerShowSettingsPage(displayU userController.Display) gin.HandlerFunc {
 
 var guestID = 1
 
-func handlerShowMeetingPage(displayM meetingController.Display, displayU userController.Display) gin.HandlerFunc {
+func handlerShowMeetingPage(displayM meetingController.Display) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		meetingID := params.GetParamsMeetingId(ctx, displayM)
 		if meetingID == "" {
 			return
 		}
 
-		username := "Guest"
-
-		id := context.GetUserIDFromContext(ctx)
-		if id == nil {
-			id = guestID
-			guestID++
-		} else {
-			user, err := displayU.GetUserInfoFromID(id)
-			if err == nil {
-				username = user.FirstName + " " + user.LastName
-			} else {
-				guestID++
-				id = guestID
-			}
-		}
-
 		ctx.HTML(http.StatusOK, "meeting.html", gin.H{
-			"Username": username,
-			"UserID":   id,
+			"NumberRoom": meetingID,
 		})
 	}
 }

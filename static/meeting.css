@@ -124,6 +124,7 @@ body {
 .stream-user {
     border-radius: 5px;
     margin: 1px;
+    background-color: gray;
 }
 
 .stream-functionality {

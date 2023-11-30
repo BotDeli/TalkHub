@@ -16,14 +16,14 @@ var (
 )
 
 type MCDisplay struct {
-	PG                  *postgres.Storage
+	*postgres.Storage
 	MaxCountConnections int
 }
 
 func InitDisplay(pg *postgres.Storage, cfg *config.MeetingConfig) Display {
 	initTable(pg.DB)
 	return &MCDisplay{
-		PG:                  pg,
+		Storage:             pg,
 		MaxCountConnections: cfg.MaxCountConnections,
 	}
 }
@@ -45,12 +45,12 @@ func initTable(db *sql.DB) {
 func (m *MCDisplay) CreateMeeting(ownerUserID string, name string, date time.Time) (string, error) {
 	query := `INSERT INTO meetings (id, name, datetime, started, count_connected, owner_id) VALUES ($1, $2, $3, $4, $5, $6)`
 	id := generator.NewUUIDDigitsLetters()
-	_, err := m.PG.DB.Exec(query, id, name, date, false, 0, ownerUserID)
+	_, err := m.DB.Exec(query, id, name, date, false, 0, ownerUserID)
 	return id, err
 }
 func (m *MCDisplay) GetMyMeetings(ownerUserID string) []Meeting {
 	query := `SELECT id, name, datetime, started, count_connected FROM meetings WHERE owner_id = $1`
-	rows, err := m.PG.DB.Query(query, ownerUserID)
+	rows, err := m.DB.Query(query, ownerUserID)
 	if err != nil {
 		return []Meeting{}
 	}
@@ -88,12 +88,12 @@ func scanMeetingsFromRows(rows *sql.Rows) []Meeting {
 
 func (m *MCDisplay) StartMeeting(ownerUserID, meetingID string) {
 	query := `UPDATE meetings SET started = true WHERE owner_id = $1 AND id = $2`
-	_, _ = m.PG.DB.Exec(query, ownerUserID, meetingID)
+	_, _ = m.DB.Exec(query, ownerUserID, meetingID)
 }
 
 func (m *MCDisplay) EndMeeting(ownerUserID, meetingID string) {
 	query := `DELETE FROM meetings WHERE owner_id = $1 AND id = $2`
-	_, _ = m.PG.DB.Exec(query, ownerUserID, meetingID)
+	_, _ = m.DB.Exec(query, ownerUserID, meetingID)
 }
 
 func (m *MCDisplay) ConnectToMeeting(meetingID string) error {
@@ -107,7 +107,7 @@ func (m *MCDisplay) ConnectToMeeting(meetingID string) error {
 	}
 
 	query := `UPDATE meetings SET count_connected = $2 WHERE id = $1`
-	_, err = m.PG.DB.Exec(query, meetingID, countConnected+1)
+	_, err = m.DB.Exec(query, meetingID, countConnected+1)
 	if err != nil {
 		return errMeetingNotCreated
 	}
@@ -116,7 +116,7 @@ func (m *MCDisplay) ConnectToMeeting(meetingID string) error {
 
 func getCountConnectedToMeeting(m *MCDisplay, meetingID string) (int, error) {
 	query := `SELECT count_connected FROM meetings WHERE id = $1`
-	rows, err := m.PG.DB.Query(query, meetingID)
+	rows, err := m.DB.Query(query, meetingID)
 	if err != nil {
 		return 0, errMeetingNotCreated
 	}
@@ -139,13 +139,13 @@ func (m *MCDisplay) DisconnectFromMeeting(meetingID string) {
 
 	if countConnected >= 1 {
 		query := `UPDATE meetings SET count_connected = $2 WHERE id = $1`
-		_, _ = m.PG.DB.Exec(query, meetingID, countConnected-1)
+		_, _ = m.DB.Exec(query, meetingID, countConnected-1)
 	}
 }
 
 func (m *MCDisplay) IsStartedMeeting(meetingID string) bool {
 	query := `SELECT started FROM meetings WHERE id = $1`
-	rows, err := m.PG.DB.Query(query, meetingID)
+	rows, err := m.DB.Query(query, meetingID)
 	if err != nil {
 		return false
 	}
@@ -154,4 +154,14 @@ func (m *MCDisplay) IsStartedMeeting(meetingID string) bool {
 	rows.Next()
 	_ = rows.Scan(&started)
 	return started
+}
+
+func (m *MCDisplay) UpdateMeetingName(ownerUserID, meetingID, newName string) {
+	query := `UPDATE meetings SET name = $3 WHERE owner_id = $1 AND id = $2`
+	_, _ = m.DB.Exec(query, ownerUserID, meetingID, newName)
+}
+
+func (m *MCDisplay) UpdateMeetingDatetime(ownerUserID, meetingID string, newDate time.Time) {
+	query := `UPDATE meetings SET datetime = $3 WHERE owner_id = $1 AND id = $2`
+	_, _ = m.DB.Exec(query, ownerUserID, meetingID, newDate)
 }

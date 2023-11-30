@@ -7,7 +7,6 @@ const pageShowOutName = document.getElementById('description-settings-meeting-na
 const pageShowOutDate = document.getElementById('description-settings-meeting-date');
 const pageShowOutTime = document.getElementById('description-settings-meeting-time');
 
-
 const btnStartMeeting = document.getElementById('btn-settings-meeting-start-meeting');
 const btnCancelMeeting = document.getElementById('btn-settings-meeting-cancel-meeting');
 document.getElementById('description-page-info').addEventListener("click", showInfoPage);
@@ -19,6 +18,8 @@ function showInfoPage() {
 
 let openedPages = {};
 let openedPagesObjects = {};
+
+let awaitMeetingsList;
 
 class PageController {
     constructor() {}
@@ -41,7 +42,7 @@ class PageController {
             pageInfo.style.display = "none";
         });
 
-        btnStartMeeting.addEventListener('click', () => {
+        btnStartMeeting.onclick = () => {
             fetch("/startMeeting", {
                 method: "UPDATE",
                 headers: {
@@ -51,19 +52,32 @@ class PageController {
                 body: JSON.stringify({
                     'id': id,
                 })
-            }).then((response) => {
+            }).then(response => {
                 if (response.status === 202) {
                     redirectToMeetingCode(id);
                 } else {
                     alert(`Error updating meeting, status ${response.status}`);
                 }
             })
-        })
+        };
 
-        btnCancelMeeting.addEventListener("click", (e) => {
+        btnCancelMeeting.onclick = (e) => {
             e.stopPropagation();
             closePageFromID(page, id);
-        });
+            fetch('/cancelMeeting', {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    'id': id,
+                })
+            }).then(response => {
+                if (response.status === 202 && awaitMeetingsList) {
+                    awaitMeetingsList.removeMeeting(id);
+                }
+            });
+        };
 
         let div = document.createElement('div');
         div.innerText = name;
@@ -76,6 +90,46 @@ class PageController {
             closePageFromID(page, id);
         });
         page.appendChild(div);
+
+        btnChangeMeetingName.onclick = () => {
+            if (onlyLetters(changeMeetingName.value)) {
+                const newName = changeMeetingName.value;
+                fetch('/changeMeetingName', {
+                    method: 'UPDATE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        'id': id,
+                        'newName': newName,
+                    }),
+                }).then(response => {
+                    if (response.status === 202 && awaitMeetingsList) {
+                        awaitMeetingsList.updateMeeting(id, newName)
+                    }
+                });
+            }
+        };
+
+        btnChangeMeetingDatetime.onclick = () => {
+            if (datetimeInTheFuture(changeMeetingDatetime.value)) {
+               const newDatetime = new Date(changeMeetingDatetime.value);
+               fetch('/changeMeetingDatetime', {
+                   method: 'UPDATE',
+                   headers: {
+                       'Content-Type': 'application/json',
+                   },
+                   body: JSON.stringify({
+                       'id': id,
+                       'newDatetime': newDatetime,
+                   })
+               }).then(response => {
+                   if (response.status === 202 && awaitMeetingsList) {
+                       awaitMeetingsList.updateMeeting(id, null, newDatetime)
+                   }
+               });
+            }
+        }
 
         pagesList.appendChild(page);
         openedPagesObjects[id] = page;

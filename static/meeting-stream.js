@@ -10,53 +10,56 @@ const wsStreamURL = `ws://${window.location.host}${window.location.pathname}/str
 const peers = new Map();
 
 let localStream;
+navigator.mediaDevices.getUserMedia({video: true, audio: true})
+    .then(stream => {
+        localStream = stream;
+    })
+    .catch(err => {
+    localStream = new MediaStream();
+})
+
 let socket;
 
 class StreamChannel {
     constructor() {}
     initSocket() {
-        start().then(() => {
-            socket = new WebSocket(wsStreamURL);
+        streamWindowController.startNewStream(userID, username, localStream, true);
 
-            socket.onclose = () => {
-                // window.location.reload();
-            };
+        socket = new WebSocket(wsStreamURL);
 
-            socket.onmessage = (event) => {
-                const msg = JSON.parse(event.data);
+        socket.onclose = () => {
+            window.location.reload();
+        };
 
-                let peer = peers.get(msg.sender);
-                if (!peer) {
-                    peer = makeNewPeerConnection(msg.sender, msg.username);
+        socket.onmessage = (event) => {
+            const msg = JSON.parse(event.data);
+
+            let peer = peers.get(msg.sender);
+            if (!peer) {
+                peer = makeNewPeerConnection(msg.sender, msg.username);
+            }
+
+            if (msg.action === '0') {
+                removeUser(msg.sender);
+            } else if (msg.action === '1') {
+                sendOffer(peer, msg.sender);
+            } else if (msg.action === '2') {
+                const offer = JSON.parse(msg.data);
+
+                sendAnswer(peer, msg.sender, offer);
+            } else if (msg.action === '3') {
+                const answer = JSON.parse(msg.data);
+
+                peer.setRemoteDescription(answer);
+            } else if (msg.action === '4') {
+                const candidate = JSON.parse(msg.data);
+
+                if (peer !== undefined) {
+                    addIceCandidate(peer, candidate);
                 }
-
-                if (msg.action === '0') {
-                    removeUser(msg.sender);
-                } else if (msg.action === '1') {
-                    sendOffer(peer, msg.sender);
-                } else if (msg.action === '2') {
-                    const offer = JSON.parse(msg.data);
-
-                    sendAnswer(peer, msg.sender, offer);
-                } else if (msg.action === '3') {
-                    const answer = JSON.parse(msg.data);
-
-                    peer.setRemoteDescription(answer);
-                } else if (msg.action === '4') {
-                    const candidate = JSON.parse(msg.data);
-
-                    if (peer !== undefined) {
-                        addIceCandidate(peer, candidate);
-                    }
-                }
-            };
-        });
+            }
+        };
     }
-}
-
-async function start() {
-    localStream = await navigator.mediaDevices.getUserMedia({video: true, audio: true});
-    streamWindowController.startNewStream(userID, username, localStream, true);
 }
 
 function removeUser(sender) {
@@ -76,6 +79,8 @@ function makeNewPeerConnection(sender, senderUsername) {
     peer.ontrack = (event) => {
         streamWindowController.startNewStream(sender, senderUsername, event.streams[0]);
     };
+
+    streamWindowController.startNewStream(sender, senderUsername, new MediaStream());
 
     peers.set(sender, peer);
     return peer;

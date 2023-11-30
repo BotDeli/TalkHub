@@ -21,7 +21,7 @@ class ChatChannel {
         };
 
         socket.onclose = () => {
-            // window.location.reload();
+            window.location.reload();
         };
 
         this.socket = socket;

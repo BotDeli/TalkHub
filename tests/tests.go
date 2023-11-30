@@ -13,12 +13,6 @@ func getEmptyResult() driver.Result {
 	return sqlmock.NewResult(0, 0)
 }
 
-func checkErrorIsTestError(t *testing.T, err error) {
-	if err != testError {
-		t.Error("expected test error, got", err)
-	}
-}
-
 func checkErrorIsNotNil(t *testing.T, err error) {
 	if err == nil {
 		t.Error("expected error, got", err)

@@ -35,7 +35,7 @@ document.getElementById('btn-go-account').addEventListener('click', () => {
                 'email': email.value,
                 'password': password.value,
             })
-        }).then((response) => {
+        }).then(response => {
             if (response.status === 201) {
                 window.location.reload();
             } else {

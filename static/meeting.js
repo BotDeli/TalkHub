@@ -17,7 +17,6 @@ window.addEventListener('keypress', (e) => {
     }
 })
 
-
 const Stream = new StreamChannel();
 const Actives = new VideoAudioController(true, true);
 

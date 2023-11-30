@@ -10,6 +10,8 @@ type Display interface {
 	ConnectToMeeting(meetingID string) error
 	DisconnectFromMeeting(meetingID string)
 	IsStartedMeeting(meetingID string) bool
+	UpdateMeetingName(ownerUserID, meetingID, newName string)
+	UpdateMeetingDatetime(ownerUserID, meetingID string, newDate time.Time)
 }
 
 type Meeting struct {

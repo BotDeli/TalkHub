@@ -6,7 +6,6 @@ import (
 	"TalkHub/internal/storage/postgres/meetingController"
 	"TalkHub/internal/storage/postgres/userController"
 	"TalkHub/internal/tempStorage/tempUserID"
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
 	"net/http"
@@ -62,24 +61,21 @@ func handlerStreamSocket(displayU userController.Display, displayTU tempUserID.D
 			username = "Guest"
 		}
 
-		fmt.Println(userID, username)
+		time.Sleep(time.Second)
 
 		err = NotifyConnect(conn, meetingID, username, userID, displayM)
-
-		fmt.Println(err)
 
 		if err != nil {
 			ctx.Status(http.StatusLocked)
 			return
 		}
 
-		go AwaitNotifyDisconnect(conn, meetingID, username, userID, displayTU, displayM)
-
 		var msg StreamMessage
 
 		for {
 			err = conn.ReadJSON(&msg)
 			if err != nil {
+				NotifyDisconnect(meetingID, username, userID, displayTU, displayM)
 				break
 			}
 
@@ -131,13 +127,7 @@ func addConnToStreamConnections(conn *websocket.Conn, meetingID string, userID a
 	}
 }
 
-func AwaitNotifyDisconnect(conn *websocket.Conn, meetingID, username string, userID any, displayTU tempUserID.Display, displayM meetingController.Display) {
-	var err error
-	for err == nil {
-		time.Sleep(5 * time.Second)
-		err = conn.WriteControl(websocket.PingMessage, []byte("ping"), time.Now().Add(5*time.Second))
-	}
-
+func NotifyDisconnect(meetingID, username string, userID any, displayTU tempUserID.Display, displayM meetingController.Display) {
 	delete(streamConnections[meetingID], userID)
 
 	for _, otherConn := range streamConnections[meetingID] {

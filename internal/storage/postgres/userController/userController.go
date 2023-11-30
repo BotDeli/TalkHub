@@ -7,12 +7,12 @@ import (
 )
 
 type UIDisplay struct {
-	PG *postgres.Storage
+	*postgres.Storage
 }
 
 func InitDisplay(pg *postgres.Storage) Display {
 	initTable(pg.DB)
-	return &UIDisplay{PG: pg}
+	return &UIDisplay{Storage: pg}
 }
 
 func initTable(db *sql.DB) {
@@ -30,7 +30,7 @@ func initTable(db *sql.DB) {
 
 func (uid *UIDisplay) SaveUserInfo(u *User) {
 	query := `INSERT INTO users (id, user_icon, first_name, last_name, email) VALUES ($1, $2, $3, $4, $5)`
-	_, err := uid.PG.DB.Exec(
+	_, err := uid.DB.Exec(
 		query,
 		u.Id,
 		u.UserIcon,
@@ -45,7 +45,7 @@ func (uid *UIDisplay) SaveUserInfo(u *User) {
 
 func (uid *UIDisplay) GetUserInfoFromEmail(email string) (*User, error) {
 	query := `SELECT * FROM users WHERE email = $1`
-	rows, err := uid.PG.DB.Query(query, email)
+	rows, err := uid.DB.Query(query, email)
 	if err != nil {
 		return nil, err
 	}
@@ -64,7 +64,7 @@ func scanUserInfo(rows *sql.Rows) (*User, error) {
 
 func (uid *UIDisplay) GetUserInfoFromID(id any) (*User, error) {
 	query := `SELECT * FROM users WHERE id = $1`
-	rows, err := uid.PG.DB.Query(query, id)
+	rows, err := uid.DB.Query(query, id)
 	if err != nil {
 		return nil, err
 	}

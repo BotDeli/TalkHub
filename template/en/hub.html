@@ -110,16 +110,33 @@
                     <div class="description-right-block">
                         <h2>Настройка</h2>
                         <p>Вы можете изменить параметры вашей встречи, если допустили ошибку.</p>
+                        <div class="change-settings-meeting-inputs">
+
+                            <label class="input-cell input-cell-change-settings-meeting" for="change-settings-meeting-input-name">
+                                <input id="change-settings-meeting-input-name" type="text">
+                                <span id="change-settings-meeting-input-name-text" class="input-cell-popup-text input-cell-popup-text-change-settings-meeting">Название</span>
+                            </label>
+
+                            <input id="btn-change-settings-meeting-name" class="button" type="button" value="Изменить название">
+
+                            <label class="input-cell input-cell-change-settings-meeting" for="change-settings-meeting-input-datetime">
+                                <input id="change-settings-meeting-input-datetime" type="datetime-local">
+                                <span id="change-settings-meeting-input-datetime-text" class="input-cell-popup-text input-cell-popup-text-change-settings-meeting">Дата и время</span>
+                            </label>
+
+                            <input id="btn-change-settings-meeting-datetime" class="button" type="button" value="Изменить дату">
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </main>
-    <script src="../../static/hub-page-controller.js"></script>
     <script src="../../static/input-cell-popups.js"></script>
+    <script src="../../static/hub-change-settings-meeting.js"></script>
+    <script src="../../static/hub-page-controller.js"></script>
     <script src="../../static/connect-to-meeting.js"></script>
     <script src="../../static/meeting-await-meetings-list.js"></script>
-    <script src="../../static/create-meeting.js"></script>
+    <script src="../../static/hub-create-meeting.js"></script>
     <script src="../../static/hub.js"></script>
 </body>
 </html>
