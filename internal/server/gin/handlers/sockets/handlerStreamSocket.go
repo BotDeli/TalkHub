@@ -2,27 +2,17 @@ package sockets
 
 import (
 	"TalkHub/internal/server/gin/context"
+	"TalkHub/internal/server/gin/handlers/sockets/hub"
 	"TalkHub/internal/server/gin/params"
 	"TalkHub/internal/storage/postgres/meetingController"
 	"TalkHub/internal/storage/postgres/userController"
-	"TalkHub/internal/tempStorage/tempUserID"
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
 	"net/http"
 	"time"
 )
 
-type StreamMessage struct {
-	Sender         string `json:"sender"`
-	SenderUsername string `json:"username"`
-	Recipient      string `json:"recipient"`
-	Action         string `json:"action"`
-	Data           string `json:"data"`
-}
-
-var streamConnections = make(map[string]map[any]*websocket.Conn)
-
-func handlerStreamSocket(displayU userController.Display, displayTU tempUserID.Display, displayM meetingController.Display) gin.HandlerFunc {
+func handlerStreamSocket(displayU userController.Display, displayM meetingController.Display, displayH hub.Display) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		meetingID := params.GetParamsMeetingId(ctx, displayM)
 		if meetingID == "" {
@@ -36,110 +26,70 @@ func handlerStreamSocket(displayU userController.Display, displayTU tempUserID.D
 
 		defer closeSocketConnection(conn)
 
-		var (
-			username string
-			err      error
-		)
+		var username string
+
 		userID := context.GetUserIDFromContext(ctx)
 
 		if userID != nil {
 			user, err := displayU.GetUserInfoFromID(userID)
-
-			if err == nil {
-				username = user.FirstName + " " + user.LastName
-			}
-
-		} else {
-			userID, err = displayTU.TakeTempUserID()
 			if err != nil {
-				ctx.Status(http.StatusConflict)
+				ctx.Status(http.StatusInternalServerError)
 				return
 			}
+
+			username = user.FirstName + " " + user.LastName
 		}
 
-		if username == "" {
-			username = "Guest"
+		var client *hub.Client
+
+		if userID == nil {
+			client = getGuestClient(meetingID, conn)
+		} else {
+			client = getAuthorizedClient(userID, username, meetingID, conn)
 		}
 
 		time.Sleep(time.Second)
 
-		err = NotifyConnect(conn, meetingID, username, userID, displayM)
-
+		err := displayH.ConnectToMeeting(client)
 		if err != nil {
 			ctx.Status(http.StatusLocked)
 			return
 		}
 
-		var msg StreamMessage
+		var msg hub.StreamMessage
 
 		for {
 			err = conn.ReadJSON(&msg)
 			if err != nil {
-				NotifyDisconnect(meetingID, username, userID, displayTU, displayM)
+				displayH.DisconnectFromMeeting(client)
 				break
 			}
 
-			if msg.Recipient != "" {
-				if otherConn, ok := streamConnections[meetingID][msg.Recipient]; ok {
-					_ = otherConn.WriteJSON(msg)
-				}
+			if msg.Recipient == "" {
+				displayH.InformAllClients(client, msg)
 			} else {
-				for otherUserID, otherConn := range streamConnections[meetingID] {
-					if otherUserID != userID {
-						_ = otherConn.WriteJSON(msg)
-					}
-				}
+				displayH.InformSpecificClient(client, msg)
 			}
 		}
 	}
 }
 
-func NotifyConnect(conn *websocket.Conn, meetingID, username string, userID any, displayM meetingController.Display) error {
-	err := displayM.ConnectToMeeting(meetingID)
-	if err != nil {
-		return err
-	}
-
-	addConnToStreamConnections(conn, meetingID, userID)
-
-	for otherUserID, otherConn := range streamConnections[meetingID] {
-		if otherUserID != userID {
-			_ = otherConn.WriteJSON(StreamMessage{
-				Sender:         userID.(string),
-				SenderUsername: username,
-				Recipient:      "",
-				Action:         "1",
-				Data:           "",
-			})
-		}
-	}
-
-	return nil
-}
-
-func addConnToStreamConnections(conn *websocket.Conn, meetingID string, userID any) {
-	if _, ok := streamConnections[meetingID]; ok {
-		streamConnections[meetingID][userID] = conn
-	} else {
-		streamConnections[meetingID] = map[any]*websocket.Conn{
-			userID: conn,
-		}
+func getGuestClient(meetingID string, conn *websocket.Conn) *hub.Client {
+	return &hub.Client{
+		UserID:    "",
+		Username:  "",
+		MeetingID: meetingID,
+		Guest:     true,
+		Conn:      conn,
 	}
 }
 
-func NotifyDisconnect(meetingID, username string, userID any, displayTU tempUserID.Display, displayM meetingController.Display) {
-	delete(streamConnections[meetingID], userID)
-
-	for _, otherConn := range streamConnections[meetingID] {
-		_ = otherConn.WriteJSON(StreamMessage{
-			Sender:         userID.(string),
-			SenderUsername: username,
-			Recipient:      "",
-			Action:         "0",
-			Data:           "",
-		})
+func getAuthorizedClient(UserID any, Username, meetingID string, conn *websocket.Conn) *hub.Client {
+	return &hub.Client{
+		UserID:    UserID,
+		Username:  Username,
+		MeetingID: meetingID,
+		Guest:     false,
+		Conn:      conn,
 	}
-
-	displayM.DisconnectFromMeeting(meetingID)
-	displayTU.GiveTempUserID(userID)
 }

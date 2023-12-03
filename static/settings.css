@@ -41,7 +41,7 @@ h1 {
     font-weight: normal;
 }
 
-.settings-general-information {
+.settings-general-information, .settings-security {
     width: 30%;
     display: flex;
     flex-direction: column;

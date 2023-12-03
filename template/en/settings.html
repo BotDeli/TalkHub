@@ -22,33 +22,35 @@
         <h1>Настройки</h1>
         <div class="settings-general-information">
             <h2>Общая информация</h2>
-            <div class="settings-input">
-                <div>First name</div>
-                <input id="settings-first-name-input" class="text-input" type="text">
-            </div>
-            <div class="settings-input">
-                <div>Last name</div>
-                <input id="settings-first-name-input" class="text-input" type="text">
-            </div>
+            <label class="input-cell input-cell-settings-general-information-input" for="settings-first-name-input">
+                <input id="settings-first-name-input" type="text">
+                <span id="settings-first-name-text" class="input-cell-popup-text input-cell-popup-text-settings-general-information-input">First name</span>
+            </label>
+            <label class="input-cell input-cell-settings-general-information-input" for="settings-last-name-input">
+                <input id="settings-last-name-input" type="text">
+                <span id="settings-last-name-text" class="input-cell-popup-text input-cell-popup-text-settings-general-information-input">Last name</span>
+            </label>
         </div>
-        <div class="settings-general-information">
+        <div class="settings-security">
             <h2>Безопасность</h2>
             <div class="settings-input">
-                <div>Email</div>
-                <input id="settings-first-name-input" class="text-input" type="text">
-            </div>
-            <div class="settings-input">
-                <label class="input-cell" for="password-input">
+                <label class="input-cell input-cell-settings-security-input" for="settings-email-input">
+                    <input id="settings-email-input" type="text">
+                    <span id="settings-email-text" class="input-cell-popup-text input-cell-popup-text-settings-security-input">Email</span>
+                </label>
+                <!--<label class="input-cell" for="password-input">
                     <input id="password-input" type="password">
                     <span id="password-text" class="authorization-data-popup-text">Password</span>
                     <label class="eye" for="password-input">
                         <span class="pupil"></span>
                     </label>
-                </label>
+                </label> -->
             </div>
         </div>
     </div>
 </div>
 <script src="../../static/input-cell-eyes.js"></script>
+<script src="../../static/input-cell-popups.js"></script>
+<script src="../../static/settings.js"></script>
 </body>
 </html>

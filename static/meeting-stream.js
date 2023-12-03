@@ -16,6 +16,7 @@ navigator.mediaDevices.getUserMedia({video: true, audio: true})
     })
     .catch(err => {
     localStream = new MediaStream();
+    console.error(err);
 })
 
 let socket;

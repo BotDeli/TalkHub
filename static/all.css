@@ -77,7 +77,7 @@ body {
 }
 
 .not-selected-language:hover {
-    color: gray;
+    color: var(--gray-color);
     scale: 0.95;
 }
 

@@ -1,6 +1,7 @@
 package sockets
 
 import (
+	"TalkHub/internal/server/gin/handlers/sockets/hub"
 	"TalkHub/internal/storage/postgres/meetingController"
 	"TalkHub/internal/storage/postgres/userController"
 	"TalkHub/internal/tempStorage/tempUserID"
@@ -11,8 +12,10 @@ import (
 )
 
 func SetSocketHandlers(router *gin.Engine, displayU userController.Display, displayTU tempUserID.Display, displayM meetingController.Display) {
+	displayH := hub.InitDisplay(displayM, displayTU)
+
 	router.GET("/meeting/:id/chat", handlerChatWebsocket(displayM))
-	router.GET("/meeting/:id/stream", handlerStreamSocket(displayU, displayTU, displayM))
+	router.GET("/meeting/:id/stream", handlerStreamSocket(displayU, displayM, displayH))
 }
 
 var upgrader = websocket.Upgrader{
