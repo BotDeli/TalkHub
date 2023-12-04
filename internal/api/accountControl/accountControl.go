@@ -3,6 +3,7 @@ package accountControl
 import (
 	"TalkHub/internal/api/accountControl/pb"
 	"TalkHub/internal/config"
+	"TalkHub/pkg/checker"
 	"context"
 	"errors"
 	"google.golang.org/grpc"
@@ -14,6 +15,10 @@ import (
 type GRPCClient struct {
 	Client pb.AccountControlClient
 }
+
+const (
+	errDontCorrectEmailOrPassword = "dont correct email or password"
+)
 
 var (
 	errConnectionToServer = errors.New("connection failed to grpc server")
@@ -37,10 +42,20 @@ func ping(conn *grpc.ClientConn) bool {
 }
 
 func (c *GRPCClient) Registration(email, password string) (session *pb.SessionData, strErr string) {
+	if !isValidAuthorizationData(email, password) {
+		return nil, errDontCorrectEmailOrPassword
+	}
 	return authentication(email, password, c.Client.RegistrationAccount)
 }
 
+func isValidAuthorizationData(email, password string) bool {
+	return checker.IsValidEmail(email) && checker.IsValidPassword(password)
+}
+
 func (c *GRPCClient) Authorization(email, password string) (session *pb.SessionData, strErr string) {
+	if !isValidAuthorizationData(email, password) {
+		return nil, errDontCorrectEmailOrPassword
+	}
 	return authentication(email, password, c.Client.AuthorizationAccount)
 }
 

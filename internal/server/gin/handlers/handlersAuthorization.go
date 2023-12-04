@@ -37,13 +37,15 @@ func handlerSignUp(host string, displayA accountControl.Display, displayU userCo
 			return
 		}
 
-		displayU.SaveUserInfo(&userController.User{
+		userInfo := &userController.User{
 			Id:        session.Id,
 			UserIcon:  "",
 			FirstName: data.FirstName,
 			LastName:  data.LastName,
 			Email:     data.Email,
-		})
+		}
+
+		displayU.SaveUserInfo(userInfo)
 		ctx.Status(http.StatusCreated)
 	}
 }
