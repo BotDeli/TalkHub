@@ -56,20 +56,16 @@ func handlerStreamSocket(displayU userController.Display, displayM meetingContro
 			return
 		}
 
-		var msg hub.StreamMessage
+		var rMsg hub.RequestMessage
 
 		for {
-			err = conn.ReadJSON(&msg)
+			err = conn.ReadJSON(&rMsg)
 			if err != nil {
 				displayH.DisconnectFromMeeting(client)
 				break
 			}
 
-			if msg.Recipient == "" {
-				displayH.InformAllClients(client, msg)
-			} else {
-				displayH.InformSpecificClient(client, msg)
-			}
+			displayH.ResendRequestMessage(client, rMsg)
 		}
 	}
 }

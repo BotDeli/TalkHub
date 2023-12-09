@@ -4,7 +4,6 @@ import (
 	"TalkHub/internal/server/gin/context"
 	"TalkHub/internal/storage/postgres/meetingController"
 	"TalkHub/pkg/decoder"
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"time"
@@ -147,7 +146,6 @@ func handlerChangeMeetingDatetime(displayM meetingController.Display) gin.Handle
 
 		request, err := decoder.JSONDecoder[RequestChangeMeetingDatetime](ctx.Request.Body)
 		if err != nil {
-			fmt.Println(request, err)
 			ctx.Status(http.StatusBadRequest)
 			return
 		}

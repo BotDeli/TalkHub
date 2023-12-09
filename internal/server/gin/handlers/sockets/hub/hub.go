@@ -8,12 +8,16 @@ import (
 	"sync"
 )
 
+type RequestMessage struct {
+	Recipient string `json:"recipient"`
+	Action    string `json:"action"`
+	Data      string `json:"data"`
+}
+
 type StreamMessage struct {
 	Sender         string `json:"sender"`
 	SenderUsername string `json:"username"`
-	Recipient      string `json:"recipient"`
-	Action         string `json:"action"`
-	Data           string `json:"data"`
+	RequestMessage
 }
 
 type Client struct {
@@ -89,15 +93,16 @@ func (h *Hub) informAllClientsAboutJoin(currentClient *Client) {
 	h.InformAllClients(currentClient, StreamMessage{
 		Sender:         currentClient.UserID.(string),
 		SenderUsername: currentClient.Username,
-		Recipient:      "",
-		Action:         "1",
-		Data:           "",
+		RequestMessage: RequestMessage{
+			Recipient: "",
+			Action:    "1",
+			Data:      "",
+		},
 	})
 }
 
 func (h *Hub) InformAllClients(currentClient *Client, msg StreamMessage) {
 	clients := h.Meetings[currentClient.MeetingID]
-	fmt.Println(clients)
 	for _, selectedClient := range clients {
 		if selectedClient.UserID != currentClient.UserID {
 			_ = selectedClient.Conn.WriteJSON(msg)
@@ -125,9 +130,11 @@ func (h *Hub) informAllClientsAboutLeave(currentClient *Client) {
 	h.InformAllClients(currentClient, StreamMessage{
 		Sender:         currentClient.UserID.(string),
 		SenderUsername: currentClient.Username,
-		Recipient:      "",
-		Action:         "0",
-		Data:           "",
+		RequestMessage: RequestMessage{
+			Recipient: "",
+			Action:    "0",
+			Data:      "",
+		},
 	})
 }
 
@@ -148,5 +155,19 @@ func (h *Hub) InformSpecificClient(currentClient *Client, msg StreamMessage) {
 		if selectedClient.UserID == msg.Recipient {
 			_ = selectedClient.Conn.WriteJSON(msg)
 		}
+	}
+}
+
+func (h *Hub) ResendRequestMessage(currentClient *Client, rMsg RequestMessage) {
+	msg := StreamMessage{
+		Sender:         currentClient.UserID.(string),
+		SenderUsername: currentClient.Username,
+		RequestMessage: rMsg,
+	}
+
+	if msg.Recipient == "" {
+		h.InformAllClients(currentClient, msg)
+	} else {
+		h.InformSpecificClient(currentClient, msg)
 	}
 }

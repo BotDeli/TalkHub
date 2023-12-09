@@ -11,6 +11,7 @@ type Display interface {
 	DisconnectFromMeeting(currentClient *Client)
 	InformAllClients(currentClient *Client, msg StreamMessage)
 	InformSpecificClient(currentClient *Client, msg StreamMessage)
+	ResendRequestMessage(currentClient *Client, rMsg RequestMessage)
 }
 
 func InitDisplay(displayM meetingController.Display, displayTU tempUserID.Display) Display {

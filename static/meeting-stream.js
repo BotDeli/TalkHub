@@ -40,7 +40,9 @@ class StreamChannel {
                 peer = makeNewPeerConnection(msg.sender, msg.username);
             }
 
-            if (msg.action === '0') {
+            if (msg.action === '-1') {
+                addMessageToMessagesList(msg.username, msg.data.slice(1, -1));
+            } else if (msg.action === '0') {
                 removeUser(msg.sender);
             } else if (msg.action === '1') {
                 sendOffer(peer, msg.sender);
@@ -89,8 +91,6 @@ function makeNewPeerConnection(sender, senderUsername) {
 
 function sendStringifyDataToSocket(action, data = '', recipient = '') {
     socket.send(JSON.stringify({
-        'sender': userID,
-        'username': username,
         'recipient': recipient,
         'action': action,
         'data': JSON.stringify(data),
