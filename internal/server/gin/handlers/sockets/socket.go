@@ -14,7 +14,6 @@ import (
 func SetSocketHandlers(router *gin.Engine, displayU userController.Display, displayTU tempUserID.Display, displayM meetingController.Display) {
 	displayH := hub.InitDisplay(displayM, displayTU)
 
-	router.GET("/meeting/:id/chat", handlerChatWebsocket(displayM))
 	router.GET("/meeting/:id/stream", handlerStreamSocket(displayU, displayM, displayH))
 }
 
