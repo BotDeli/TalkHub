@@ -2,8 +2,10 @@ package handlers
 
 import (
 	"TalkHub/internal/server/gin/context"
+	"TalkHub/internal/server/gin/params"
 	"TalkHub/internal/storage/postgres/meetingController"
 	"TalkHub/pkg/decoder"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"time"
@@ -103,6 +105,22 @@ func handlerCancelMeeting(displayM meetingController.Display) gin.HandlerFunc {
 		}
 
 		displayM.EndMeeting(meetingData.UserID, meetingData.MeetingID)
+		ctx.Status(http.StatusAccepted)
+	}
+}
+
+func handlerEndMeeting(displayM meetingController.Display) gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		fmt.Println(ctx.Request.URL)
+		id := context.GetUserIDFromContext(ctx)
+		if id == nil {
+			ctx.Status(http.StatusUnauthorized)
+			return
+		}
+
+		meetingID := params.GetParamsMeetingId(ctx, displayM)
+
+		displayM.EndMeeting(id.(string), meetingID)
 		ctx.Status(http.StatusAccepted)
 	}
 }

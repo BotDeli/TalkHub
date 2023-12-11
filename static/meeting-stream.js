@@ -60,6 +60,8 @@ class StreamChannel {
                 if (peer !== undefined) {
                     addIceCandidate(peer, candidate);
                 }
+            } else if (msg.action === '5') {
+                window.location.replace('/hub');
             }
         };
     }

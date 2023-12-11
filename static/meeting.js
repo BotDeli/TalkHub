@@ -28,3 +28,20 @@ document.getElementById('btn-connect-to-meeting').addEventListener('click', () =
     Stream.initSocket();
     document.getElementById('pre-connect-panel').style.display = 'none';
 });
+
+document.getElementById('btn-end-meeting').addEventListener('click', () => {
+    fetch(window.location.pathname+'/endMeeting', {
+        method: 'DELETE',
+    }).then(response => {
+        if (response.status === 202) {
+            socket.send(JSON.stringify({
+                'recipient': "",
+                'action': "5",
+                'data': "",
+            }));
+            window.location.replace('/hub');
+        } else {
+            alert("Закончить созвон может только владелец!");
+        }
+    })
+});

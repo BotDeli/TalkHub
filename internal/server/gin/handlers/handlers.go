@@ -36,6 +36,7 @@ func SetHandlers(router *gin.Engine, host string, webrtcCfg *config.WebrtcConfig
 	router.GET("/meeting/:id", handlerShowMeetingPage(displayM))
 	router.GET("/getUserData", handlerGetUserData(displayU))
 	router.GET("/webrtcConfig", handlerGetWebrtcConfig(webrtcCfg))
+	router.Handle("DELETE", "/meeting/:id/endMeeting", handlerEndMeeting(displayM))
 
 	// functions settings
 	router.POST("/changePassword", handlerChangePassword(displayU, displayA))

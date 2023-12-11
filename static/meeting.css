@@ -137,6 +137,9 @@ body {
     border: 1px solid var(--selected-color-1);
     border-radius: 20px;
     margin: 5px;
+    align-items: center;
+    display: flex;
+    flex-direction: row;
 }
 
 .stream-functionality-button {
@@ -268,4 +271,10 @@ body {
 #btn-connect-to-meeting {
     background-color: var(--activated);
     padding: 5px;
+}
+
+#btn-end-meeting {
+    background-color: var(--deactivated);
+    padding: 2px;
+    margin: 0 4px 0 4px;
 }

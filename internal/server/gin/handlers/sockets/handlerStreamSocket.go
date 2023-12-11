@@ -14,6 +14,7 @@ import (
 
 func handlerStreamSocket(displayU userController.Display, displayM meetingController.Display, displayH hub.Display) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
+
 		meetingID := params.GetParamsMeetingId(ctx, displayM)
 		if meetingID == "" {
 			return

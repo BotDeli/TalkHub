@@ -5,17 +5,15 @@ import (
 	"TalkHub/internal/server/gin/params"
 	"TalkHub/internal/storage/postgres/meetingController"
 	"TalkHub/internal/storage/postgres/userController"
+	"TalkHub/pkg/selector"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
 
 func handlerShowMainPage(displayU userController.Display) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		if value, _ := ctx.Get("lang"); value == "ru" {
-			redirectAuthorizedUsers(ctx, "ru-main.html", nil, displayU)
-		} else {
-			redirectAuthorizedUsers(ctx, "en-main.html", nil, displayU)
-		}
+		nameHtml := selector.SelectLanguageFormat(ctx, "main.html")
+		redirectAuthorizedUsers(ctx, nameHtml, nil, displayU)
 	}
 }
 
@@ -34,11 +32,8 @@ func redirectAuthorizedUsers(ctx *gin.Context, nameHtml string, obj any, display
 
 func handlerShowRegistrationPage(displayU userController.Display) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		if value, _ := ctx.Get("lang"); value == "ru" {
-			redirectAuthorizedUsers(ctx, "ru-registration.html", nil, displayU)
-		} else {
-			redirectAuthorizedUsers(ctx, "en-registration.html", nil, displayU)
-		}
+		nameHtml := selector.SelectLanguageFormat(ctx, "registration.html")
+		redirectAuthorizedUsers(ctx, nameHtml, nil, displayU)
 	}
 }
 
@@ -89,6 +84,7 @@ var guestID = 1
 
 func handlerShowMeetingPage(displayM meetingController.Display) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
+
 		meetingID := params.GetParamsMeetingId(ctx, displayM)
 		if meetingID == "" {
 			return
