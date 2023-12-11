@@ -165,3 +165,15 @@ func (m *MCDisplay) UpdateMeetingDatetime(ownerUserID, meetingID string, newDate
 	query := `UPDATE meetings SET datetime = $3 WHERE owner_id = $1 AND id = $2`
 	_, _ = m.DB.Exec(query, ownerUserID, meetingID, newDate)
 }
+
+func (m *MCDisplay) GetMeetingOwnerID(meetingId string) (string, error) {
+	query := `SELECT owner_id FROM meetings WHERE id = $1`
+	rows, err := m.DB.Query(query, meetingId)
+	if err != nil {
+		return "", err
+	}
+	rows.Next()
+	var ownerID string
+	err = rows.Scan(&ownerID)
+	return ownerID, err
+}

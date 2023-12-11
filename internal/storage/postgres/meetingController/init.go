@@ -12,6 +12,7 @@ type Display interface {
 	IsStartedMeeting(meetingID string) bool
 	UpdateMeetingName(ownerUserID, meetingID, newName string)
 	UpdateMeetingDatetime(ownerUserID, meetingID string, newDate time.Time)
+	GetMeetingOwnerID(meetingId string) (string, error)
 }
 
 type Meeting struct {

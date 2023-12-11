@@ -339,3 +339,52 @@ func TestSuccessfulUpdateMeetingDatetime(t *testing.T) {
 
 	testingMockMeeting(t, initMock, testMock)
 }
+
+func TestErrorGetMeetingOwnerID(t *testing.T) {
+	initMock := func(mock sqlmock.Sqlmock) {
+		mock.ExpectQuery("SELECT").WithArgs(testMeetingID).WillReturnError(testError)
+	}
+
+	testMock := func(t *testing.T, display meetingController.Display) {
+		_, err := display.GetMeetingOwnerID(testMeetingID)
+		checkErrorIsNotNil(t, err)
+	}
+
+	testingMockMeeting(t, initMock, testMock)
+}
+
+func TestErrorEmptyRowsGetMeetingOwnerID(t *testing.T) {
+	initMock := func(mock sqlmock.Sqlmock) {
+		rows := getEmptyRowsOwnerID()
+		mock.ExpectQuery("SELECT").WithArgs(testMeetingID).WillReturnRows(rows).WillReturnError(nil)
+	}
+
+	testMock := func(t *testing.T, display meetingController.Display) {
+		_, err := display.GetMeetingOwnerID(testMeetingID)
+		checkErrorIsNotNil(t, err)
+	}
+
+	testingMockMeeting(t, initMock, testMock)
+}
+
+func getEmptyRowsOwnerID() *sqlmock.Rows {
+	return sqlmock.NewRows([]string{"owner_id"})
+}
+
+func TestSuccessfulGetMeetingOwnerID(t *testing.T) {
+	initMock := func(mock sqlmock.Sqlmock) {
+		rows := getEmptyRowsOwnerID()
+		rows.AddRow(testUserID)
+		mock.ExpectQuery("SELECT").WithArgs(testMeetingID).WillReturnRows(rows).WillReturnError(nil)
+	}
+
+	testMock := func(t *testing.T, display meetingController.Display) {
+		ownerID, err := display.GetMeetingOwnerID(testMeetingID)
+		checkErrorIsNil(t, err)
+		if ownerID != testUserID {
+			t.Errorf("expected %s, got %s", testUserID, ownerID)
+		}
+	}
+
+	testingMockMeeting(t, initMock, testMock)
+}
