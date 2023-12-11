@@ -85,7 +85,7 @@ function selectCheckFunction(popup) {
     } else if (isPassword(text)) {
         return checkCorrectPassword;
     } else if (isMeetingCode(text)) {
-        return onlyLettersAndDigits
+        return onlyEnglishLettersAndDigits
     } else if (isDatetime(text)) {
         return datetimeInTheFuture
     }
@@ -101,11 +101,11 @@ function checkCorrectEmail(value) {
 }
 
 function isPassword(text) {
-    return text === "Password" || text === "Confirm Password" || text === "Пароль" || text === "Подтвердите пароль";
+    return text === "Password" || text === "Confirm Password" || text === "New Password" || text === "Пароль" || text === "Подтвердите пароль" || text === "Новый пароль";
 }
 
 function checkCorrectPassword(value) {
-    return value.length >= 8 && onlyLetters(value.charAt(0)) && onlyLettersAndDigits(value);
+    return value.length >= 8 && onlyEnglishLetters(value.charAt(0)) && onlyEnglishLettersAndDigits(value);
 }
 
 function datetimeInTheFuture(value) {
@@ -116,8 +116,12 @@ function onlyLetters(value) {
     return /^[a-zA-Zа-яА-Я]+$/.test(value);
 }
 
-function onlyLettersAndDigits(value) {
-    return /^[a-zA-Zа-яА-Я0-9]+$/.test(value);
+function onlyEnglishLetters(value) {
+    return /^[a-zA-Z]+$/.test(value);
+}
+
+function onlyEnglishLettersAndDigits(value) {
+    return /^[a-zA-Z0-9]+$/.test(value);
 }
 
 function isMeetingCode(text) {

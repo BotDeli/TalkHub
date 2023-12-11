@@ -9,30 +9,35 @@ import (
 	"net/http"
 )
 
-func handlerShowMainPage() gin.HandlerFunc {
+func handlerShowMainPage(displayU userController.Display) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		if value, _ := ctx.Get("lang"); value == "ru" {
-			redirectAuthorizedUsers(ctx, "ru-main.html", nil)
+			redirectAuthorizedUsers(ctx, "ru-main.html", nil, displayU)
 		} else {
-			redirectAuthorizedUsers(ctx, "en-main.html", nil)
+			redirectAuthorizedUsers(ctx, "en-main.html", nil, displayU)
 		}
 	}
 }
 
-func redirectAuthorizedUsers(ctx *gin.Context, nameHtml string, obj any) {
-	if value, _ := ctx.Get("id"); value == "" {
-		ctx.HTML(http.StatusOK, nameHtml, obj)
-	} else {
-		ctx.Redirect(http.StatusPermanentRedirect, "/hub")
+func redirectAuthorizedUsers(ctx *gin.Context, nameHtml string, obj any, displayU userController.Display) {
+	id := context.GetUserIDFromContext(ctx)
+	if id != nil {
+		user, err := displayU.GetUserInfoFromID(id)
+		if err == nil && user != nil {
+			ctx.Redirect(http.StatusPermanentRedirect, "/hub")
+			return
+		}
 	}
+
+	ctx.HTML(http.StatusOK, nameHtml, obj)
 }
 
-func handlerShowRegistrationPage() gin.HandlerFunc {
+func handlerShowRegistrationPage(displayU userController.Display) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		if value, _ := ctx.Get("lang"); value == "ru" {
-			redirectAuthorizedUsers(ctx, "ru-registration.html", nil)
+			redirectAuthorizedUsers(ctx, "ru-registration.html", nil, displayU)
 		} else {
-			redirectAuthorizedUsers(ctx, "en-registration.html", nil)
+			redirectAuthorizedUsers(ctx, "en-registration.html", nil, displayU)
 		}
 	}
 }
@@ -41,7 +46,6 @@ func handlerShowHubPage(displayU userController.Display) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		id := context.GetUserIDFromContext(ctx)
 		if id == nil {
-			ctx.Status(http.StatusUnauthorized)
 			ctx.Redirect(http.StatusTemporaryRedirect, "/")
 			return
 		}
@@ -52,7 +56,7 @@ func handlerShowHubPage(displayU userController.Display) gin.HandlerFunc {
 			return
 		}
 
-		ctx.HTML(200, "hub.html", gin.H{
+		ctx.HTML(http.StatusOK, "hub.html", gin.H{
 			"Username": user.FirstName + " " + user.LastName,
 		})
 	}
@@ -60,22 +64,24 @@ func handlerShowHubPage(displayU userController.Display) gin.HandlerFunc {
 
 func handlerShowSettingsPage(displayU userController.Display) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		//id := getUserID(ctx)
-		//if id == "" {
-		//	ctx.Status(http.StatusNotFound)
-		//	return
-		//}
-		//
-		//user, err := displayU.GetUserInfoFromID(id)
-		//if err != nil {
-		//	ctx.Status(http.StatusNotFound)
-		//	return
-		//}
-		//
-		//ctx.HTML(200, "profile.html", gin.H{
-		//	"Username": user.FirstName + " " + user.LastName,
-		//	"UserID":   id,
-		//})
+		id := context.GetUserIDFromContext(ctx)
+		if id == nil {
+			ctx.Redirect(http.StatusTemporaryRedirect, "/")
+			return
+		}
+
+		user, err := displayU.GetUserInfoFromID(id)
+		if err != nil {
+			ctx.Redirect(http.StatusTemporaryRedirect, "/")
+			return
+		}
+
+		ctx.HTML(http.StatusOK, "settings.html", gin.H{
+			"UserID":    user.Id,
+			"FirstName": user.FirstName,
+			"LastName":  user.LastName,
+			"Email":     user.Email,
+		})
 	}
 }
 

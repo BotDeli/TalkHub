@@ -1,16 +1,19 @@
+body {
+    min-width: 900px;
+}
+
 .main-panel {
     display: flex;
     justify-content: center;
 }
 
 .settings-panel {
-    max-width: 90%;
-    height: 80%;
-    aspect-ratio: 1.5;
+    height: 350px;
+    min-width: 620px;
     background: var(--secondary-color);
     border: 2px solid var(--selected-color-1);
     border-radius: 15px;
-    margin: 10px;
+    margin: 20px;
     display: flex;
     flex-direction: column;
 }
@@ -41,32 +44,65 @@ h1 {
     font-weight: normal;
 }
 
-.settings-general-information, .settings-security {
-    width: 30%;
+.settings-main {
     display: flex;
-    flex-direction: column;
-    border: 1px dashed black;
-    border-radius: 25px;
-    margin: 15px;
-    place-items: center;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
 }
 
-h2 {
-    width: 100%;
-    text-align: center;
+.settings-main-block {
+    width: 340px;
+    background-color: var(--secondary-color-2);
+    border-radius: 10px;
+    padding: 0 20px 0 20px;
     margin: 10px;
-    font-size: 20px;
-    font-weight: normal;
-}
-
-.settings-input {
-    width: 90%;
-    margin-bottom: 10px;
+    border: 2px solid var(--selected-color-1);
+    font-size: 22px;
     display: flex;
-    flex-wrap: wrap;
     flex-direction: column;
+    justify-content: space-around;
+    align-items: start;
 }
 
-.settings-input div {
-    font-size: 19px;
+.settings-user-stats-block {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+}
+
+.settings-user-stats-block label {
+    margin: 0 2px 0 2px;
+}
+
+#settings-user-stats-not-confirm-email {
+    color: #e70c0c;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+}
+
+#btn-settings-confirm-email {
+    width: 250px;
+}
+
+.settings-main-block-center {
+    align-items: center;
+}
+
+#btn-settings-change-password {
+    width: 250px;
+    margin-bottom: 13px;
+}
+
+.closed-eye:after {
+    transform: rotate(60deg) translate(0, -7px);
+}
+
+.input-cell {
+    background: var(--secondary-color);
+}
+
+#status-delete-account {
+    color: red;
 }

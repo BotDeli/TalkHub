@@ -9,7 +9,6 @@ import (
 
 var (
 	testUser = &userController.User{
-		UserIcon:  "",
 		FirstName: "TestFirstName",
 		LastName:  "T E S T L A S T N A M E",
 		Email:     "Email@example.com",
@@ -34,7 +33,6 @@ func TestSuccessfulSaveUserInfo(t *testing.T) {
 
 	initMock := func(mockDB sqlmock.Sqlmock) {
 		mockDB.ExpectExec("INSERT INTO").WithArgs(
-			testUser.UserIcon,
 			testUser.FirstName,
 			testUser.LastName,
 			testUser.Email,
@@ -85,14 +83,13 @@ func TestEmptyUserInfoGetUserInfoFromEmail(t *testing.T) {
 }
 
 func getEmptyUserRows() *sqlmock.Rows {
-	return sqlmock.NewRows([]string{"id", "user_icon", "first_name", "last_name", "email"})
+	return sqlmock.NewRows([]string{"id", "first_name", "last_name", "email"})
 }
 
 func TestSuccessfulGetUserInfoFromEmail(t *testing.T) {
 	rows := getEmptyUserRows()
 	rows.AddRow(
 		testUser.Id,
-		testUser.UserIcon,
 		testUser.FirstName,
 		testUser.LastName,
 		testUser.Email,
@@ -115,9 +112,6 @@ func TestSuccessfulGetUserInfoFromEmail(t *testing.T) {
 }
 
 func equalsUserInfo(t *testing.T, u1, u2 *userController.User) {
-	if u1.UserIcon != u2.UserIcon {
-		t.Errorf("u1 user icon %s != u2 user icon %s", u1.UserIcon, u2.UserIcon)
-	}
 	if u1.FirstName != u2.FirstName {
 		t.Errorf("u1 first name %s != u2 first name %s", u1.FirstName, u2.FirstName)
 	}

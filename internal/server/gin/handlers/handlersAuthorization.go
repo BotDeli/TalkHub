@@ -39,7 +39,6 @@ func handlerSignUp(host string, displayA accountControl.Display, displayU userCo
 
 		userInfo := &userController.User{
 			Id:        session.Id,
-			UserIcon:  "",
 			FirstName: data.FirstName,
 			LastName:  data.LastName,
 			Email:     data.Email,
@@ -80,6 +79,7 @@ func handlerSignIn(host string, displayA accountControl.Display) gin.HandlerFunc
 		session := accountAuthorization(ctx, host, data.Email, data.Password, displayA.Authorization)
 		if session == nil {
 			ctx.Status(http.StatusBadRequest)
+			return
 		}
 		ctx.Status(http.StatusPermanentRedirect)
 	}

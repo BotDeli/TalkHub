@@ -19,7 +19,6 @@ func initTable(db *sql.DB) {
 	if _, err := db.Exec(
 		`CREATE TABLE IF NOT EXISTS users (
     	id VARCHAR NOT NULL PRIMARY KEY UNIQUE,
-    	user_icon BYTEA,
 		first_name VARCHAR NOT NULL,
 		last_name VARCHAR NOT NULL,
 		email VARCHAR NOT NULL UNIQUE
@@ -29,11 +28,10 @@ func initTable(db *sql.DB) {
 }
 
 func (uid *UIDisplay) SaveUserInfo(u *User) {
-	query := `INSERT INTO users (id, user_icon, first_name, last_name, email) VALUES ($1, $2, $3, $4, $5)`
+	query := `INSERT INTO users (id, first_name, last_name, email) VALUES ($1, $2, $3, $4)`
 	_, err := uid.DB.Exec(
 		query,
 		u.Id,
-		u.UserIcon,
 		u.FirstName,
 		u.LastName,
 		u.Email,
@@ -55,7 +53,7 @@ func (uid *UIDisplay) GetUserInfoFromEmail(email string) (*User, error) {
 func scanUserInfo(rows *sql.Rows) (*User, error) {
 	var u User
 	rows.Next()
-	err := rows.Scan(&u.Id, &u.UserIcon, &u.FirstName, &u.LastName, &u.Email)
+	err := rows.Scan(&u.Id, &u.FirstName, &u.LastName, &u.Email)
 	if err != nil {
 		return nil, err
 	}

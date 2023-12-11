@@ -20,31 +20,47 @@
             <div class="btn-back-to-hub" title="Вернуться в hub"></div>
         </a>
         <h1>Настройки</h1>
-        <div class="settings-general-information">
-            <h2>Общая информация</h2>
-            <label class="input-cell input-cell-settings-general-information-input" for="settings-first-name-input">
-                <input id="settings-first-name-input" type="text">
-                <span id="settings-first-name-text" class="input-cell-popup-text input-cell-popup-text-settings-general-information-input">First name</span>
-            </label>
-            <label class="input-cell input-cell-settings-general-information-input" for="settings-last-name-input">
-                <input id="settings-last-name-input" type="text">
-                <span id="settings-last-name-text" class="input-cell-popup-text input-cell-popup-text-settings-general-information-input">Last name</span>
-            </label>
-        </div>
-        <div class="settings-security">
-            <h2>Безопасность</h2>
-            <div class="settings-input">
-                <label class="input-cell input-cell-settings-security-input" for="settings-email-input">
-                    <input id="settings-email-input" type="text">
-                    <span id="settings-email-text" class="input-cell-popup-text input-cell-popup-text-settings-security-input">Email</span>
-                </label>
-                <!--<label class="input-cell" for="password-input">
-                    <input id="password-input" type="password">
-                    <span id="password-text" class="authorization-data-popup-text">Password</span>
+        <div class="settings-main">
+            <div class="settings-main-block">
+                <div class="settings-user-stats-block">
+                    <label>ID:</label>
+                    <label>{{.UserID}}</label>
+                </div>
+                <div class="settings-user-stats-block">
+                    <label>First Name:</label>
+                    <label>{{.FirstName}}</label>
+                </div>
+                <div class="settings-user-stats-block">
+                    <label>Last Name:</label>
+                    <label>{{.LastName}}</label>
+                </div>
+                <div class="settings-user-stats-block">
+                    <label>Email:</label>
+                    <label>{{.Email}}</label>
+                </div>
+            </div>
+
+            <div class="settings-main-block settings-main-block-center">
+                <label>Изменение пароля</label>
+                <label class="input-cell input-cell-change-password" for="password-input">
+                    <input id="password-input" type="text">
+                    <span id="password-text" class="input-cell-popup-text input-cell-popup-text-change-password">Password</span>
                     <label class="eye" for="password-input">
                         <span class="pupil"></span>
                     </label>
-                </label> -->
+                </label>
+
+                <label class="input-cell input-cell-change-password" for="new-password-input">
+                    <input id="new-password-input" type="text">
+                    <span id="new-password-text" class="input-cell-popup-text input-cell-popup-text-change-password">New Password</span>
+                    <label class="eye" for="new-password-input">
+                        <span class="pupil"></span>
+                    </label>
+                </label>
+
+                <input id="btn-settings-change-password" class="button" type="button" value="Сменить">
+
+                <div id="change-password-status"></div>
             </div>
         </div>
     </div>

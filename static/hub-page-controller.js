@@ -31,7 +31,7 @@ class PageController {
         openedPages[id] = true;
         const page = document.createElement('div');
         page.className = 'description-page description-page-meeting';
-        page.addEventListener("click", () => {
+        page.addEventListener('click', () => {
             pageShowOutId.innerText = '#' + id;
             pageShowOutName.innerText = name;
 
@@ -85,7 +85,7 @@ class PageController {
 
         div = document.createElement('div');
         div.className = 'btn-description-page-close';
-        div.addEventListener("click", (e) => {
+        div.addEventListener('click', (e) => {
             e.stopPropagation();
             closePageFromID(page, id);
         });
@@ -104,8 +104,8 @@ class PageController {
                         'newName': newName,
                     }),
                 }).then(response => {
-                    if (response.status === 202 && awaitMeetingsList) {
-                        awaitMeetingsList.updateMeeting(id, newName)
+                    if (response.status === 202) {
+                        window.location.reload();
                     }
                 });
             }
@@ -124,8 +124,8 @@ class PageController {
                        'newDatetime': newDatetime,
                    })
                }).then(response => {
-                   if (response.status === 202 && awaitMeetingsList) {
-                       awaitMeetingsList.updateMeeting(id, null, newDatetime)
+                   if (response.status === 202) {
+                       window.location.reload();
                    }
                });
             }

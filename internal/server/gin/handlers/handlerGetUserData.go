@@ -30,3 +30,20 @@ func handlerGetUserData(displayU userController.Display) gin.HandlerFunc {
 		})
 	}
 }
+
+func handlerGetFullUserData(displayU userController.Display) gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		id := context.GetUserIDFromContext(ctx)
+		if id == nil {
+			ctx.Status(http.StatusUnauthorized)
+			return
+		}
+
+		user, err := displayU.GetUserInfoFromID(id)
+		if err != nil {
+			ctx.Status(http.StatusInternalServerError)
+			return
+		}
+		ctx.JSON(http.StatusOK, user)
+	}
+}

@@ -18,10 +18,14 @@
 
 .input-cell-popup-text {
     position: absolute;
+    width: 80%;
     height: 20px;
     font-size: 22px;
     align-self: start;
     margin-left: 22px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .eye {
@@ -36,9 +40,11 @@
     align-self: end;
     transform: translate(20px);
     cursor: grab;
+    z-index: 1000;
 }
 
 .closed-eye:after {
+    z-index: 1000;
     position: absolute;
     content: "";
     height: 18px;

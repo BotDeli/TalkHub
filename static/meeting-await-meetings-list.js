@@ -76,19 +76,4 @@ class MeetingAwaitMeetingsList {
         this.meetingsDate.delete(id);
         this.meetingsTime.delete(id);
     }
-
-    updateMeeting(id, name = null, datetime = null) {
-        if (!this.meetings.has(id)) {
-            return;
-        }
-
-        if (name) {
-            this.meetingsName.get(id).innerText = name;
-        }
-
-        if (datetime) {
-            setDateText(this.meetingsDate.get(id), datetime)
-            setTimeText(this.meetingsTime.get(id), datetime)
-        }
-    }
 }

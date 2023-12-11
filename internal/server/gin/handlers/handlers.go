@@ -10,8 +10,8 @@ import (
 
 func SetHandlers(router *gin.Engine, host string, webrtcCfg *config.WebrtcConfig, displayA accountControl.Display, displayU userController.Display, displayM meetingController.Display) {
 	// main pages
-	router.GET("/", handlerShowMainPage())
-	router.GET("/registration", handlerShowRegistrationPage())
+	router.GET("/", handlerShowMainPage(displayU))
+	router.GET("/registration", handlerShowRegistrationPage(displayU))
 	router.GET("/hub", handlerShowHubPage(displayU))
 	router.GET("/settings", handlerShowSettingsPage(displayU))
 
@@ -36,4 +36,7 @@ func SetHandlers(router *gin.Engine, host string, webrtcCfg *config.WebrtcConfig
 	router.GET("/meeting/:id", handlerShowMeetingPage(displayM))
 	router.GET("/getUserData", handlerGetUserData(displayU))
 	router.GET("/webrtcConfig", handlerGetWebrtcConfig(webrtcCfg))
+
+	// functions settings
+	router.POST("/changePassword", handlerChangePassword(displayU, displayA))
 }

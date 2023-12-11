@@ -1,5 +1,5 @@
-document.addEventListener("DOMContentLoaded", () => {
-   fetch("/getMyMeetings", {
+document.addEventListener('DOMContentLoaded', () => {
+   fetch('/getMyMeetings', {
        method: "GET",
        headers: {
            'Content-Type': 'application/json',
