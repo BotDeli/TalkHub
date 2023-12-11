@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Hub</title>
+    <title>Хаб</title>
     <link rel="icon" type="image/svg" href="../../images/favicon.svg">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -26,20 +26,24 @@
         <div class="inner-line" style="width: calc(100% - 2px)"></div>
         <div class="await-meeting-info-help">
             <div class="await-meeting-info-help-not-started-color await-meeting-info-help-color"></div>
-            <div>- not started</div>
+            <div>- не начато</div>
             <div class="await-meeting-info-help-started-color await-meeting-info-help-color"></div>
-            <div>- started</div>
+            <div>- начато</div>
         </div>
     </div>
 
     <main class="main-panel">
         <div class="profile-top-panel">
+            <div class="language-selector" style="flex-grow: 1; justify-content: start;">
+                <div class="not-selected-language">en</div>
+                <div class="selected-language">ru</div>
+            </div>
             <div id="profile-username">{{.Username}}</div>
             <div id="profile-image"></div>
             <div class="menu">
                 <div id="drop-down-menu">
-                    <a class="drop-down-menu-button" href="/settings">Settings</a>
-                    <a class="drop-down-menu-button" href="/logOut">Exit</a>
+                    <a class="drop-down-menu-button" href="/settings">Настройки</a>
+                    <a class="drop-down-menu-button" href="/logOut">Выйти</a>
                 </div>
             </div>
         </div>
@@ -47,7 +51,7 @@
             <div id="description-pages-list" class="scroll">
                 <div id="description-page-info" class="description-page">
                     <div class="description-icon-id-page-info"></div>
-                    <div>info</div>
+                    <div>инфо</div>
                 </div>
             </div>
             <div class="inner-line"></div>
@@ -103,8 +107,8 @@
                             </div>
                         </div>
                         <div class="settings-meeting-status-change-buttons">
-                            <input id="btn-settings-meeting-start-meeting" class="button" type="button" value="Start">
-                            <input id="btn-settings-meeting-cancel-meeting" class="button" type="button" value="Cancel">
+                            <input id="btn-settings-meeting-start-meeting" class="button" type="button" value="Начать">
+                            <input id="btn-settings-meeting-cancel-meeting" class="button" type="button" value="Отменить">
                         </div>
                     </div>
                     <div class="description-right-block">
@@ -124,13 +128,14 @@
                                 <span id="change-settings-meeting-input-datetime-text" class="input-cell-popup-text input-cell-popup-text-change-settings-meeting">Дата и время</span>
                             </label>
 
-                            <input id="btn-change-settings-meeting-datetime" class="button" type="button" value="Изменить дату">
+                            <input id="btn-change-settings-meeting-datetime" class="button" type="button" value="Изменить дату и время">
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </main>
+    <script src="../../static/ru-language-selector.js"></script>
     <script src="../../static/input-cell-popups.js"></script>
     <script src="../../static/hub-change-settings-meeting.js"></script>
     <script src="../../static/hub-page-controller.js"></script>

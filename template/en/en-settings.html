@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Settings</title>
+
+    <link rel="stylesheet" href="../../static/colors.css">
+    <link rel="stylesheet" href="../../static/all.css">
+    <link rel="stylesheet" href="../../static/input-cell.css">
+    <link rel="stylesheet" href="../../static/settings.css">
+</head>
+<body>
+<header class="top-panel">
+    <div class="logo-container">
+        <img class="logo-image" src="../../images/favicon.svg" alt="">
+        <label class="logo-name">TalkHub</label>
+    </div>
+    <div class="language-selector">
+        <div class="selected-language">en</div>
+        <div class="not-selected-language">ru</div>
+    </div>
+</header>
+<div class="main-panel">
+    <div class="settings-panel">
+        <a href="../..">
+            <div class="btn-back-to-hub" title="Back to the hub"></div>
+        </a>
+        <h1>Settings</h1>
+        <div class="settings-main">
+            <div class="settings-main-block">
+                <div class="settings-user-stats-block">
+                    <label>ID:</label>
+                    <label>{{.UserID}}</label>
+                </div>
+                <div class="settings-user-stats-block">
+                    <label>First Name:</label>
+                    <label>{{.FirstName}}</label>
+                </div>
+                <div class="settings-user-stats-block">
+                    <label>Last Name:</label>
+                    <label>{{.LastName}}</label>
+                </div>
+                <div class="settings-user-stats-block">
+                    <label>Email:</label>
+                    <label>{{.Email}}</label>
+                </div>
+            </div>
+
+            <div class="settings-main-block settings-main-block-center">
+                <label>Changing the password</label>
+                <label class="input-cell input-cell-change-password" for="password-input">
+                    <input id="password-input" type="text">
+                    <span id="password-text" class="input-cell-popup-text input-cell-popup-text-change-password">Password</span>
+                    <label class="eye" for="password-input">
+                        <span class="pupil"></span>
+                    </label>
+                </label>
+
+                <label class="input-cell input-cell-change-password" for="new-password-input">
+                    <input id="new-password-input" type="text">
+                    <span id="new-password-text" class="input-cell-popup-text input-cell-popup-text-change-password">New Password</span>
+                    <label class="eye" for="new-password-input">
+                        <span class="pupil"></span>
+                    </label>
+                </label>
+
+                <input id="btn-settings-change-password" class="button" type="button" value="Change">
+
+                <div id="change-password-status"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../../static/en-language-selector.js"></script>
+<script src="../../static/input-cell-eyes.js"></script>
+<script src="../../static/input-cell-popups.js"></script>
+<script src="../../static/settings.js"></script>
+</body>
+</html>

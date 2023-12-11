@@ -41,7 +41,7 @@ document.getElementById('btn-end-meeting').addEventListener('click', () => {
             }));
             window.location.replace('/hub');
         } else {
-            alert("Закончить созвон может только владелец!");
+            alert("Only the owner can complete the meeting");
         }
     })
 });

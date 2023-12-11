@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Meeting - {{.NumberRoom}}</title>
+    <title>Встреча - {{.NumberRoom}}</title>
 
     <link rel="icon" type="image/svg" href="../../images/favicon.svg">
 
@@ -20,12 +20,16 @@
             <img class="logo-image" src="../../images/favicon.svg" alt="">
             <label class="logo-name">TalkHub</label>
         </div>
+        <div class="language-selector">
+            <div class="not-selected-language">en</div>
+            <div class="selected-language">ru</div>
+        </div>
     </header>
     <div class="main-panel">
         <div class="users-panel">
             <div class="users-panel-header">
                 <i class="users-panel-header-icon"></i>
-                <div class="users-panel-header-label">users:</div>
+                <div class="users-panel-header-label" style="font-size: 14px;">Участники:</div>
             </div>
             <div id="users-list"></div>
         </div>
@@ -34,8 +38,8 @@
             <div class="stream-functionality">
                 <input id="btn-stream-microphone" class="stream-functionality-button stream-functionality-microphone-off" type="button">
                 <input id="btn-stream-web-camera" class="stream-functionality-button stream-functionality-web-camera-off" type="button">
-                <input id="btn-end-meeting" class="button" type="button" value="Закончить">
             </div>
+            <input id="btn-end-meeting" class="button" type="button" value="Завершить">
         </div>
         <div class="chat-panel">
             <div id="chat-messages-list"></div>
@@ -46,8 +50,9 @@
         </div>
     </div>
     <div id="pre-connect-panel">
-        <input id="btn-connect-to-meeting" class="button" type="button" value="connect">
+        <input id="btn-connect-to-meeting" class="button" type="button" value="Подключиться">
     </div>
+    <script src="../../static/ru-language-selector.js"></script>
     <script src="../../static/meeting-config.js"></script>
     <script src="../../static/meeting-chat.js"></script>
     <script src="../../static/meeting-video-audio-controller.js"></script>

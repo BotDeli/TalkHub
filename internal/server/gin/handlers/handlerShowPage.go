@@ -51,7 +51,9 @@ func handlerShowHubPage(displayU userController.Display) gin.HandlerFunc {
 			return
 		}
 
-		ctx.HTML(http.StatusOK, "hub.html", gin.H{
+		nameHtml := selector.SelectLanguageFormat(ctx, "hub.html")
+
+		ctx.HTML(http.StatusOK, nameHtml, gin.H{
 			"Username": user.FirstName + " " + user.LastName,
 		})
 	}
@@ -71,7 +73,9 @@ func handlerShowSettingsPage(displayU userController.Display) gin.HandlerFunc {
 			return
 		}
 
-		ctx.HTML(http.StatusOK, "settings.html", gin.H{
+		nameHtml := selector.SelectLanguageFormat(ctx, "settings.html")
+
+		ctx.HTML(http.StatusOK, nameHtml, gin.H{
 			"UserID":    user.Id,
 			"FirstName": user.FirstName,
 			"LastName":  user.LastName,
@@ -90,7 +94,9 @@ func handlerShowMeetingPage(displayM meetingController.Display) gin.HandlerFunc 
 			return
 		}
 
-		ctx.HTML(http.StatusOK, "meeting.html", gin.H{
+		nameHtml := selector.SelectLanguageFormat(ctx, "meeting.html")
+
+		ctx.HTML(http.StatusOK, nameHtml, gin.H{
 			"NumberRoom": meetingID,
 		})
 	}

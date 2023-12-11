@@ -10,7 +10,7 @@ import (
 func GetParamsMeetingId(ctx *gin.Context, displayM meetingController.Display) string {
 	meetingID := ctx.Param("id")
 	if meetingID == "" || !displayM.IsStartedMeeting(meetingID) {
-		errNameMeeting := selector.SelectLanguageFormat(ctx, "error-meeting.html")
+		errNameMeeting := selector.SelectLanguageFormat(ctx, "error-ru-meeting.html")
 		ctx.HTML(http.StatusNotFound, errNameMeeting, nil)
 
 		return ""

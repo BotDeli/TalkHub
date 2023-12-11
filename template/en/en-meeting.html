@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Meeting - {{.NumberRoom}}</title>
+
+    <link rel="icon" type="image/svg" href="../../images/favicon.svg">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;1,300&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="../../static/colors.css">
+    <link rel="stylesheet" href="../../static/all.css">
+    <link rel="stylesheet" href="../../static/meeting.css">
+</head>
+<body>
+    <header class="top-panel">
+        <div class="logo-container">
+            <img class="logo-image" src="../../images/favicon.svg" alt="">
+            <label class="logo-name">TalkHub</label>
+        </div>
+        <div class="language-selector">
+            <div class="selected-language">en</div>
+            <div class="not-selected-language">ru</div>
+        </div>
+    </header>
+    <div class="main-panel">
+        <div class="users-panel">
+            <div class="users-panel-header">
+                <i class="users-panel-header-icon"></i>
+                <div class="users-panel-header-label">Users:</div>
+            </div>
+            <div id="users-list"></div>
+        </div>
+        <div class="stream-panel">
+            <div id="stream-users-list"></div>
+            <div class="stream-functionality">
+                <input id="btn-stream-microphone" class="stream-functionality-button stream-functionality-microphone-off" type="button">
+                <input id="btn-stream-web-camera" class="stream-functionality-button stream-functionality-web-camera-off" type="button">
+            </div>
+            <input id="btn-end-meeting" class="button" type="button" value="To finish">
+        </div>
+        <div class="chat-panel">
+            <div id="chat-messages-list"></div>
+            <div class="chat-panel-functionality">
+                <input id="chat-message-input" type="text" placeholder="Enter a message">
+                <input id="btn-chat-message-send-message" type="button">
+            </div>
+        </div>
+    </div>
+    <div id="pre-connect-panel">
+        <input id="btn-connect-to-meeting" class="button" type="button" value="Connect">
+    </div>
+    <script src="../../static/en-language-selector.js"></script>
+    <script src="../../static/meeting-config.js"></script>
+    <script src="../../static/meeting-chat.js"></script>
+    <script src="../../static/meeting-video-audio-controller.js"></script>
+    <script src="../../static/meeting-stream-window-controller.js"></script>
+    <script src="../../static/meeting-stream.js"></script>
+    <script src="../../static/meeting.js"></script>
+</body>
+</html>
