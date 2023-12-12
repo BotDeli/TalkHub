@@ -1,10 +1,19 @@
 version: '3'
 services:
   coturn_server:
-    build: .
+    build: ./turn
     restart: always
     ports:
       - 3478:3478
+    networks:
+      - host-network
+  postgres_storage:
+    image: postgres:latest
+    ports:
+      - 5431:5432
+    environment:
+      - POSTGRES_USER=kare
+      - POSTGRES_PASSWORD=pass
     networks:
       - host-network
 
